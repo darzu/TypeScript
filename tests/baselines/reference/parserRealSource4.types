@@ -392,6 +392,7 @@ module TypeScript {
             else {
                 return (null);
 >(null) : null
+>null : null
             }
         }
     }
@@ -770,6 +771,7 @@ module TypeScript {
 >this : this
 >table : any
 >i : number
+>null : null
             }
         }
 
@@ -815,6 +817,7 @@ module TypeScript {
 >val : number
 >current != null : boolean
 >current : HashEntry
+>null : null
 >current = current.next : HashEntry
 >current : HashEntry
 >current.next : HashEntry
@@ -891,9 +894,11 @@ module TypeScript {
 
             var result = null;
 >result : any
+>null : null
 
             var prevEntry: HashEntry = null;
 >prevEntry : HashEntry
+>null : null
 
             for (current = this.table[val]; current != null ; current = current.next) {
 >current = this.table[val] : any
@@ -905,6 +910,7 @@ module TypeScript {
 >val : number
 >current != null : boolean
 >current : HashEntry
+>null : null
 >current = current.next : HashEntry
 >current : HashEntry
 >current.next : HashEntry
@@ -1009,6 +1015,7 @@ module TypeScript {
 >val : number
 >current != null : boolean
 >current : HashEntry
+>null : null
 >current = current.next : HashEntry
 >current : HashEntry
 >current.next : HashEntry
@@ -1034,6 +1041,7 @@ module TypeScript {
             }
             return (null);
 >(null) : null
+>null : null
         }
     }
 
@@ -1112,6 +1120,7 @@ module TypeScript {
                 }
             }
             return null;
+>null : null
         }
 
         public add(key, data): boolean {

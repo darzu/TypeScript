@@ -1,4 +1,3 @@
-// === findAllReferences ===
 // === /tests/cases/fourslash/file1.ts ===
 // /*FIND ALL REFS*/[|this|]; [|this|];
 
@@ -11,51 +10,114 @@
 // // different 'this'
 // function f(this) { return this; }
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/file3.ts ===
-  // ((x = [|this|], y) => this)(this, this);
-  // // different 'this'
-  // function f(this) { return this; }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "var",
-    "name": "this",
-    "displayParts": [
-     {
-      "text": "this",
-      "kind": "keyword"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "typeof",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "globalThis",
-      "kind": "moduleName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/file3.ts",
+      "kind": "var",
+      "name": "this",
+      "textSpan": {
+        "start": 6,
+        "length": 4
+      },
+      "displayParts": [
+        {
+          "text": "this",
+          "kind": "keyword"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "typeof",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "globalThis",
+          "kind": "moduleName"
+        }
+      ]
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 18,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 24,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 30,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/file1.ts ===
 // [|this|]; /*FIND ALL REFS*/[|this|];
 
@@ -68,51 +130,114 @@
 // // different 'this'
 // function f(this) { return this; }
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/file3.ts ===
-  // ((x = [|this|], y) => this)(this, this);
-  // // different 'this'
-  // function f(this) { return this; }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "var",
-    "name": "this",
-    "displayParts": [
-     {
-      "text": "this",
-      "kind": "keyword"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "typeof",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "globalThis",
-      "kind": "moduleName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/file3.ts",
+      "kind": "var",
+      "name": "this",
+      "textSpan": {
+        "start": 6,
+        "length": 4
+      },
+      "displayParts": [
+        {
+          "text": "this",
+          "kind": "keyword"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "typeof",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "globalThis",
+          "kind": "moduleName"
+        }
+      ]
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 18,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 24,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 30,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/file1.ts ===
 // [|this|]; [|this|];
 
@@ -125,51 +250,114 @@
 // // different 'this'
 // function f(this) { return this; }
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/file3.ts ===
-  // ((x = [|this|], y) => this)(this, this);
-  // // different 'this'
-  // function f(this) { return this; }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "var",
-    "name": "this",
-    "displayParts": [
-     {
-      "text": "this",
-      "kind": "keyword"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "typeof",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "globalThis",
-      "kind": "moduleName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/file3.ts",
+      "kind": "var",
+      "name": "this",
+      "textSpan": {
+        "start": 6,
+        "length": 4
+      },
+      "displayParts": [
+        {
+          "text": "this",
+          "kind": "keyword"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "typeof",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "globalThis",
+          "kind": "moduleName"
+        }
+      ]
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 18,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 24,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 30,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/file1.ts ===
 // [|this|]; [|this|];
 
@@ -182,51 +370,114 @@
 // // different 'this'
 // function f(this) { return this; }
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/file3.ts ===
-  // ((x = [|this|], y) => this)(this, this);
-  // // different 'this'
-  // function f(this) { return this; }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "var",
-    "name": "this",
-    "displayParts": [
-     {
-      "text": "this",
-      "kind": "keyword"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "typeof",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "globalThis",
-      "kind": "moduleName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/file3.ts",
+      "kind": "var",
+      "name": "this",
+      "textSpan": {
+        "start": 6,
+        "length": 4
+      },
+      "displayParts": [
+        {
+          "text": "this",
+          "kind": "keyword"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "typeof",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "globalThis",
+          "kind": "moduleName"
+        }
+      ]
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 18,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 24,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 30,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/file1.ts ===
 // [|this|]; [|this|];
 
@@ -239,51 +490,114 @@
 // // different 'this'
 // function f(this) { return this; }
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/file3.ts ===
-  // ((x = /*FIND ALL REFS*/[|this|], y) => this)(this, this);
-  // // different 'this'
-  // function f(this) { return this; }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "var",
-    "name": "this",
-    "displayParts": [
-     {
-      "text": "this",
-      "kind": "keyword"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "typeof",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "globalThis",
-      "kind": "moduleName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/file3.ts",
+      "kind": "var",
+      "name": "this",
+      "textSpan": {
+        "start": 6,
+        "length": 4
+      },
+      "displayParts": [
+        {
+          "text": "this",
+          "kind": "keyword"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "typeof",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "globalThis",
+          "kind": "moduleName"
+        }
+      ]
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 18,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 24,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 30,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/file1.ts ===
 // [|this|]; [|this|];
 
@@ -296,51 +610,114 @@
 // // different 'this'
 // function f(this) { return this; }
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/file3.ts ===
-  // ((x = [|this|], y) => /*FIND ALL REFS*/this)(this, this);
-  // // different 'this'
-  // function f(this) { return this; }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "var",
-    "name": "this",
-    "displayParts": [
-     {
-      "text": "this",
-      "kind": "keyword"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "typeof",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "globalThis",
-      "kind": "moduleName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/file3.ts",
+      "kind": "var",
+      "name": "this",
+      "textSpan": {
+        "start": 6,
+        "length": 4
+      },
+      "displayParts": [
+        {
+          "text": "this",
+          "kind": "keyword"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "typeof",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "globalThis",
+          "kind": "moduleName"
+        }
+      ]
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 18,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 24,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 30,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/file1.ts ===
 // [|this|]; [|this|];
 
@@ -353,51 +730,114 @@
 // // different 'this'
 // function f(this) { return this; }
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/file3.ts ===
-  // ((x = [|this|], y) => this)(/*FIND ALL REFS*/this, this);
-  // // different 'this'
-  // function f(this) { return this; }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "var",
-    "name": "this",
-    "displayParts": [
-     {
-      "text": "this",
-      "kind": "keyword"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "typeof",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "globalThis",
-      "kind": "moduleName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/file3.ts",
+      "kind": "var",
+      "name": "this",
+      "textSpan": {
+        "start": 6,
+        "length": 4
+      },
+      "displayParts": [
+        {
+          "text": "this",
+          "kind": "keyword"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "typeof",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "globalThis",
+          "kind": "moduleName"
+        }
+      ]
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 18,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 24,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 30,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/file1.ts ===
 // [|this|]; [|this|];
 
@@ -410,44 +850,110 @@
 // // different 'this'
 // function f(this) { return this; }
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/file3.ts ===
-  // ((x = [|this|], y) => this)(this, /*FIND ALL REFS*/this);
-  // // different 'this'
-  // function f(this) { return this; }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "var",
-    "name": "this",
-    "displayParts": [
-     {
-      "text": "this",
-      "kind": "keyword"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "typeof",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "globalThis",
-      "kind": "moduleName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/file3.ts",
+      "kind": "var",
+      "name": "this",
+      "textSpan": {
+        "start": 6,
+        "length": 4
+      },
+      "displayParts": [
+        {
+          "text": "this",
+          "kind": "keyword"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "typeof",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "globalThis",
+          "kind": "moduleName"
+        }
+      ]
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 0,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file2.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 18,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 24,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 30,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/file3.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]

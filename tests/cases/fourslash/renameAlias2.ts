@@ -4,4 +4,4 @@
 ////import M = [|SomeModule|];
 ////import C = M.SomeClass;
 
-verify.baselineRenameAtRangesWithText("SomeModule");
+verify.rangesWithSameTextAreRenameLocations("SomeModule");

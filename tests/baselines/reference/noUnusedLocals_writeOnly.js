@@ -2,6 +2,8 @@
 function f(x = 0, b = false) {
     // None of these statements read from 'x', so it will be marked unused.
     x = 1;
+    x++;
+    x /= 2;
     ([x] = [1]);
     ({ x } = { x: 1 });
     ({ x: x } = { x: 1 });
@@ -28,6 +30,8 @@ function f(x, b) {
     if (b === void 0) { b = false; }
     // None of these statements read from 'x', so it will be marked unused.
     x = 1;
+    x++;
+    x /= 2;
     (x = [1][0]);
     (x = { x: 1 }.x);
     (x = { x: 1 }.x);

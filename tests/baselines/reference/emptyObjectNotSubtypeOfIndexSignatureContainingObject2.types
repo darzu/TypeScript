@@ -34,6 +34,7 @@ function mapValues<T, TResult>(
 
   obj: Dictionary<T> | NumericDictionary<T> | null | undefined,
 >obj : Dictionary<T> | NumericDictionary<T>
+>null : null
 
   callback: DictionaryIterator<T, TResult>
 >callback : DictionaryIterator<T, TResult>
@@ -41,6 +42,7 @@ function mapValues<T, TResult>(
 ): Dictionary<TResult> {
   return null as any;
 >null as any : any
+>null : null
 }
 // End types from Lodash.
 
@@ -61,6 +63,8 @@ export function fooToBar(
 >foos : Record<string, Foo>
 
 ): Record<string, Bar | null> {
+>null : null
+
   const wat = mapValues(foos, f => f.foo);
 >wat : Dictionary<string>
 >mapValues(foos, f => f.foo) : Dictionary<string>
@@ -77,6 +81,7 @@ export function fooToBar(
 >foos == null ? {} : mapValues(foos, f => f.foo) : Dictionary<string>
 >foos == null : boolean
 >foos : Record<string, Foo>
+>null : null
 >{} : {}
 >mapValues(foos, f => f.foo) : Dictionary<string>
 >mapValues : <T, TResult>(obj: Dictionary<T> | NumericDictionary<T>, callback: DictionaryIterator<T, TResult>) => Dictionary<TResult>

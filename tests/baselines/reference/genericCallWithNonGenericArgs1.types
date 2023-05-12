@@ -6,4 +6,5 @@ function f<T>(x: any) { }
 f<any>(null)
 >f<any>(null) : void
 >f : <T>(x: any) => void
+>null : null
 

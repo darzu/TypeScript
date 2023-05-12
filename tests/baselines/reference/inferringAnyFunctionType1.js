@@ -5,7 +5,6 @@ function f<T extends { "0": (p1: number) => number }>(p: T): T {
 
 var v = f([x => x]);
 
-
 //// [inferringAnyFunctionType1.js]
 function f(p) {
     return p;

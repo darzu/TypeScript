@@ -10,4 +10,4 @@
 //// c.[|doStuff|]();
 //// c.[|propName|];
 
-verify.baselineDocumentHighlights();
+verify.rangesWithSameTextAreDocumentHighlights();

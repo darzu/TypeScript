@@ -12,4 +12,4 @@
 ////o['[|prop|]'];
 ////o.[|prop|];
 
-verify.baselineRenameAtRangesWithText("prop");
+verify.rangesWithSameTextAreRenameLocations("prop");

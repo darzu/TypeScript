@@ -127,7 +127,7 @@ var SpecializedWidget;
         return new Widget2();
     }
     SpecializedWidget.createWidget2 = createWidget2;
-})(SpecializedWidget || (exports.SpecializedWidget = SpecializedWidget = {}));
+})(SpecializedWidget = exports.SpecializedWidget || (exports.SpecializedWidget = {}));
 //// [privacyCannotNameVarTypeDeclFile_exporter.js]
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });

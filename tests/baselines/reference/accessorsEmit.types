@@ -13,6 +13,7 @@ class Test {
 >1 : 1
 
         return null;
+>null : null
     }
 }
 
@@ -27,5 +28,6 @@ class Test2 {
 >1 : 1
 
         return null;
+>null : null
     }
 }

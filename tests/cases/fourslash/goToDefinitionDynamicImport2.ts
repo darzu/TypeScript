@@ -8,4 +8,4 @@
 ////     foo.[|b/*1*/ar|](); 
 //// })
 
-verify.baselineGoToDefinition("1");
+verify.goToDefinition("1", "Destination");

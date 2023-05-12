@@ -47,5 +47,6 @@ class Widget<TValue> {
 >options : ViewModel<TValue>
 
         return null;
+>null : null
     }
 }

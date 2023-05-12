@@ -69,6 +69,7 @@ var anObject = new Object();
 
 var anAny = null;
 >anAny : any
+>null : null
 
 var anOtherAny = <any> new C();
 >anOtherAny : any

@@ -608,6 +608,7 @@ module TypeScript.AstWalkerWithDetailCallback {
 >walker : any
 >walk : any
 >script : Script
+>null : null
     }
 
     function AstWalkerCallback(pre: boolean, ast: AST, callback: AstWalkerDetailCallback): boolean {

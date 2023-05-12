@@ -16,6 +16,8 @@
 ////
 ////var ifoo: [|IFo/*interfaceReference*/o|];
 
+verify.goToDefinition("interfaceReference", ["interfaceDefinition1", "interfaceDefinition2", "interfaceDefinition3"]);
+
 // @Filename: c.ts
 ////module /*moduleDefinition1*/Module {
 ////    export class c1 { }
@@ -29,7 +31,4 @@
 // @Filename: e.ts
 ////[|Modul/*moduleReference*/e|];
 
-verify.baselineGoToDefinition(
-    "interfaceReference",
-    "moduleReference"
-);
+verify.goToDefinition("moduleReference", ["moduleDefinition1", "moduleDefinition2"]);

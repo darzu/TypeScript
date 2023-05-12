@@ -8,5 +8,9 @@ class greeter {
         var y = 10;
 >y : number
 >10 : 10
+
+        y++;
+>y++ : number
+>y : number
     }
 }

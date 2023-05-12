@@ -42,23 +42,23 @@
 
 verify.noErrors();
 
-verify.baselineGoToDefinition(
-    "useF",
-    "useG",
-    "useH",
+verify.goToDefinition({
+    useF: "f",
+    useG: ["g", "f"],
+    useH: ["h", "f"],
 
-    "useI",
-    "useIFn",
-    "useJ",
-    "useM",
-    "useMFn",
+    useI: "i",
+    useIFn: "iFn",
+    useJ: ["j", "i"],
+    useM: "m",
+    useMFn: "mFn",
 
-    "jsxMyComponent",
-    "newMyComponent",
+    jsxMyComponent: "MyComponent",
+    newMyComponent: ["MyComponent", "componentCtr"],
 
-    "jsxMyComponent2",
-    "newMyComponent2",
+    jsxMyComponent2: "MyComponent2",
+    newMyComponent2: ["MyComponent2", "ComponentClass"],
 
-    "jsxMyComponent3",
-    "newMyComponent3",
-);
+    jsxMyComponent3: "MyComponent3",
+    newMyComponent3: ["MyComponent3", "ComponentClass2"],
+});

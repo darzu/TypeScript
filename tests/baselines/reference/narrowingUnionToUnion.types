@@ -2,6 +2,7 @@
 type Falsy = false | 0 | 0n | '' | null | undefined;
 >Falsy : false | "" | 0 | 0n | null | undefined
 >false : false
+>null : null
 
 declare function isFalsy(value: unknown): value is Falsy;
 >isFalsy : (value: unknown) => value is Falsy
@@ -192,6 +193,8 @@ declare function isEmptyString(value: string): value is '';
 declare function isMaybeEmptyString(value: string | null | undefined): value is '' | null | undefined;
 >isMaybeEmptyString : (value: string | null | undefined) => value is "" | null | undefined
 >value : string | null | undefined
+>null : null
+>null : null
 
 declare function isZero(value: number): value is 0;
 >isZero : (value: number) => value is 0
@@ -200,6 +203,8 @@ declare function isZero(value: number): value is 0;
 declare function isMaybeZero(value: number | null | undefined): value is 0 | null | undefined;
 >isMaybeZero : (value: number | null | undefined) => value is 0 | null | undefined
 >value : number | null | undefined
+>null : null
+>null : null
 
 declare function isEmptyArray<T>(value: T[]): value is [];
 >isEmptyArray : <T>(value: T[]) => value is []
@@ -208,6 +213,8 @@ declare function isEmptyArray<T>(value: T[]): value is [];
 declare function isMaybeEmptyArray<T>(value: T[] | null | undefined): value is [] | null | undefined;
 >isMaybeEmptyArray : <T>(value: T[] | null | undefined) => value is [] | null | undefined
 >value : T[] | null | undefined
+>null : null
+>null : null
 
 const TEST_CASES = [
 >TEST_CASES : (((value: string) => void) | ((value: number) => void) | ((value: string[]) => void))[]
@@ -357,6 +364,7 @@ const TEST_CASES = [
 
 type EmptyString = '' | null | undefined;
 >EmptyString : "" | null | undefined
+>null : null
 
 function isEmpty(value: string | EmptyString): value is EmptyString {
 >isEmpty : (value: string | EmptyString) => value is EmptyString
@@ -370,6 +378,7 @@ function isEmpty(value: string | EmptyString): value is EmptyString {
 >'' : ""
 >value === null : boolean
 >value : string | null | undefined
+>null : null
 >value === undefined : boolean
 >value : string | undefined
 >undefined : undefined
@@ -377,6 +386,7 @@ function isEmpty(value: string | EmptyString): value is EmptyString {
 
 let test: string | null | undefined;
 >test : string | null | undefined
+>null : null
 
 if (isEmpty(test)) {
 >isEmpty(test) : boolean
@@ -491,10 +501,13 @@ function test3(x: unknown) {
 function assertRelationIsNullOrStringArray(v: (string | number)[] | null): asserts v is string[] | null {}
 >assertRelationIsNullOrStringArray : (v: (string | number)[] | null) => asserts v is string[] | null
 >v : (string | number)[] | null
+>null : null
+>null : null
 
 function f1x(obj: (string | number)[] | null) {
 >f1x : (obj: (string | number)[] | null) => void
 >obj : (string | number)[] | null
+>null : null
 
     assertRelationIsNullOrStringArray(obj);
 >assertRelationIsNullOrStringArray(obj) : void

@@ -23,7 +23,7 @@ var a;
         return c;
     }());
     a.c = c;
-})(a || (exports.a = a = {}));
+})(a = exports.a || (exports.a = {}));
 //// [es6ImportNamedImportInIndirectExportAssignment_1.js]
 "use strict";
 var es6ImportNamedImportInIndirectExportAssignment_0_1 = require("./es6ImportNamedImportInIndirectExportAssignment_0");

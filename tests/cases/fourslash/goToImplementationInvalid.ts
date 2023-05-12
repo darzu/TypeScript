@@ -6,4 +6,7 @@
 //// var x2 = "hel/*1*/lo";
 //// /*2*/
 
-verify.baselineGoToImplementation("0", "1", "2");
+for(var i = 0; i < 3; i++) {
+    goTo.marker("" + i);
+    verify.implementationListIsEmpty();
+}

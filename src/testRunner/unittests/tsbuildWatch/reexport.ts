@@ -1,10 +1,10 @@
-import { libContent } from "../helpers/contents";
-import { verifyTscWatch } from "../helpers/tscWatch";
+import { libContent } from "../tsc/helpers";
+import { verifyTscWatch } from "../tscWatch/helpers";
 import {
     createWatchedSystem,
     getTsBuildProjectFile,
     libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
 
 describe("unittests:: tsbuildWatch:: watchMode:: with reexport when referenced project reexports definitions from another file", () => {
     verifyTscWatch({
@@ -28,16 +28,18 @@ describe("unittests:: tsbuildWatch:: watchMode:: with reexport when referenced p
                 caption: "Introduce error",
                 edit: sys => sys.replaceFileText(`/user/username/projects/reexport/src/pure/session.ts`, "// ", ""),
                 timeouts: sys => {
-                    sys.runQueuedTimeoutCallbacks(); // build src/pure
-                    sys.runQueuedTimeoutCallbacks(); // build src/main and src
+                    sys.checkTimeoutQueueLengthAndRun(1); // build src/pure
+                    sys.checkTimeoutQueueLengthAndRun(1); // build src/main and src
+                    sys.checkTimeoutQueueLength(0);
                 },
             },
             {
                 caption: "Fix error",
                 edit: sys => sys.replaceFileText(`/user/username/projects/reexport/src/pure/session.ts`, "bar: ", "// bar: "),
                 timeouts: sys => {
-                    sys.runQueuedTimeoutCallbacks(); // build src/pure
-                    sys.runQueuedTimeoutCallbacks(); // build src/main and src
+                    sys.checkTimeoutQueueLengthAndRun(1); // build src/pure
+                    sys.checkTimeoutQueueLengthAndRun(1); // build src/main and src
+                    sys.checkTimeoutQueueLength(0);
                 },
             }
         ]

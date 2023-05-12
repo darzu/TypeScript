@@ -27,4 +27,4 @@
 ////     return true;
 //// }
 
-verify.baselineGoToImplementation("interface_definition");
+verify.allRangesAppearInImplementationList("interface_definition");

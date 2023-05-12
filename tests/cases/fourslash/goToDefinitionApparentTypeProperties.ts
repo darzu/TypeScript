@@ -8,4 +8,4 @@
 ////o.[|/*reference1*/myObjectMethod|]();
 ////o[[|"/*reference2*/myObjectMethod"|]]();
 
-verify.baselineGoToDefinition("reference1", "reference2");
+verify.goToDefinition(["reference1", "reference2"], "definition");

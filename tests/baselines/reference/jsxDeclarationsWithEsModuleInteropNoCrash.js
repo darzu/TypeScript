@@ -33,10 +33,10 @@ declare namespace Foo {
     export { defaultProps };
 }
 declare namespace propTypes {
-    let bar: PropTypes.Requireable<boolean>;
+    const bar: PropTypes.Requireable<boolean>;
 }
 declare namespace defaultProps {
-    let bar_1: boolean;
+    const bar_1: boolean;
     export { bar_1 as bar };
 }
 import PropTypes from 'prop-types';

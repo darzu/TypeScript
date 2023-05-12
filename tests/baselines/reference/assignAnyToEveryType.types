@@ -22,6 +22,7 @@ var d: void = x;
 
 var e = null;
 >e : any
+>null : null
 
 e = x;
 >e = x : any

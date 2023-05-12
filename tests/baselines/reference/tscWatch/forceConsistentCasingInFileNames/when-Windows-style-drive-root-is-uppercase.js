@@ -1,4 +1,3 @@
-currentDirectory:: C:/ useCaseSensitiveFileNames: false
 Input::
 //// [C:/project/a.ts]
 
@@ -67,21 +66,21 @@ c:/project/a.ts (used version)
 c:/project/b.ts (used version)
 
 PolledWatches::
-c:/project/node_modules/@types: *new*
+c:/project/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-c:/project/tsconfig.json: *new*
+c:/project/tsconfig.json:
   {}
-c:/project/a.ts: *new*
+c:/project/a.ts:
   {}
-c:/project/b.ts: *new*
+c:/project/b.ts:
   {}
-c:/a/lib/lib.d.ts: *new*
+c:/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-c:/project: *new*
+c:/project:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -115,9 +114,6 @@ export const b = 2;
 
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:25 AM[0m] File change detected. Starting incremental compilation...
@@ -149,6 +145,24 @@ C:/project/b.ts
 Shape signatures in builder refreshed for::
 c:/project/a.ts (computed .d.ts)
 c:/project/b.ts (computed .d.ts)
+
+PolledWatches::
+c:/project/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+c:/project/tsconfig.json:
+  {}
+c:/project/a.ts:
+  {}
+c:/project/b.ts:
+  {}
+c:/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+c:/project:
+  {}
 
 exitCode:: ExitStatus.undefined
 

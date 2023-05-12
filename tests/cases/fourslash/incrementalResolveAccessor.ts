@@ -16,4 +16,4 @@
 verify.quickInfoAt("1", "var b: string");
 
 // TypeCheck
-verify.numberOfErrorsInCurrentFile(1);
+verify.numberOfErrorsInCurrentFile(2);

@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -79,25 +78,23 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/index.tsx (used version)
 
 PolledWatches::
-/user/username/projects/myproject/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/myproject/tsconfig.json: *new*
+/user/username/projects/myproject/tsconfig.json:
   {}
-/user/username/projects/myproject/node_modules/react/jsx-runtime/index.d.ts: *new*
+/user/username/projects/myproject/node_modules/react/jsx-runtime/index.d.ts:
   {}
-/user/username/projects/myproject/index.tsx: *new*
+/user/username/projects/myproject/index.tsx:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
-/user/username/projects/myproject/node_modules/react/package.json: *new*
+/user/username/projects/myproject/node_modules/react/package.json:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject/node_modules: *new*
+/user/username/projects/myproject/node_modules:
   {}
 
 exitCode:: ExitStatus.undefined

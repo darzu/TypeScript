@@ -27,7 +27,7 @@ module.exports.A.B = {
 /// <reference types="node" />
 export namespace A {
     namespace B {
-        let thing: Something;
+        const thing: Something;
     }
 }
 import Something_1 = require("fs");

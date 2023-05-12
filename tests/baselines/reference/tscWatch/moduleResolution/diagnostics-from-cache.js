@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/myproject/tsconfig.json]
 {"compilerOptions":{"moduleResolution":"nodenext","outDir":"./dist","declaration":true,"declarationDir":"./types"}}
@@ -74,25 +73,23 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/index2.ts (computed .d.ts during emit)
 
 PolledWatches::
-/user/username/projects/myproject/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/myproject/tsconfig.json: *new*
+/user/username/projects/myproject/tsconfig.json:
   {}
-/user/username/projects/myproject/index.ts: *new*
+/user/username/projects/myproject/index.ts:
   {}
-/user/username/projects/myproject/index2.ts: *new*
+/user/username/projects/myproject/index2.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
-/user/username/projects/myproject/package.json: *new*
+/user/username/projects/myproject/package.json:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject: *new*
+/user/username/projects/myproject:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -132,9 +129,6 @@ import * as me from "./index.js";export function thing(): void {}
 
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:43 AM[0m] File change detected. Starting incremental compilation...
@@ -175,6 +169,26 @@ No cached semantic diagnostics in the builder::
 
 Shape signatures in builder refreshed for::
 /user/username/projects/myproject/index2.ts (computed .d.ts)
+
+PolledWatches::
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/index.ts:
+  {}
+/user/username/projects/myproject/index2.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+/user/username/projects/myproject/package.json:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 

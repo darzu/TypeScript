@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/a/compile]
 let x = 1
@@ -41,11 +40,15 @@ Shape signatures in builder refreshed for::
 /a/lib/lib.d.ts (used version)
 /a/compile (used version)
 
+PolledWatches::
+
 FsWatches::
-/a/compile: *new*
+/a/compile:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 

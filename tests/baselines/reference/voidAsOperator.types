@@ -12,6 +12,7 @@ if (!void 0 !== true) {
 if (!null !== true) {
 >!null !== true : boolean
 >!null : true
+>null : null
 >true : true
  
 }

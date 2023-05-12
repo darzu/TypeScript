@@ -2,4 +2,6 @@
 var v = null | null;
 >v : number
 >null | null : number
+>null : null
+>null : null
 

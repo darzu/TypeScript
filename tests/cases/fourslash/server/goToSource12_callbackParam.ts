@@ -40,4 +40,4 @@
 ////     yargs.[|/*start*/positional|]();
 //// });
 
-verify.baselineGoToSourceDefinition("start");
+verify.goToSourceDefinition("start", { marker: "end", unverified: true });

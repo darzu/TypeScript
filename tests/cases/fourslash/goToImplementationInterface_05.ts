@@ -9,4 +9,4 @@
 //// let bar2 = <Foo> [|function(a) {}|];
 ////
 
-verify.baselineGoToImplementation("interface_definition");
+verify.allRangesAppearInImplementationList("interface_definition");

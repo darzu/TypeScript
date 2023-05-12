@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -57,18 +56,20 @@ Shape signatures in builder refreshed for::
 /a.ts (used version)
 /a/lib/lib.d.ts (used version)
 
+PolledWatches::
+
 FsWatches::
-/tsconfig.json: *new*
+/tsconfig.json:
   {}
-/a.ts: *new*
+/a.ts:
   {}
-/b.ts: *new*
+/b.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/: *new*
+/:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -144,9 +145,6 @@ Input::
 {"compilerOptions":{"target":"es6","importsNotUsedAsValues":"error","experimentalDecorators":true}}
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:23 AM[0m] File change detected. Starting incremental compilation...
@@ -173,6 +171,22 @@ No cached semantic diagnostics in the builder::
 
 No shapes updated in the builder::
 
+PolledWatches::
+
+FsWatches::
+/tsconfig.json:
+  {}
+/a.ts:
+  {}
+/b.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/:
+  {}
+
 exitCode:: ExitStatus.undefined
 
 //// [/b.js] file written with same contents
@@ -184,12 +198,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import './b';
-export let A = class A {
+let A = class A {
     constructor(p) { }
 };
 A = __decorate([
     ((_) => { })
 ], A);
+export { A };
 
 
 
@@ -200,9 +215,6 @@ Input::
 {"compilerOptions":{"target":"es6","importsNotUsedAsValues":"error","experimentalDecorators":true,"emitDecoratorMetadata":true}}
 
 
-Before running Timeout callback:: count: 1
-2: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:33 AM[0m] File change detected. Starting incremental compilation...
@@ -229,6 +241,22 @@ No cached semantic diagnostics in the builder::
 
 No shapes updated in the builder::
 
+PolledWatches::
+
+FsWatches::
+/tsconfig.json:
+  {}
+/a.ts:
+  {}
+/b.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/:
+  {}
+
 exitCode:: ExitStatus.undefined
 
 //// [/b.js] file written with same contents
@@ -243,12 +271,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { B } from './b';
-export let A = class A {
+let A = class A {
     constructor(p) { }
 };
 A = __decorate([
     ((_) => { }),
     __metadata("design:paramtypes", [B])
 ], A);
+export { A };
 
 

@@ -7,4 +7,4 @@
 //// class C extends (foo()).[|/*B*/B|] {}
 //// class C1 extends foo().[|/*B1*/B|] {}
 
-verify.baselineGoToDefinition("B", "B1");
+verify.goToDefinition([["B", "refB"], ["B1", "refB"]]);

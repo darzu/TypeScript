@@ -13,7 +13,6 @@ declare const elem: HTMLElement;
 define("file1", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    /// <reference lib="dom" />
 });
 define("file2", ["require", "exports"], function (require, exports) {
     "use strict";

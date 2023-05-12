@@ -91,7 +91,7 @@ var C;
         return D;
     }());
     C.D = D;
-})(C || (exports.C = C = {}));
+})(C = exports.C || (exports.C = {}));
 exports.b = C.F;
 exports.c = C.F2;
 exports.d = C.F3;

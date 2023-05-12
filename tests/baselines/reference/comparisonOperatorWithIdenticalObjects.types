@@ -22,6 +22,7 @@ class A1 {
 >a : string
 
         return null;
+>null : null
     }
 }
 class B1 {
@@ -47,6 +48,7 @@ class B1 {
 >b : string
 
         return null;
+>null : null
     }
 }
 
@@ -61,6 +63,7 @@ class Base {
 >b : string
 
         return null;
+>null : null
     }
 }
 class A2 extends Base { }

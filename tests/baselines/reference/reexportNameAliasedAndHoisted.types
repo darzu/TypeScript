@@ -4,6 +4,7 @@ export type Sizing = any;
 
 export const Sizing = null;
 >Sizing : any
+>null : null
 
 === tests/cases/compiler/index.ts ===
 // https://github.com/microsoft/TypeScript/issues/39195

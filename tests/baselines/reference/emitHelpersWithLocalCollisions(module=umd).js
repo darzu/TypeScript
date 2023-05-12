@@ -26,11 +26,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.A = void 0;
-    let A = exports.A = class A {
+    let A = class A {
     };
-    exports.A = A = __decorate([
+    A = __decorate([
         dec
     ], A);
+    exports.A = A;
     const o = { a: 1 };
     const y = Object.assign({}, o);
 });

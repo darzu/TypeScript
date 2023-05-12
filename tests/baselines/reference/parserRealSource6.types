@@ -12,6 +12,7 @@ module TypeScript {
 
         public script: Script = null;
 >script : Script
+>null : null
 
         constructor (public scopeChain: ScopeChain, public checker: TypeChecker) {
 >scopeChain : ScopeChain
@@ -24,9 +25,11 @@ module TypeScript {
 
         public type: Type = null;
 >type : Type
+>null : null
 
         public ast: AST = null;
 >ast : AST
+>null : null
 
         public scope: SymbolScope;
 >scope : SymbolScope
@@ -48,12 +51,15 @@ module TypeScript {
 
         public scopeGetter: () => SymbolScope = null;
 >scopeGetter : () => SymbolScope
+>null : null
 
         public objectLiteralScopeGetter: () => SymbolScope = null;
 >objectLiteralScopeGetter : () => SymbolScope
+>null : null
 
         public scopeStartAST: AST = null;
 >scopeStartAST : AST
+>null : null
 
         public skipNextFuncDeclForClass = false;
 >skipNextFuncDeclForClass : boolean
@@ -61,12 +67,15 @@ module TypeScript {
 
         public deepestModuleDecl: ModuleDeclaration = null;
 >deepestModuleDecl : ModuleDeclaration
+>null : null
 
         public enclosingClassDecl: TypeDeclaration = null;
 >enclosingClassDecl : TypeDeclaration
+>null : null
 
         public enclosingObjectLit: UnaryExpression = null;
 >enclosingObjectLit : UnaryExpression
+>null : null
 
         public publicsOnly = true;
 >publicsOnly : boolean
@@ -164,6 +173,7 @@ module TypeScript {
 >this.scriptFragment : Script
 >this : this
 >scriptFragment : Script
+>null : null
 
                 var ast = this.getScriptFragmentStartAST();
 >ast : AST
@@ -213,6 +223,7 @@ module TypeScript {
 >text : ISourceText
 >minChar : any
 >limChar : number
+>null : null
 >Script : any
             }
             return this.scriptFragment;
@@ -275,6 +286,7 @@ module TypeScript {
 >ast.type : any
 >ast : AST
 >type : any
+>null : null
 >(memScope.pos >= 0) : boolean
 >memScope.pos >= 0 : boolean
 >memScope.pos : number
@@ -351,6 +363,7 @@ module TypeScript {
 >ambientValueMembers : ScopedMembers
 >enclosedTypes : ScopedMembers
 >ambientEnclosedTypes : ScopedMembers
+>null : null
 >container : Symbol
 
         var chain: ScopeChain = new ScopeChain(container, context.scopeChain, builder);
@@ -501,6 +514,8 @@ module TypeScript {
 >script.bod : any
 >script : Script
 >bod : any
+>null : null
+>null : null
 >script.bod.enclosingScope : any
 >script.bod : any
 >script : Script
@@ -537,6 +552,7 @@ module TypeScript {
 >ast.type : any
 >ast : AST
 >type : any
+>null : null
 >ast.type.instanceType.containedScope === null : boolean
 >ast.type.instanceType.containedScope : any
 >ast.type.instanceType : any
@@ -545,6 +561,8 @@ module TypeScript {
 >type : any
 >instanceType : any
 >containedScope : any
+>null : null
+>null : null
 >ast.type.instanceType.containedScope : any
 >ast.type.instanceType : any
 >ast.type : any
@@ -651,6 +669,8 @@ module TypeScript {
 >ast.type : any
 >ast : AST
 >type : any
+>null : null
+>null : null
 >ast.type.containedScope : any
 >ast.type : any
 >ast : AST
@@ -686,6 +706,8 @@ module TypeScript {
 >ast.type : any
 >ast : AST
 >type : any
+>null : null
+>null : null
 >ast.type.containedScope : any
 >ast.type : any
 >ast : AST
@@ -795,6 +817,8 @@ module TypeScript {
 >containedScope : any
                             }
                             return null;
+>null : null
+
                         };
                         context.scopeStartAST = ast;
 >context.scopeStartAST = ast : AST
@@ -862,6 +886,8 @@ module TypeScript {
 >walk : any
 >script : Script
 >preFindEnclosingScope : (ast: AST, parent: AST, walker: IAstWalker) => AST
+>null : null
+>null : null
 >context : EnclosingScopeContext
 
         if (context.scopeStartAST === null)
@@ -869,8 +895,11 @@ module TypeScript {
 >context.scopeStartAST : AST
 >context : EnclosingScopeContext
 >scopeStartAST : AST
+>null : null
 
             return null;
+>null : null
+
         return context;
 >context : EnclosingScopeContext
     }

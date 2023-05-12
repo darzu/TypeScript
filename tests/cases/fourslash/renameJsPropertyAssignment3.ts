@@ -7,4 +7,4 @@
 ////[|C.[|{| "contextRangeIndex": 0 |}staticProperty|] = "string";|]
 ////console.log(C.[|staticProperty|]);
 
-verify.baselineRenameAtRangesWithText("staticProperty");
+verify.rangesWithSameTextAreRenameLocations("staticProperty");

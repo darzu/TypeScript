@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/a/b/app.ts]
 let x = 10
@@ -44,16 +43,20 @@ Shape signatures in builder refreshed for::
 /a/lib/lib.d.ts (used version)
 /a/b/app.ts (used version)
 
+PolledWatches::
+/a/b/node_modules/@types:
+  {"pollingInterval":500}
+
 FsWatches::
-/a/b/tsconfig.json: *new*
+/a/b/tsconfig.json:
   {}
-/a/b/app.ts: *new*
+/a/b/app.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/a/b: *new*
+/a/b:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -74,9 +77,6 @@ Input::
                     }
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:22 AM[0m] File change detected. Starting incremental compilation...
@@ -101,6 +101,22 @@ Semantic diagnostics in builder refreshed for::
 
 No shapes updated in the builder::
 
+PolledWatches::
+/a/b/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/a/b/tsconfig.json:
+  {}
+/a/b/app.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/a/b:
+  {}
+
 exitCode:: ExitStatus.undefined
 
 
@@ -114,9 +130,6 @@ Input::
                     }
 
 
-Before running Timeout callback:: count: 1
-2: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:27 AM[0m] File change detected. Starting incremental compilation...
@@ -135,6 +148,22 @@ Program files::
 Semantic diagnostics in builder refreshed for::
 
 No shapes updated in the builder::
+
+PolledWatches::
+/a/b/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/a/b/tsconfig.json:
+  {}
+/a/b/app.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/a/b:
+  {}
 
 exitCode:: ExitStatus.undefined
 

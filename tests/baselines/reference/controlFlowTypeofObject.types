@@ -33,6 +33,7 @@ function f2(x: unknown) {
     if (x === null) {
 >x === null : boolean
 >x : unknown
+>null : null
 
         return;
     }
@@ -56,6 +57,7 @@ function f3(x: unknown) {
     if (x == null) {
 >x == null : boolean
 >x : unknown
+>null : null
 
         return;
     }
@@ -116,6 +118,7 @@ function f5(x: unknown) {
         if (x === null) {
 >x === null : boolean
 >x : unknown
+>null : null
 
             return;
         }
@@ -140,6 +143,7 @@ function f6(x: unknown) {
     if (x === null) {
 >x === null : boolean
 >x : unknown
+>null : null
 
         x;
 >x : null

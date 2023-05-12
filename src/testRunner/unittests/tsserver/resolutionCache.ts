@@ -1,24 +1,27 @@
-
 import * as ts from "../../_namespaces/ts";
 import * as Utils from "../../_namespaces/Utils";
-import { compilerOptionsToConfigJson } from "../helpers/contents";
 import {
-    baselineTsserverLogs,
-    createLoggerWithInMemoryLogs,
-    createProjectService,
-    createSession,
-    openExternalProjectForSession,
-    openFilesForSession,
-    TestTypingsInstaller,
-    toExternalFiles,
-    verifyGetErrRequest,
-} from "../helpers/tsserver";
+    compilerOptionsToConfigJson,
+} from "../tsc/helpers";
 import {
     createServerHost,
     File,
     libFile,
     TestServerHost,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
+import {
+    baselineTsserverLogs,
+    checkNumberOfProjects,
+    checkProjectActualFiles,
+    configuredProjectAt,
+    createLoggerWithInMemoryLogs,
+    createProjectService,
+    createSession,
+    openFilesForSession,
+    TestTypingsInstaller,
+    toExternalFiles,
+    verifyGetErrRequest,
+} from "./helpers";
 
 describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem extra resolution pass in server host", () => {
     it("can load typings that are proper modules", () => {
@@ -31,10 +34,9 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem extra r
             content: "export let x = 1"
         };
         const host: TestServerHost & ts.ModuleResolutionHost = createServerHost([file1, lib]);
-        const logger = createLoggerWithInMemoryLogs(host);
         const projectService = createProjectService(host, {
-            typingsInstaller: new TestTypingsInstaller("/a/cache", /*throttleLimit*/5, host, logger),
-            logger
+            typingsInstaller: new TestTypingsInstaller("/a/cache", /*throttleLimit*/5, host),
+            logger: createLoggerWithInMemoryLogs(host)
         });
 
         projectService.setCompilerOptionsForInferredProjects({ traceResolution: true, allowJs: true });
@@ -46,51 +48,57 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem extra r
 describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem watching @types", () => {
     it("works correctly when typings are added or removed", () => {
         const f1 = {
-            path: "/users/username/projects/project/app.ts",
+            path: "/a/b/app.ts",
             content: "let x = 1;"
         };
         const t1 = {
-            path: "/users/username/projects/project/node_modules/@types/lib1/index.d.ts",
+            path: "/a/b/node_modules/@types/lib1/index.d.ts",
             content: "export let a: number"
         };
         const t2 = {
-            path: "/users/username/projects/project/node_modules/@types/lib2/index.d.ts",
+            path: "/a/b/node_modules/@types/lib2/index.d.ts",
             content: "export let b: number"
         };
         const tsconfig = {
-            path: "/users/username/projects/project/tsconfig.json",
+            path: "/a/b/tsconfig.json",
             content: JSON.stringify({
                 compilerOptions: {},
                 exclude: ["node_modules"]
             })
         };
         const host = createServerHost([f1, t1, tsconfig]);
-        const projectService = createProjectService(host, { logger: createLoggerWithInMemoryLogs(host) });
+        const projectService = createProjectService(host);
 
         projectService.openClientFile(f1.path);
+        projectService.checkNumberOfProjects({ configuredProjects: 1 });
+        checkProjectActualFiles(configuredProjectAt(projectService, 0), [f1.path, t1.path, tsconfig.path]);
 
         // delete t1
         host.deleteFile(t1.path);
         // run throttled operation
         host.runQueuedTimeoutCallbacks();
 
+        projectService.checkNumberOfProjects({ configuredProjects: 1 });
+        checkProjectActualFiles(configuredProjectAt(projectService, 0), [f1.path, tsconfig.path]);
+
         // create t2
         host.writeFile(t2.path, t2.content);
         // run throttled operation
         host.runQueuedTimeoutCallbacks();
 
-        baselineTsserverLogs("resolutionCache", "works correctly when typings are added or removed", projectService);
+        projectService.checkNumberOfProjects({ configuredProjects: 1 });
+        checkProjectActualFiles(configuredProjectAt(projectService, 0), [f1.path, t2.path, tsconfig.path]);
     });
 });
 
 describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem add the missing module file for inferred project", () => {
     it("should remove the `module not found` error", () => {
         const moduleFile = {
-            path: "/users/username/projects/project/moduleFile.ts",
+            path: "/a/b/moduleFile.ts",
             content: "export function bar() { };"
         };
         const file1 = {
-            path: "/users/username/projects/project/file1.ts",
+            path: "/a/b/file1.ts",
             content: "import * as T from './moduleFile'; T.bar();"
         };
         const host = createServerHost([file1]);
@@ -136,7 +144,7 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem add the
             }
         });
 
-        verifyGetErrRequest({ session, files: [file1] });
+        verifyGetErrRequest({ session, host, files: [file1] });
 
         const padIndex: File = {
             path: `${folderPath}/node_modules/@types/pad/index.d.ts`,
@@ -164,7 +172,8 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem add the
             arguments: { file: file.path, fileContent: file.content },
         });
 
-        verifyGetErrRequest({ session, files: [file] });
+        host.checkTimeoutQueueLength(0);
+        verifyGetErrRequest({ session, host, files: [file] });
         baselineTsserverLogs("resolutionCache", `suggestion diagnostics`, session);
     });
 
@@ -189,7 +198,8 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem add the
             },
         });
 
-        verifyGetErrRequest({ session, files: [file], skip: [{ suggestion: true }] });
+        host.checkTimeoutQueueLength(0);
+        verifyGetErrRequest({ session, host, files: [file], skip: [{ suggestion: true }] });
         baselineTsserverLogs("resolutionCache", `disable suggestion diagnostics`, session);
     });
 
@@ -207,7 +217,7 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem add the
             arguments: { file: file.path, fileContent: file.content },
         });
 
-        session.testhost.logTimeoutQueueLength();
+        host.checkTimeoutQueueLength(0);
         session.executeCommandSeq<ts.server.protocol.GeterrRequest>({
             command: ts.server.protocol.CommandTypes.Geterr,
             arguments: {
@@ -216,7 +226,7 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem add the
             }
         });
 
-        session.testhost.logTimeoutQueueLength();
+        host.checkTimeoutQueueLength(0);
         session.executeCommandSeq<ts.server.protocol.GeterrForProjectRequest>({
             command: ts.server.protocol.CommandTypes.GeterrForProject,
             arguments: {
@@ -225,7 +235,7 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem add the
             }
         });
 
-        session.testhost.logTimeoutQueueLength();
+        host.checkTimeoutQueueLength(0);
         baselineTsserverLogs("resolutionCache", "suppressed diagnostic events", session);
     });
 });
@@ -233,11 +243,11 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem add the
 describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem rename a module file and rename back", () => {
     it("should restore the states for inferred projects", () => {
         const moduleFile = {
-            path: "/users/username/projects/project/moduleFile.ts",
+            path: "/a/b/moduleFile.ts",
             content: "export function bar() { };"
         };
         const file1 = {
-            path: "/users/username/projects/project/file1.ts",
+            path: "/a/b/file1.ts",
             content: "import * as T from './moduleFile'; T.bar();"
         };
         const host = createServerHost([moduleFile, file1]);
@@ -249,7 +259,7 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem rename 
             arguments: { file: file1.path }
         });
 
-        const moduleFileNewPath = "/users/username/projects/project/moduleFile1.ts";
+        const moduleFileNewPath = "/a/b/moduleFile1.ts";
         host.renameFile(moduleFile.path, moduleFileNewPath);
         host.runQueuedTimeoutCallbacks();
         session.executeCommandSeq<ts.server.protocol.SemanticDiagnosticsSyncRequest>({
@@ -276,15 +286,15 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem rename 
 
     it("should restore the states for configured projects", () => {
         const moduleFile = {
-            path: "/users/username/projects/project/moduleFile.ts",
+            path: "/a/b/moduleFile.ts",
             content: "export function bar() { };"
         };
         const file1 = {
-            path: "/users/username/projects/project/file1.ts",
+            path: "/a/b/file1.ts",
             content: "import * as T from './moduleFile'; T.bar();"
         };
         const configFile = {
-            path: "/users/username/projects/project/tsconfig.json",
+            path: "/a/b/tsconfig.json",
             content: `{}`
         };
         const host = createServerHost([moduleFile, file1, configFile]);
@@ -296,7 +306,7 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem rename 
             arguments: { file: file1.path }
         });
 
-        const moduleFileNewPath = "/users/username/projects/project/moduleFile1.ts";
+        const moduleFileNewPath = "/a/b/moduleFile1.ts";
         host.renameFile(moduleFile.path, moduleFileNewPath);
         host.runQueuedTimeoutCallbacks();
         session.executeCommandSeq<ts.server.protocol.SemanticDiagnosticsSyncRequest>({
@@ -324,42 +334,38 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem rename 
         };
         const projectName = "project1";
         const host = createServerHost([f1]);
-        const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
-        openExternalProjectForSession({ rootFiles: toExternalFiles([f1.path, config.path]), options: {}, projectFileName: projectName }, session);
+        const projectService = createProjectService(host);
+        projectService.openExternalProject({ rootFiles: toExternalFiles([f1.path, config.path]), options: {}, projectFileName: projectName });
 
         // should have one external project since config file is missing
+        projectService.checkNumberOfProjects({ externalProjects: 1 });
 
         host.writeFile(config.path, config.content);
-        openExternalProjectForSession({ rootFiles: toExternalFiles([f1.path, config.path]), options: {}, projectFileName: projectName }, session);
-        baselineTsserverLogs("resolutionCache", "should property handle missing config files", session);
+        projectService.openExternalProject({ rootFiles: toExternalFiles([f1.path, config.path]), options: {}, projectFileName: projectName });
+        projectService.checkNumberOfProjects({ configuredProjects: 1 });
     });
 
-    describe("types from config file", () => {
-        function verifyTypesLoad(subScenario: string, includeTypeRoots: boolean) {
-            it(subScenario, () => {
-                const f1 = {
-                    path: "/a/b/app.ts",
-                    content: "let x = 1"
-                };
-                const config = {
-                    path: "/a/b/tsconfig.json",
-                    content: JSON.stringify({ compilerOptions: { types: ["node"], typeRoots: includeTypeRoots ? [] : undefined } })
-                };
-                const node = {
-                    path: "/a/b/node_modules/@types/node/index.d.ts",
-                    content: "declare var process: any"
-                };
-                const cwd = {
-                    path: "/a/c"
-                };
-                const host = createServerHost([f1, config, node, cwd], { currentDirectory: cwd.path });
-                const projectService = createProjectService(host, { logger: createLoggerWithInMemoryLogs(host) });
-                projectService.openClientFile(f1.path);
-                baselineTsserverLogs("resolutionCache", subScenario, projectService);
-            });
-        }
-        verifyTypesLoad("types should load from config file path if config exists", /*includeTypeRoots*/ false);
-        verifyTypesLoad("types should not load from config file path if config exists but does not specifies typeRoots", /*includeTypeRoots*/ true);
+    it("types should load from config file path if config exists", () => {
+        const f1 = {
+            path: "/a/b/app.ts",
+            content: "let x = 1"
+        };
+        const config = {
+            path: "/a/b/tsconfig.json",
+            content: JSON.stringify({ compilerOptions: { types: ["node"], typeRoots: [] } })
+        };
+        const node = {
+            path: "/a/b/node_modules/@types/node/index.d.ts",
+            content: "declare var process: any"
+        };
+        const cwd = {
+            path: "/a/c"
+        };
+        const host = createServerHost([f1, config, node, cwd], { currentDirectory: cwd.path });
+        const projectService = createProjectService(host);
+        projectService.openClientFile(f1.path);
+        projectService.checkNumberOfProjects({ configuredProjects: 1 });
+        checkProjectActualFiles(configuredProjectAt(projectService, 0), [f1.path, node.path, config.path]);
     });
 });
 
@@ -554,9 +560,9 @@ export const x = 10;`
 
                 const files = [...(useNodeFile ? [nodeFile] : []), electronFile, srcFile, moduleFile, configFile, libFile];
                 const host = createServerHost(files);
-                const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
-                openFilesForSession([{ file: srcFile.path, content: srcFile.content, scriptKindName: "TS", projectRootPath: "/user/username/projects/myproject" }], session);
-                baselineTsserverLogs("resolutionCache", scenario, session);
+                const service = createProjectService(host, { logger: createLoggerWithInMemoryLogs(host) });
+                service.openClientFile(srcFile.path, srcFile.content, ts.ScriptKind.TS, "/user/username/projects/myproject");
+                baselineTsserverLogs("resolutionCache", scenario, service);
             });
         }
         verifyModuleResolution("when resolves to ambient module", /*useNodeFile*/ true);
@@ -579,13 +585,15 @@ export const x = 10;`
         it("when watching node_modules in inferred project for failed lookup/closed script infos", () => {
             const files = [libFile, file1, file2];
             const host = createServerHost(files);
-            const service = createProjectService(host, { logger: createLoggerWithInMemoryLogs(host) });
+            const service = createProjectService(host);
             service.openClientFile(file1.path);
-            service.testhost.logTimeoutQueueLength();
+            checkNumberOfProjects(service, { inferredProjects: 1 });
+            const project = service.inferredProjects[0];
+            checkProjectActualFiles(project, files.map(f => f.path));
+            host.checkTimeoutQueueLength(0);
 
             host.ensureFileOrFolder(npmCacheFile);
-            service.testhost.logTimeoutQueueLength();
-            baselineTsserverLogs("resolutionCache", "when watching node_modules in inferred project for failed lookup/closed script infos", service);
+            host.checkTimeoutQueueLength(0);
         });
         it("when watching node_modules as part of wild card directories in config project", () => {
             const config: File = {
@@ -594,13 +602,15 @@ export const x = 10;`
             };
             const files = [libFile, file1, file2, config];
             const host = createServerHost(files);
-            const service = createProjectService(host, { logger: createLoggerWithInMemoryLogs(host) });
+            const service = createProjectService(host);
             service.openClientFile(file1.path);
-            service.testhost.logTimeoutQueueLength();
+            checkNumberOfProjects(service, { configuredProjects: 1 });
+            const project = ts.Debug.checkDefined(service.configuredProjects.get(config.path));
+            checkProjectActualFiles(project, files.map(f => f.path));
+            host.checkTimeoutQueueLength(0);
 
             host.ensureFileOrFolder(npmCacheFile);
-            service.testhost.logTimeoutQueueLength();
-            baselineTsserverLogs("resolutionCache", "when watching node_modules as part of wild card directories in config project", service);
+            host.checkTimeoutQueueLength(0);
         });
     });
 
@@ -619,7 +629,7 @@ export const x = 10;`
 
             // invoke callback to simulate saving
             host.modifyFile(file1.path, file1.content, { invokeFileDeleteCreateAsPartInsteadOfChange: true });
-            host.runQueuedTimeoutCallbacks();
+            host.checkTimeoutQueueLengthAndRun(0);
             baselineTsserverLogs("resolutionCache", "avoid unnecessary lookup invalidation on save", service);
         });
     });
@@ -628,51 +638,51 @@ export const x = 10;`
 describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem with project references", () => {
     it("sharing across references", () => {
         const host = createServerHost({
-            "/users/username/projects/node_modules/moduleX/index.d.ts": "export const x = 10;",
-            "/users/username/projects/common/tsconfig.json": JSON.stringify({
+            "/src/projects/node_modules/moduleX/index.d.ts": "export const x = 10;",
+            "/src/projects/common/tsconfig.json": JSON.stringify({
                 compilerOptions: compilerOptionsToConfigJson({
                     composite: true,
                     traceResolution: true,
                 }),
             }),
-            "/users/username/projects/common/moduleA.ts": "export const a = 10;",
-            "/users/username/projects/common/moduleB.ts": Utils.dedent`
+            "/src/projects/common/moduleA.ts": "export const a = 10;",
+            "/src/projects/common/moduleB.ts": Utils.dedent`
                 import { x } from "moduleX";
                 export const b = x;
             `,
-            "/users/username/projects/app/tsconfig.json": JSON.stringify({
+            "/src/projects/app/tsconfig.json": JSON.stringify({
                 compilerOptions: compilerOptionsToConfigJson({
                     composite: true,
                     traceResolution: true,
                 }),
                 references: [{ path: "../common" }],
             }),
-            "/users/username/projects/app/appA.ts": Utils.dedent`
+            "/src/projects/app/appA.ts": Utils.dedent`
                 import { x } from "moduleX";
                 export const y = x;
             `,
-            "/users/username/projects/app/appB.ts": Utils.dedent`
+            "/src/projects/app/appB.ts": Utils.dedent`
                 import { x } from "../common/moduleB";
                 export const y = x;
             `,
         });
         const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
-        openFilesForSession(["/users/username/projects/app/appB.ts"], session);
+        openFilesForSession(["/src/projects/app/appB.ts"], session);
         baselineTsserverLogs("resolutionCache", "sharing across references", session);
     });
 
     it("not sharing across references", () => {
         const host = createServerHost({
-            "/users/username/projects/node_modules/moduleX/index.d.ts": "export const x = 10;",
-            "/users/username/projects/common/tsconfig.json": JSON.stringify({
+            "/src/projects/node_modules/moduleX/index.d.ts": "export const x = 10;",
+            "/src/projects/common/tsconfig.json": JSON.stringify({
                 compilerOptions: { composite: true, traceResolution: true },
             }),
-            "/users/username/projects/common/moduleA.ts": "export const a = 10;",
-            "/users/username/projects/common/moduleB.ts": Utils.dedent`
+            "/src/projects/common/moduleA.ts": "export const a = 10;",
+            "/src/projects/common/moduleB.ts": Utils.dedent`
                 import { x } from "moduleX";
                 export const b = x;
             `,
-            "/users/username/projects/app/tsconfig.json": JSON.stringify({
+            "/src/projects/app/tsconfig.json": JSON.stringify({
                 compilerOptions: {
                     composite: true,
                     traceResolution: true,
@@ -680,17 +690,17 @@ describe("unittests:: tsserver:: resolutionCache:: tsserverProjectSystem with pr
                 },
                 references: [{ path: "../common" }],
             }),
-            "/users/username/projects/app/appA.ts": Utils.dedent`
+            "/src/projects/app/appA.ts": Utils.dedent`
                 import { x } from "moduleX";
                 export const y = x;
             `,
-            "/users/username/projects/app/appB.ts": Utils.dedent`
+            "/src/projects/app/appB.ts": Utils.dedent`
                 import { x } from "../common/moduleB";
                 export const y = x;
             `,
         });
         const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
-        openFilesForSession(["/users/username/projects/app/appB.ts"], session);
+        openFilesForSession(["/src/projects/app/appB.ts"], session);
         baselineTsserverLogs("resolutionCache", "not sharing across references", session);
     });
 });

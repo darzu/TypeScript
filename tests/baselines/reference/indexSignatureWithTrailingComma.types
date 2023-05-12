@@ -17,5 +17,6 @@ class C {
 
     [key: string,]: null;
 >key : string
+>null : null
 }
 

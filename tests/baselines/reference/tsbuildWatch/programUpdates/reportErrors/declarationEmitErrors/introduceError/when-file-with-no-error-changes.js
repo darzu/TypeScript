@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/solution useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -53,16 +52,18 @@ Shape signatures in builder refreshed for::
 /user/username/projects/solution/app/filewitherror.ts (computed .d.ts during emit)
 /user/username/projects/solution/app/filewithouterror.ts (computed .d.ts during emit)
 
+PolledWatches::
+
 FsWatches::
-/user/username/projects/solution/app/tsconfig.json: *new*
+/user/username/projects/solution/app/tsconfig.json:
   {}
-/user/username/projects/solution/app/filewitherror.ts: *new*
+/user/username/projects/solution/app/filewitherror.ts:
   {}
-/user/username/projects/solution/app/filewithouterror.ts: *new*
+/user/username/projects/solution/app/filewithouterror.ts:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/solution/app: *new*
+/user/username/projects/solution/app:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -179,9 +180,6 @@ export var myClassWithError = class {
     };
 
 
-Before running Timeout callback:: count: 1
-1: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:43 AM[0m] File change detected. Starting incremental compilation...
@@ -209,6 +207,20 @@ Semantic diagnostics in builder refreshed for::
 Shape signatures in builder refreshed for::
 /user/username/projects/solution/app/filewitherror.ts (computed .d.ts)
 
+PolledWatches::
+
+FsWatches::
+/user/username/projects/solution/app/tsconfig.json:
+  {}
+/user/username/projects/solution/app/filewitherror.ts:
+  {}
+/user/username/projects/solution/app/filewithouterror.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/solution/app:
+  {}
+
 exitCode:: ExitStatus.undefined
 
 
@@ -219,9 +231,6 @@ Input::
 export class myClass2 { }
 
 
-Before running Timeout callback:: count: 1
-2: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:48 AM[0m] File change detected. Starting incremental compilation...
@@ -248,6 +257,20 @@ Semantic diagnostics in builder refreshed for::
 
 Shape signatures in builder refreshed for::
 /user/username/projects/solution/app/filewithouterror.ts (computed .d.ts)
+
+PolledWatches::
+
+FsWatches::
+/user/username/projects/solution/app/tsconfig.json:
+  {}
+/user/username/projects/solution/app/filewitherror.ts:
+  {}
+/user/username/projects/solution/app/filewithouterror.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/solution/app:
+  {}
 
 exitCode:: ExitStatus.undefined
 

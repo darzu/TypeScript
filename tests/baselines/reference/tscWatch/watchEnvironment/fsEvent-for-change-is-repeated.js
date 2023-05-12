@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/project useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/project/main.ts]
 let a: string = "Hello"
@@ -30,8 +29,6 @@ FileWatcher:: Added:: WatchInfo: main.ts 250 undefined Source file
 FileWatcher:: Added:: WatchInfo: /a/lib/lib.d.ts 250 undefined Source file
 DirectoryWatcher:: Added:: WatchInfo: /user/username/projects/project/node_modules/@types 1 undefined Type roots
 Elapsed:: *ms DirectoryWatcher:: Added:: WatchInfo: /user/username/projects/project/node_modules/@types 1 undefined Type roots
-DirectoryWatcher:: Added:: WatchInfo: /user/username/projects/node_modules/@types 1 undefined Type roots
-Elapsed:: *ms DirectoryWatcher:: Added:: WatchInfo: /user/username/projects/node_modules/@types 1 undefined Type roots
 [[90m12:00:22 AM[0m] Found 0 errors. Watching for file changes.
 
 
@@ -52,16 +49,16 @@ Shape signatures in builder refreshed for::
 /user/username/projects/project/main.ts (used version)
 
 PolledWatches::
-/user/username/projects/project/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/project/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/project/main.ts: *new*
+/user/username/projects/project/main.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 
@@ -77,9 +74,6 @@ Input::
 let a: string = "Hello World"
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 FileWatcher:: Triggered with main.ts 1:: WatchInfo: main.ts 250 undefined Source file
 Scheduling update
@@ -108,6 +102,18 @@ main.ts
 Shape signatures in builder refreshed for::
 /user/username/projects/project/main.ts (computed .d.ts)
 
+PolledWatches::
+/user/username/projects/project/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/project/main.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+
 exitCode:: ExitStatus.undefined
 
 //// [/user/username/projects/project/main.js]
@@ -119,15 +125,24 @@ Change:: receive another change event without modifying the file
 
 Input::
 
-Before running Timeout callback:: count: 1
-2: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 FileWatcher:: Triggered with main.ts 1:: WatchInfo: main.ts 250 undefined Source file
 Scheduling update
 Elapsed:: *ms FileWatcher:: Triggered with main.ts 1:: WatchInfo: main.ts 250 undefined Source file
 Synchronizing program
 
+
+PolledWatches::
+/user/username/projects/project/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/project/main.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 
@@ -139,9 +154,6 @@ Input::
 
 
 
-Before running Timeout callback:: count: 1
-3: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 FileWatcher:: Triggered with main.ts 1:: WatchInfo: main.ts 250 undefined Source file
 Scheduling update
@@ -169,6 +181,18 @@ main.ts
 Shape signatures in builder refreshed for::
 /user/username/projects/project/main.ts (used version)
 
+PolledWatches::
+/user/username/projects/project/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/project/main.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+
 exitCode:: ExitStatus.undefined
 
 //// [/user/username/projects/project/main.js]
@@ -179,15 +203,24 @@ Change:: receive another change event without modifying the file
 
 Input::
 
-Before running Timeout callback:: count: 1
-4: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 FileWatcher:: Triggered with main.ts 1:: WatchInfo: main.ts 250 undefined Source file
 Scheduling update
 Elapsed:: *ms FileWatcher:: Triggered with main.ts 1:: WatchInfo: main.ts 250 undefined Source file
 Synchronizing program
 
+
+PolledWatches::
+/user/username/projects/project/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/project/main.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 

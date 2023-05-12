@@ -24,7 +24,7 @@ define(["require", "exports"], function (require, exports) {
             weekend[weekend["Saturday"] = 1] = "Saturday";
             weekend[weekend["Sunday"] = 2] = "Sunday";
         })(weekend = a.weekend || (a.weekend = {}));
-    })(a || (exports.a = a = {}));
+    })(a = exports.a || (exports.a = {}));
     var b = a.weekend;
     exports.bVal = b.Sunday;
 });

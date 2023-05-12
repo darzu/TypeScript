@@ -9,4 +9,4 @@
 //// var [|someVar|] = new Bar();
 //// someVa/*reference*/r.hello();
 
-verify.baselineGoToImplementation("reference");
+verify.allRangesAppearInImplementationList("reference");

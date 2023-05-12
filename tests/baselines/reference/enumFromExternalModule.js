@@ -17,7 +17,7 @@ exports.Mode = void 0;
 var Mode;
 (function (Mode) {
     Mode[Mode["Open"] = 0] = "Open";
-})(Mode || (exports.Mode = Mode = {}));
+})(Mode = exports.Mode || (exports.Mode = {}));
 //// [enumFromExternalModule_1.js]
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });

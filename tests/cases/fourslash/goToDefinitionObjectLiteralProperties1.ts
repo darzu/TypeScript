@@ -13,7 +13,7 @@
 //// })
 
 
-verify.baselineGoToDefinition(
-    "p1",
-    "p2",
-);
+verify.goToDefinition({
+    p1: "first",
+    p2: "first"
+});

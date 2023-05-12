@@ -26,5 +26,7 @@ export const build = (): DatastoreResult.T<string> => {
 >DatastoreResult : any
 
 	return null;
+>null : null
+
 };
 

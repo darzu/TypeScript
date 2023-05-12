@@ -72,6 +72,7 @@ import {
     ObjectLiteralExpression,
     ObjectTypeDeclaration,
     Program,
+    Push,
     ReturnStatement,
     SourceFile,
     SwitchStatement,
@@ -339,7 +340,7 @@ export namespace DocumentHighlights {
         }
     }
 
-    function pushKeywordIf(keywordList: Node[], token: Node | undefined, ...expected: SyntaxKind[]): boolean {
+    function pushKeywordIf(keywordList: Push<Node>, token: Node | undefined, ...expected: SyntaxKind[]): boolean {
         if (token && contains(expected, token.kind)) {
             keywordList.push(token);
             return true;

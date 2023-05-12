@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/src/project/main.ts]
 export const x = 10;
@@ -47,14 +46,16 @@ Shape signatures in builder refreshed for::
 /a/lib/lib.d.ts (used version)
 /src/project/main.ts (used version)
 
+PolledWatches::
+
 FsWatches::
-/src/project/tsconfig.json: *new*
+/src/project/tsconfig.json:
   {}
-/src/project/main.ts: *new*
+/src/project/main.ts:
   {}
 
 FsWatchesRecursive::
-/src/project: *new*
+/src/project:
   {}
 
 exitCode:: ExitStatus.undefined

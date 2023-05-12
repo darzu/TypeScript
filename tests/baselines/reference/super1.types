@@ -65,6 +65,7 @@ class SubE2 extends Base2 {
 >super : Base2
 >prototype : any
 >foo : any
+>null : null
     }
 }
 

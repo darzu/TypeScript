@@ -1,28 +1,27 @@
 import * as ts from "../../_namespaces/ts";
 import * as Utils from "../../_namespaces/Utils";
-import { libContent } from "../helpers/contents";
-import {
-    createBaseline,
-    createWatchCompilerHostOfFilesAndCompilerOptionsForBaseline,
-    runWatchBaseline,
-    verifyTscWatch,
-} from "../helpers/tscWatch";
 import {
     createWatchedSystem,
     File,
     libFile,
     SymLink,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
+import {
+    createBaseline,
+    createWatchCompilerHostOfFilesAndCompilerOptionsForBaseline,
+    runWatchBaseline,
+    verifyTscWatch,
+} from "./helpers";
 
 describe("unittests:: tsc-watch:: resolutionCache:: tsc-watch module resolution caching", () => {
     const scenario = "resolutionCache";
     it("caching works", () => {
         const root = {
-            path: "/users/username/projects/project/d/f0.ts",
+            path: "/a/d/f0.ts",
             content: `import {x} from "f1"`
         };
         const imported = {
-            path: "/users/username/projects/project/f1.ts",
+            path: "/a/f1.ts",
             content: `foo()`
         };
 
@@ -100,12 +99,12 @@ describe("unittests:: tsc-watch:: resolutionCache:: tsc-watch module resolution 
 
     it("loads missing files from disk", () => {
         const root = {
-            path: `/users/username/projects/project/foo.ts`,
+            path: `/a/foo.ts`,
             content: `import {x} from "bar"`
         };
 
         const imported = {
-            path: `/users/username/projects/project/bar.d.ts`,
+            path: `/a/bar.d.ts`,
             content: `export const y = 1;`
         };
 
@@ -158,12 +157,12 @@ describe("unittests:: tsc-watch:: resolutionCache:: tsc-watch module resolution 
 
     it("should compile correctly when resolved module goes missing and then comes back (module is not part of the root)", () => {
         const root = {
-            path: `/users/username/projects/project/foo.ts`,
+            path: `/a/foo.ts`,
             content: `import {x} from "bar"`
         };
 
         const imported = {
-            path: `/users/username/projects/project/bar.d.ts`,
+            path: `/a/bar.d.ts`,
             content: `export const y = 1;export const x = 10;`
         };
 
@@ -215,8 +214,8 @@ describe("unittests:: tsc-watch:: resolutionCache:: tsc-watch module resolution 
                         sys.writeFile(imported.path, imported.content);
                     },
                     timeouts: sys => {
-                        sys.runQueuedTimeoutCallbacks(); // Scheduled invalidation of resolutions
-                        sys.runQueuedTimeoutCallbacks(); // Actual update
+                        sys.checkTimeoutQueueLengthAndRun(1); // Scheduled invalidation of resolutions
+                        sys.checkTimeoutQueueLengthAndRun(1); // Actual update
                         assert.isTrue(fileExistsCalledForBar, "'fileExists' should be called.");
                     },
                 },
@@ -228,17 +227,17 @@ describe("unittests:: tsc-watch:: resolutionCache:: tsc-watch module resolution 
     verifyTscWatch({
         scenario,
         subScenario: "works when module resolution changes to ambient module",
-        commandLineArgs: ["-w", "/users/username/projects/project/foo.ts"],
+        commandLineArgs: ["-w", "/a/b/foo.ts"],
         sys: () => createWatchedSystem([{
-            path: "/users/username/projects/project/foo.ts",
+            path: "/a/b/foo.ts",
             content: `import * as fs from "fs";`
-        }, libFile], { currentDirectory: "/users/username/projects/project" }),
+        }, libFile], { currentDirectory: "/a/b" }),
         edits: [
             {
                 caption: "npm install node types",
                 edit: sys => {
                     sys.ensureFileOrFolder({
-                        path: "/users/username/projects/project/node_modules/@types/node/package.json",
+                        path: "/a/b/node_modules/@types/node/package.json",
                         content: `
 {
   "main": ""
@@ -246,7 +245,7 @@ describe("unittests:: tsc-watch:: resolutionCache:: tsc-watch module resolution 
 `
                     });
                     sys.ensureFileOrFolder({
-                        path: "/users/username/projects/project/node_modules/@types/node/index.d.ts",
+                        path: "/a/b/node_modules/@types/node/index.d.ts",
                         content: `
 declare module "fs" {
     export interface Stats {
@@ -263,10 +262,10 @@ declare module "fs" {
     verifyTscWatch({
         scenario,
         subScenario: "works when included file with ambient module changes",
-        commandLineArgs: ["--w", "/users/username/projects/project/foo.ts", "/users/username/projects/project/bar.d.ts"],
+        commandLineArgs: ["--w", "/a/b/foo.ts", "/a/b/bar.d.ts"],
         sys: () => {
             const root = {
-                path: "/users/username/projects/project/foo.ts",
+                path: "/a/b/foo.ts",
                 content: `
 import * as fs from "fs";
 import * as u from "url";
@@ -274,7 +273,7 @@ import * as u from "url";
             };
 
             const file = {
-                path: "/users/username/projects/project/bar.d.ts",
+                path: "/a/b/bar.d.ts",
                 content: `
 declare module "url" {
     export interface Url {
@@ -283,12 +282,12 @@ declare module "url" {
 }
 `
             };
-            return createWatchedSystem([root, file, libFile], { currentDirectory: "/users/username/projects/project" });
+            return createWatchedSystem([root, file, libFile], { currentDirectory: "/a/b" });
         },
         edits: [
             {
                 caption: "Add fs definition",
-                edit: sys => sys.appendFile("/users/username/projects/project/bar.d.ts", `
+                edit: sys => sys.appendFile("/a/b/bar.d.ts", `
 declare module "fs" {
     export interface Stats {
         isFile(): boolean;
@@ -393,7 +392,7 @@ declare module "fs" {
                             path: `/user/username/projects/myproject/node_modules/.cache/babel-loader/89c02171edab901b9926470ba6d5677e.ts`,
                             content: JSON.stringify({ something: 10 })
                         }),
-                        timeouts: sys => sys.logTimeoutQueueLength(),
+                        timeouts: sys => sys.checkTimeoutQueueLength(0),
                     }
                 ]
             });
@@ -442,15 +441,15 @@ declare namespace myapp {
                     });
                 },
                 timeouts: sys => {
-                    sys.runQueuedTimeoutCallbacks(); // Scheduled invalidation of resolutions, update that gets cancelled and rescheduled by actual invalidation of resolution
-                    sys.runQueuedTimeoutCallbacks(); // Actual update
+                    sys.checkTimeoutQueueLengthAndRun(2); // Scheduled invalidation of resolutions, update that gets cancelled and rescheduled by actual invalidation of resolution
+                    sys.checkTimeoutQueueLengthAndRun(1); // Actual update
                 },
             },
             {
                 caption: "No change, just check program",
                 edit: ts.noop,
                 timeouts: (sys, [[oldProgram, oldBuilderProgram]], watchorSolution) => {
-                    sys.logTimeoutQueueLength();
+                    sys.checkTimeoutQueueLength(0);
                     const newProgram = (watchorSolution as ts.WatchOfConfigFile<ts.EmitAndSemanticDiagnosticsBuilderProgram>).getProgram();
                     assert.strictEqual(newProgram, oldBuilderProgram, "No change so builder program should be same");
                     assert.strictEqual(newProgram.getProgram(), oldProgram, "No change so program should be same");
@@ -581,32 +580,32 @@ declare namespace NodeJS {
         scenario,
         subScenario: "reusing type ref resolution",
         sys: () => createWatchedSystem({
-            "/users/username/projects/project/tsconfig.json": JSON.stringify({
+            "/src/project/tsconfig.json": JSON.stringify({
                 compilerOptions: {
                     composite: true,
                     traceResolution: true,
                     outDir: "outDir",
                 },
             }),
-            "/users/username/projects/project/fileWithImports.ts": Utils.dedent`
+            "/src/project/fileWithImports.ts": Utils.dedent`
                 import type { Import0 } from "pkg0";
                 import type { Import1 } from "pkg1";
             `,
-            "/users/username/projects/project/node_modules/pkg0/index.d.ts": `export interface Import0 {}`,
-            "/users/username/projects/project/fileWithTypeRefs.ts": Utils.dedent`
+            "/src/project/node_modules/pkg0/index.d.ts": `export interface Import0 {}`,
+            "/src/project/fileWithTypeRefs.ts": Utils.dedent`
                 /// <reference types="pkg2"/>
                 /// <reference types="pkg3"/>
                 interface LocalInterface extends Import2, Import3 {}
                 export {}
             `,
-            "/users/username/projects/project/node_modules/pkg2/index.d.ts": `interface Import2 {}`,
+            "/src/project/node_modules/pkg2/index.d.ts": `interface Import2 {}`,
             [libFile.path]: libFile.content,
-        }, { currentDirectory: "/users/username/projects/project" }),
+        }, { currentDirectory: "/src/project" }),
         commandLineArgs: ["-w", "--explainFiles", "--extendedDiagnostics"],
         edits: [
             {
                 caption: "write file not resolved by import",
-                edit: sys => sys.ensureFileOrFolder({ path: "/users/username/projects/project/node_modules/pkg1/index.d.ts", content: `export interface Import1 {}` }),
+                edit: sys => sys.ensureFileOrFolder({ path: "/src/project/node_modules/pkg1/index.d.ts", content: `export interface Import1 {}` }),
                 timeouts: sys => {
                     sys.runQueuedTimeoutCallbacks(); // failed lookup
                     sys.runQueuedTimeoutCallbacks(); // actual update
@@ -614,71 +613,11 @@ declare namespace NodeJS {
             },
             {
                 caption: "write file not resolved by typeRef",
-                edit: sys => sys.ensureFileOrFolder({ path: "/users/username/projects/project/node_modules/pkg3/index.d.ts", content: `export interface Import3 {}` }),
+                edit: sys => sys.ensureFileOrFolder({ path: "/src/project/node_modules/pkg3/index.d.ts", content: `export interface Import3 {}` }),
                 timeouts: sys => {
                     sys.runQueuedTimeoutCallbacks(); // failed lookup
                     sys.runQueuedTimeoutCallbacks(); // actual update
                 }
-            },
-        ]
-    });
-
-    verifyTscWatch({
-        scenario,
-        subScenario: "scoped package installation",
-        commandLineArgs: ["--w", "-p", `.`, "--traceResolution", "--extendedDiagnostics"],
-        sys: () => createWatchedSystem({
-            "/user/username/projects/myproject/lib/app.ts": Utils.dedent`
-                import { myapp } from "@myapp/ts-types";
-                const x: 10 = myapp;
-            `,
-            "/user/username/projects/myproject/tsconfig.json": "{}",
-            [libFile.path]: libContent,
-        }, { currentDirectory: "/user/username/projects/myproject" }),
-        edits: [
-            {
-                caption: "npm install unrelated non scoped",
-                edit: sys => sys.ensureFileOrFolder({
-                    path: `/user/username/projects/myproject/node_modules/unrelated/index.d.ts`,
-                    content: `export const unrelated = 10;`
-                }),
-                timeouts: sys => {
-                    sys.runQueuedTimeoutCallbacks();
-                    sys.runQueuedTimeoutCallbacks();
-                },
-            },
-            {
-                caption: "npm install unrelated scoped in myapp",
-                edit: sys => sys.ensureFileOrFolder({
-                    path: `/user/username/projects/myproject/node_modules/@myapp/unrelated/index.d.ts`,
-                    content: `export const myappUnrelated = 10;`
-                }),
-                timeouts: sys => {
-                    sys.runQueuedTimeoutCallbacks();
-                    sys.runQueuedTimeoutCallbacks();
-                },
-            },
-            {
-                caption: "npm install unrelated2 scoped in myapp",
-                edit: sys => sys.ensureFileOrFolder({
-                    path: `/user/username/projects/myproject/node_modules/@myapp/unrelated2/index.d.ts`,
-                    content: `export const myappUnrelated2 = 10;`
-                }),
-                timeouts: sys => {
-                    sys.runQueuedTimeoutCallbacks();
-                    sys.runQueuedTimeoutCallbacks();
-                },
-            },
-            {
-                caption: "npm install ts-types",
-                edit: sys => sys.ensureFileOrFolder({
-                    path: `/user/username/projects/myproject/node_modules/@myapp/ts-types/index.d.ts`,
-                    content: `export const myapp = 10;`
-                }),
-                timeouts: sys => {
-                    sys.runQueuedTimeoutCallbacks();
-                    sys.runQueuedTimeoutCallbacks();
-                },
             },
         ]
     });

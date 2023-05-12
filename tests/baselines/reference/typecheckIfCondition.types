@@ -16,5 +16,6 @@ function myWrapper()
 
     var x = null; // don't want to baseline output
 >x : any
+>null : null
 }
 

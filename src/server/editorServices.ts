@@ -54,7 +54,6 @@ import {
     getFileNamesFromConfigSpecs,
     getFileWatcherEventKind,
     getNormalizedAbsolutePath,
-    getPathComponents,
     getSnapshotText,
     getWatchFactory,
     hasExtension,
@@ -170,13 +169,13 @@ import {
     ProjectKind,
     ProjectOptions,
     ScriptInfo,
+    ScriptInfoVersion,
     ServerHost,
     Session,
     SetTypings,
     ThrottledOperations,
     toNormalizedPath,
     TypingsCache,
-    WatchTypingLocations,
 } from "./_namespaces/ts.server";
 import * as protocol from "./protocol";
 
@@ -580,7 +579,7 @@ export interface ProjectServiceOptions {
     cancellationToken: HostCancellationToken;
     useSingleInferredProject: boolean;
     useInferredProjectPerProjectRoot: boolean;
-    typingsInstaller?: ITypingsInstaller;
+    typingsInstaller: ITypingsInstaller;
     eventHandler?: ProjectServiceEventHandler;
     suppressDiagnosticEvents?: boolean;
     throttleWaitMilliseconds?: number;
@@ -871,7 +870,7 @@ export class ProjectService {
      * it does not reset when creating script info again
      * (and could have potentially collided with version where contents mismatch)
      */
-    private readonly filenameToScriptInfoVersion = new Map<string, number>();
+    private readonly filenameToScriptInfoVersion = new Map<string, ScriptInfoVersion>();
     // Set of all '.js' files ever opened.
     private readonly allJsFilesForOpenFileTelemetry = new Map<string, true>();
 
@@ -963,7 +962,7 @@ export class ProjectService {
     public readonly globalPlugins: readonly string[];
     public readonly pluginProbeLocations: readonly string[];
     public readonly allowLocalPluginLoads: boolean;
-    /** @internal */ currentPluginConfigOverrides: Map<string, any> | undefined;
+    private currentPluginConfigOverrides: Map<string, any> | undefined;
 
     public readonly typesMapLocation: string | undefined;
 
@@ -1152,11 +1151,6 @@ export class ProjectService {
                 this.typingsCache.enqueueInstallTypingsForProject(project, project.lastCachedUnresolvedImportsList, /*forceRefresh*/ true);
                 return;
         }
-    }
-
-    /** @internal */
-    watchTypingLocations(response: WatchTypingLocations) {
-        this.findProject(response.projectName)?.watchTypingLocations(response.files);
     }
 
     /** @internal */
@@ -1629,7 +1623,7 @@ export class ProjectService {
 
     private removeProject(project: Project) {
         this.logger.info("`remove Project::");
-        project.print(/*writeProjectFileNames*/ true, /*writeFileExplaination*/ true, /*writeFileVersionAndText*/ false);
+        project.print(/*writeProjectFileNames*/ true);
 
         project.close();
         if (Debug.shouldAssert(AssertionLevel.Normal)) {
@@ -1818,7 +1812,7 @@ export class ProjectService {
 
     private deleteScriptInfo(info: ScriptInfo) {
         this.filenameToScriptInfo.delete(info.path);
-        this.filenameToScriptInfoVersion.set(info.path, info.textStorage.version);
+        this.filenameToScriptInfoVersion.set(info.path, info.getVersion());
         const realpath = info.getRealpathIfDifferent();
         if (realpath) {
             this.realpathToScriptInfos!.remove(realpath, info); // TODO: GH#18217
@@ -1899,7 +1893,7 @@ export class ProjectService {
             // created when any of the script infos are added as root of inferred project
             if (this.configFileExistenceImpactsRootOfInferredProject(configFileExistenceInfo)) {
                 // If we cannot watch config file existence without configured project, close the configured file watcher
-                if (!canWatchDirectoryOrFile(getPathComponents(getDirectoryPath(canonicalConfigFilePath) as Path))) {
+                if (!canWatchDirectoryOrFile(getDirectoryPath(canonicalConfigFilePath) as Path)) {
                     configFileExistenceInfo.watcher!.close();
                     configFileExistenceInfo.watcher = noopConfigFileWatcher;
                 }
@@ -1986,7 +1980,7 @@ export class ProjectService {
             (configFileExistenceInfo.openFilesImpactedByConfigFile ||= new Map()).set(info.path, true);
 
             // If there is no configured project for this config file, add the file watcher
-            configFileExistenceInfo.watcher ||= canWatchDirectoryOrFile(getPathComponents(getDirectoryPath(canonicalConfigFilePath) as Path)) ?
+            configFileExistenceInfo.watcher ||= canWatchDirectoryOrFile(getDirectoryPath(canonicalConfigFilePath) as Path) ?
                 this.watchFactory.watchFile(
                     configFileName,
                     (_filename, eventKind) => this.onConfigFileChanged(canonicalConfigFilePath, eventKind),
@@ -2195,6 +2189,7 @@ export class ProjectService {
             /*lastFileExceededProgramSize*/ this.getFilenameForExceededTotalSizeLimitForNonTsFiles(projectFileName, compilerOptions, files, externalFilePropertyReader),
             options.compileOnSave === undefined ? true : options.compileOnSave,
             /*projectFilePath*/ undefined,
+            this.currentPluginConfigOverrides,
             watchOptionsAndErrors?.watchOptions
         );
         project.setProjectErrors(watchOptionsAndErrors?.errors);
@@ -2359,7 +2354,7 @@ export class ProjectService {
             project.enableLanguageService();
             this.watchWildcards(configFilename, configFileExistenceInfo, project);
         }
-        project.enablePluginsWithOptions(compilerOptions);
+        project.enablePluginsWithOptions(compilerOptions, this.currentPluginConfigOverrides);
         const filesToAdd = parsedCommandLine.fileNames.concat(project.getExternalFiles());
         this.updateRootAndOptionsOfNonInferredProject(project, filesToAdd, fileNamePropertyReader, compilerOptions, parsedCommandLine.typeAcquisition!, parsedCommandLine.compileOnSave, parsedCommandLine.watchOptions);
         tracing?.pop();
@@ -2709,12 +2704,12 @@ export class ProjectService {
         }
 
         // Single inferred project does not have a project root and hence no current directory
-        return this.createInferredProject("", /*isSingleInferredProject*/ true);
+        return this.createInferredProject(/*currentDirectory*/ undefined, /*isSingleInferredProject*/ true);
     }
 
-    private getOrCreateSingleInferredWithoutProjectRoot(currentDirectory: string): InferredProject {
+    private getOrCreateSingleInferredWithoutProjectRoot(currentDirectory: string | undefined): InferredProject {
         Debug.assert(!this.useSingleInferredProject);
-        const expectedCurrentDirectory = this.toCanonicalFileName(this.getNormalizedAbsolutePath(currentDirectory));
+        const expectedCurrentDirectory = this.toCanonicalFileName(this.getNormalizedAbsolutePath(currentDirectory || ""));
         // Reuse the project with same current directory but no roots
         for (const inferredProject of this.inferredProjects) {
             if (!inferredProject.projectRootPath &&
@@ -2727,7 +2722,7 @@ export class ProjectService {
         return this.createInferredProject(currentDirectory);
     }
 
-    private createInferredProject(currentDirectory: string, isSingleInferredProject?: boolean, projectRootPath?: NormalizedPath): InferredProject {
+    private createInferredProject(currentDirectory: string | undefined, isSingleInferredProject?: boolean, projectRootPath?: NormalizedPath): InferredProject {
         const compilerOptions = projectRootPath && this.compilerOptionsForInferredProjectsPerProjectRoot.get(projectRootPath) || this.compilerOptionsForInferredProjects!; // TODO: GH#18217
         let watchOptionsAndErrors: WatchOptionsAndErrors | false | undefined;
         let typeAcquisition: TypeAcquisition | undefined;
@@ -2742,7 +2737,7 @@ export class ProjectService {
             typeAcquisition = this.typeAcquisitionForInferredProjects;
         }
         watchOptionsAndErrors = watchOptionsAndErrors || undefined;
-        const project = new InferredProject(this, this.documentRegistry, compilerOptions, watchOptionsAndErrors?.watchOptions, projectRootPath, currentDirectory, typeAcquisition);
+        const project = new InferredProject(this, this.documentRegistry, compilerOptions, watchOptionsAndErrors?.watchOptions, projectRootPath, currentDirectory, this.currentPluginConfigOverrides, typeAcquisition);
         project.setProjectErrors(watchOptionsAndErrors?.errors);
         if (isSingleInferredProject) {
             this.inferredProjects.unshift(project);
@@ -3006,7 +3001,7 @@ export class ProjectService {
             // Opening closed script info
             // either it was created just now, or was part of projects but was closed
             this.stopWatchingScriptInfo(info);
-            info.open(fileContent);
+            info.open(fileContent!);
             if (hasMixedContent) {
                 info.registerFileUpdate();
             }
@@ -3080,7 +3075,7 @@ export class ProjectService {
         const documentPositionMapper = getDocumentPositionMapper(
             { getCanonicalFileName: this.toCanonicalFileName, log: s => this.logger.info(s), getSourceFileLike: f => this.getSourceFileLike(f, projectName, declarationInfo) },
             declarationInfo.fileName,
-            declarationInfo.textStorage.getLineInfo(),
+            declarationInfo.getLineInfo(),
             readMapFile
         );
         readMapFile = undefined; // Remove ref to project
@@ -4247,11 +4242,8 @@ export class ProjectService {
         return false;
     }
 
-    /**
-     * Performs the initial steps of enabling a plugin by finding and instantiating the module for a plugin either asynchronously or synchronously
-     * @internal
-     */
-    requestEnablePlugin(project: Project, pluginConfigEntry: PluginImport, searchPaths: string[]) {
+    /** @internal */
+    requestEnablePlugin(project: Project, pluginConfigEntry: PluginImport, searchPaths: string[], pluginConfigOverrides: Map<string, any> | undefined) {
         if (!this.host.importPlugin && !this.host.require) {
             this.logger.info("Plugins were requested but not running in environment that supports 'require'. Nothing will be loaded");
             return;
@@ -4265,12 +4257,7 @@ export class ProjectService {
 
         // If the host supports dynamic import, begin enabling the plugin asynchronously.
         if (this.host.importPlugin) {
-            const importPromise = Project.importServicePluginAsync(
-                pluginConfigEntry,
-                searchPaths,
-                this.host,
-                s => this.logger.info(s),
-            ) as Promise<BeginEnablePluginResult>;
+            const importPromise = project.beginEnablePluginAsync(pluginConfigEntry, searchPaths, pluginConfigOverrides);
             this.pendingPluginEnablements ??= new Map();
             let promises = this.pendingPluginEnablements.get(project);
             if (!promises) this.pendingPluginEnablements.set(project, promises = []);
@@ -4279,33 +4266,7 @@ export class ProjectService {
         }
 
         // Otherwise, load the plugin using `require`
-        this.endEnablePlugin(project, Project.importServicePluginSync(
-            pluginConfigEntry,
-            searchPaths,
-            this.host,
-            s => this.logger.info(s),
-        ));
-    }
-
-    /**
-     * Performs the remaining steps of enabling a plugin after its module has been instantiated.
-     * @internal
-     */
-    private endEnablePlugin(project: Project, { pluginConfigEntry, resolvedModule, errorLogs }: BeginEnablePluginResult) {
-        if (resolvedModule) {
-            const configurationOverride = this.currentPluginConfigOverrides?.get(pluginConfigEntry.name);
-            if (configurationOverride) {
-                // Preserve the name property since it's immutable
-                const pluginName = pluginConfigEntry.name;
-                pluginConfigEntry = configurationOverride;
-                pluginConfigEntry.name = pluginName;
-            }
-            project.enableProxy(resolvedModule, pluginConfigEntry);
-        }
-        else {
-            forEach(errorLogs, message => this.logger.info(message));
-            this.logger.info(`Couldn't find ${pluginConfigEntry.name}`);
-        }
+        project.endEnablePlugin(project.beginEnablePluginSync(pluginConfigEntry, searchPaths, pluginConfigOverrides));
     }
 
     /** @internal */
@@ -4384,7 +4345,7 @@ export class ProjectService {
         }
 
         for (const result of results) {
-            this.endEnablePlugin(project, result);
+            project.endEnablePlugin(result);
         }
 
         // Plugins may have modified external files, so mark the project as dirty.
@@ -4532,5 +4493,5 @@ export function isConfigFile(config: ScriptInfoOrConfig): config is TsConfigSour
 }
 
 function printProjectWithoutFileNames(project: Project) {
-    project.print(/*writeProjectFileNames*/ false, /*writeFileExplaination*/ false, /*writeFileVersionAndText*/ false);
+    project.print(/*writeProjectFileNames*/ false);
 }

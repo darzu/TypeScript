@@ -6,6 +6,7 @@ const Foo = (props: any) => null;
 >Foo : (props: any) => any
 >(props: any) => null : (props: any) => any
 >props : any
+>null : null
 
 function Greet(x: {name?: string}) {
 >Greet : (x: {    name?: string;}) => any
@@ -13,6 +14,7 @@ function Greet(x: {name?: string}) {
 >name : string
 
 	return null;
+>null : null
 }
 
 const foo = <Foo />;

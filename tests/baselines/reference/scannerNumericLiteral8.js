@@ -2,4 +2,4 @@
 -03
 
 //// [scannerNumericLiteral8.js]
--3;
+-03;

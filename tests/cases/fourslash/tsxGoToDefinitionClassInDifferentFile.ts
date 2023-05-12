@@ -11,4 +11,5 @@
 
 verify.noErrors();
 
-verify.baselineGetDefinitionAtPosition("use");
+goTo.marker("use");
+verify.goToDefinitionIs("def");

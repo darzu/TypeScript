@@ -7,4 +7,4 @@
 //// class C extends (foo()).[|B|] {}
 //// class C1 extends foo().[|B|] {}
 
-verify.baselineRenameAtRangesWithText("B");
+verify.rangesWithSameTextAreRenameLocations("B");

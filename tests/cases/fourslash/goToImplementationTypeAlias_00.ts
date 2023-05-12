@@ -9,4 +9,4 @@
 //// import { TypeAlias } from "./def";
 //// const c: T/*ref*/ypeAlias = [|{ P: 2 }|];
 
-verify.baselineGoToImplementation("ref");
+verify.allRangesAppearInImplementationList("ref");

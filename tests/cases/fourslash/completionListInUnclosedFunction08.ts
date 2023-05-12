@@ -4,4 +4,5 @@
 ////    function bar(a: number, b: string = "hello", c: typeof x = "hello") {
 ////        var v = /*1*/
 
-verify.completions({ marker: "1", includes: ["foo", "x", "y", "z", "bar", "a", "b", "c"], isNewIdentifierLocation: true });
+// Note: "v" questionable since we're in its initializer
+verify.completions({ marker: "1", includes: ["foo", "x", "y", "z", "bar", "a", "b", "c", "v"], isNewIdentifierLocation: true });

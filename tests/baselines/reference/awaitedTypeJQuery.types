@@ -67,6 +67,7 @@ interface PromiseBase<TR, TJ, TN,
         RRP = never, RJP = never, RNP = never>(
             doneFilter: null,
 >doneFilter : null
+>null : null
 
             failFilter: (t: TJ, u: UJ, v: VJ, ...s: SJ[]) => PromiseBase<ARF, AJF, ANF,
 >failFilter : (t: TJ, u: UJ, v: VJ, ...s: SJ[]) => PromiseBase<ARF, AJF, ANF, BRF, BJF, BNF, CRF, CJF, CNF, RRF, RJF, RNF> | Thenable<ARF> | ARF
@@ -99,9 +100,11 @@ interface PromiseBase<TR, TJ, TN,
         RRP = never, RJP = never, RNP = never>(
             doneFilter: null,
 >doneFilter : null
+>null : null
 
             failFilter: null,
 >failFilter : null
+>null : null
 
             progressFilter?: (t: TN, u: UN, v: VN, ...s: SN[]) => PromiseBase<ARP, AJP, ANP,
 >progressFilter : (t: TN, u: UN, v: VN, ...s: SN[]) => PromiseBase<ARP, AJP, ANP, BRP, BJP, BNP, CRP, CJP, CNP, RRP, RJP, RNP> | Thenable<ANP> | ANP
@@ -148,6 +151,7 @@ interface PromiseBase<TR, TJ, TN,
                 RRF, RJF, RNF> | Thenable<ARF> | ARF,
             progressFilter?: null): PromiseBase<ARD | ARF, AJD | AJF, AND | ANF,
 >progressFilter : null
+>null : null
 
         BRD | BRF, BJD | BJF, BND | BNF,
         CRD | CRF, CJD | CJF, CND | CNF,
@@ -160,6 +164,7 @@ interface PromiseBase<TR, TJ, TN,
         RRF = never, RJF = never, RNF = never>(
             doneFilter: null,
 >doneFilter : null
+>null : null
 
             failFilter: (t: TJ, u: UJ, v: VJ, ...s: SJ[]) => PromiseBase<ARF, AJF, ANF,
 >failFilter : (t: TJ, u: UJ, v: VJ, ...s: SJ[]) => PromiseBase<ARF, AJF, ANF, BRF, BJF, BNF, CRF, CJF, CNF, RRF, RJF, RNF> | Thenable<ARF> | ARF
@@ -173,6 +178,7 @@ interface PromiseBase<TR, TJ, TN,
                 RRF, RJF, RNF> | Thenable<ARF> | ARF,
             progressFilter?: null): PromiseBase<ARF, AJF, ANF,
 >progressFilter : null
+>null : null
 
         BRF, BJF, BNF,
         CRF, CJF, CNF,
@@ -195,9 +201,11 @@ interface PromiseBase<TR, TJ, TN,
                 RRD, RJD, RND> | Thenable<ARD> | ARD,
             failFilter?: null,
 >failFilter : null
+>null : null
 
             progressFilter?: null): PromiseBase<ARD, AJD, AND,
 >progressFilter : null
+>null : null
 
         BRD, BJD, BND,
         CRD, CJD, CND,

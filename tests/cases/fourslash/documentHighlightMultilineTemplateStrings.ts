@@ -7,4 +7,4 @@
 ////`
 
 const [r] = test.ranges();
-verify.baselineDocumentHighlights(r);
+verify.noDocumentHighlights(r);

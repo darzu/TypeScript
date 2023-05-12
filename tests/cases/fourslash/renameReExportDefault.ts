@@ -13,4 +13,7 @@
 ////[|export default [|{| "contextRangeIndex": 8 |}b|];|]
 
 const [r0Def, r0, r1Def, r1, r2Def, r2, r3Def, r3, r4Def, r4] = test.ranges();
-verify.baselineRename([r0, r1, r2, r3, r4]);
+verify.renameLocations(r0, [r0]);
+verify.renameLocations(r1, [r1]);
+verify.renameLocations(r2, [r2]);
+verify.renameLocations([r3, r4], [r0, r1, r2, r3, r4]);

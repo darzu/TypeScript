@@ -1,46 +1,22 @@
-Fs::
-//// [/a.ts]
-
-
-//// [/base.json]
-{"watchOptions":{"watchFile":"UseFsEventsOnParentDirectory","watchDirectory":"FixedPollingInterval"}}
-
-//// [/tsconfig.json]
-{
+Input:: {
  "extends": "./base.json",
  "watchOptions": {
   "watchFile": "UseFsEvents"
  }
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "watchFile": 4,
  "watchDirectory": 1
 }
-Errors::
+Result: Errors::
 
-
-Fs::
-//// [/a.ts]
-
-
-//// [/base.json]
-{"watchOptions":{"watchFile":"UseFsEventsOnParentDirectory","watchDirectory":"FixedPollingInterval"}}
-
-//// [/tsconfig.json]
-{
+Input:: {
  "extends": "./base.json"
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "watchFile": 5,
  "watchDirectory": 1
 }
-Errors::
-
+Result: Errors::

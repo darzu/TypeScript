@@ -14,4 +14,4 @@
 ////    [|throw|] 300;
 ////}
 
-verify.baselineDocumentHighlights();
+verify.rangesAreOccurrences(false);

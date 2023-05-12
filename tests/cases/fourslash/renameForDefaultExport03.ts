@@ -18,4 +18,4 @@
 ////}|]
 
 const ranges = test.rangesByText().get("f");
-verify.baselineRename(ranges.filter(r => !(r.marker && r.marker.data.inComment)), { findInComments: true, });
+verify.renameLocations(ranges.filter(r => !(r.marker && r.marker.data.inComment)), { findInComments: true, ranges });

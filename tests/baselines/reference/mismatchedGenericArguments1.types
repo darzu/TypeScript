@@ -12,6 +12,7 @@ class C<T> implements IFoo<T> {
 >x : string
 
      return null;
+>null : null
    }
 }
 
@@ -23,6 +24,7 @@ class C2<T> implements IFoo<T> {
 >x : string
 
      return null;
+>null : null
    }
 }
 

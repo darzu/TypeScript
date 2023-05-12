@@ -26,7 +26,7 @@ var x;
         return c;
     }());
     x.c = c;
-})(x || (exports.x = x = {}));
+})(x = exports.x || (exports.x = {}));
 var xc = x.c;
 exports.cProp = new xc();
 var cReturnVal = exports.cProp.foo(10);

@@ -6,4 +6,4 @@
 ////    [|/*start*/return|] a + b;
 ////}
 
-verify.baselineGoToDefinition("start");
+verify.goToDefinition("start", "end");

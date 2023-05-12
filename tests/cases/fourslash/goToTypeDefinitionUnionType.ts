@@ -18,4 +18,4 @@
 ////
 /////*reference*/x;
 
-verify.baselineGoToType("reference");
+verify.goToType("reference", ["definition0", "definition1", "definition2"]);

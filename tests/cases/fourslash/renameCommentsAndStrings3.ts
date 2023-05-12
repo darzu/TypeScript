@@ -8,4 +8,4 @@
 ////}|]
 
 const [rDef, ...ranges] = test.ranges();
-verify.baselineRename(ranges[0], { findInComments: true });
+verify.renameLocations(ranges[0], { findInComments: true, ranges });

@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/a/b/file1.ts]
 let t = 10;
@@ -44,16 +43,20 @@ No cached semantic diagnostics in the builder::
 No shapes updated in the builder::
 
 PolledWatches::
-/a/b/app: *new*
+/a/b/node_modules/@types:
   {"pollingInterval":500}
-/a/b/test: *new*
+/a/b/app:
   {"pollingInterval":500}
-/a/b/something: *new*
+/a/b/test:
+  {"pollingInterval":500}
+/a/b/something:
   {"pollingInterval":500}
 
 FsWatches::
-/a/b/tsconfig.json: *new*
+/a/b/tsconfig.json:
   {}
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 

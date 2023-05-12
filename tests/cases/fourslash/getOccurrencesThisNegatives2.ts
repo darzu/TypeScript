@@ -140,4 +140,4 @@
 ////    }
 ////}
 
-verify.baselineDocumentHighlights(test.markers());
+goTo.eachMarker(() => verify.occurrencesAtPositionCount(0));

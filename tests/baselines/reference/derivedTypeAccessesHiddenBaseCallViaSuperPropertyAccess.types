@@ -9,6 +9,7 @@ class Base {
 >a : number
 
         return null;
+>null : null
     }
 }
 
@@ -25,6 +26,7 @@ class Derived extends Base {
 >b : number
 
         return null;
+>null : null
     }
 
     bar() {

@@ -1,7 +1,7 @@
 import {
+    loadProjectFromFiles,
     verifyTsc,
-} from "../helpers/tsc";
-import { loadProjectFromFiles } from "../helpers/vfs";
+} from "../tsc/helpers";
 
 describe("unittests:: tsbuild:: configFileExtends:: when tsconfig extends another config", () => {
     function getConfigExtendsWithIncludeFs() {

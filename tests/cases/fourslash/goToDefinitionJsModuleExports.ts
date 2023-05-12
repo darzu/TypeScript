@@ -9,7 +9,5 @@
 ////x./*defFn*/test3 = function () { }
 ////x.[|/*refFn*/test3|]();
 
-verify.baselineGoToDefinition(
-    "ref",
-    "refFn",
-);
+verify.goToDefinition("ref", "def");
+verify.goToDefinition("refFn", "defFn");

@@ -27,12 +27,12 @@ define(["require", "exports"], function (require, exports) {
             }());
             b.c = c;
         })(b = a.b || (a.b = {}));
-    })(a || (exports.a = a = {}));
+    })(a = exports.a || (exports.a = {}));
     var c;
     (function (c) {
         c.b = a.b;
         c.x = new c.b.c();
-    })(c || (exports.c = c = {}));
+    })(c = exports.c || (exports.c = {}));
 });
 
 

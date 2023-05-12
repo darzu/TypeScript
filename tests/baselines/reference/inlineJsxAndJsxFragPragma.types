@@ -118,6 +118,7 @@ import {h} from "./renderer";
 
 function Component() { return null; }
 >Component : () => any
+>null : null
 
 <Component />
 ><Component /> : any

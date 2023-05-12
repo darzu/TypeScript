@@ -12,4 +12,4 @@
 ////     }
 //// }
 
-verify.baselineGoToImplementation("super_call");
+verify.allRangesAppearInImplementationList("super_call");

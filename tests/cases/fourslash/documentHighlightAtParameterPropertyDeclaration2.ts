@@ -18,4 +18,4 @@
 ////     }
 //// }
 
-verify.baselineDocumentHighlights();
+verify.rangesWithSameTextAreDocumentHighlights();

@@ -14,4 +14,4 @@
 goTo.file("a.ts");
 goTo.file("b.ts");
 
-verify.baselineDocumentHighlights(test.ranges(), { filesToSearch: ["a.ts", "b.ts"] });
+verify.rangesAreDocumentHighlights();

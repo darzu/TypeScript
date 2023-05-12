@@ -6,6 +6,7 @@ class a {
 >x : () => string
 
         return null;;
+>null : null
     }
     static set x(aValue: () => string) {
 >x : () => string

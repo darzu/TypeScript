@@ -43,6 +43,7 @@ e = <void>null;
 >e = <void>null : void
 >e : E
 ><void>null : void
+>null : null
 
 e = {};
 >e = {} : {}

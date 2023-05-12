@@ -26,7 +26,7 @@ var ConstFooEnum;
     ConstFooEnum[ConstFooEnum["Some"] = 0] = "Some";
     ConstFooEnum[ConstFooEnum["Values"] = 1] = "Values";
     ConstFooEnum[ConstFooEnum["Here"] = 2] = "Here";
-})(ConstFooEnum || (exports.ConstFooEnum = ConstFooEnum = {}));
+})(ConstFooEnum = exports.ConstFooEnum || (exports.ConstFooEnum = {}));
 ;
 function fooFunc() { }
 exports.fooFunc = fooFunc;

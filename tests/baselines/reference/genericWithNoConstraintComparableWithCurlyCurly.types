@@ -49,6 +49,7 @@ function bat<T extends object>() {
 
 function no<T extends null | undefined>() {
 >no : <T extends null | undefined>() => void
+>null : null
 
     let x = {};
 >x : {}
@@ -61,6 +62,7 @@ function no<T extends null | undefined>() {
 
 function yes<T extends object | null | undefined>() {
 >yes : <T extends object | null | undefined>() => void
+>null : null
 
     let x = {};
 >x : {}

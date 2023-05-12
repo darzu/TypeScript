@@ -46,7 +46,6 @@ import {
     getAllDecoratorsOfClassElement,
     getCommentRange,
     getEffectiveBaseTypeNode,
-    getEmitScriptTarget,
     getFirstConstructorWithBody,
     getHeritageClause,
     getNonAssignmentOperatorForCompoundAssignment,
@@ -280,9 +279,6 @@ export function transformESDecorators(context: TransformationContext): (x: Sourc
         hoistVariableDeclaration,
     } = context;
 
-    const compilerOptions = context.getCompilerOptions();
-    const languageVersion = getEmitScriptTarget(compilerOptions);
-
     let top: LexicalEnvironmentStackEntry | undefined;
     let classInfo: ClassInfo | undefined;
     let classThis: Identifier | undefined;
@@ -449,7 +445,7 @@ export function transformESDecorators(context: TransformationContext): (x: Sourc
                 return visitTaggedTemplateExpression(node as TaggedTemplateExpression);
             case SyntaxKind.PrefixUnaryExpression:
             case SyntaxKind.PostfixUnaryExpression:
-                return visitPreOrPostfixUnaryExpression(node as PrefixUnaryExpression | PostfixUnaryExpression, /*discarded*/ false);
+                return visitPreOrPostfixUnaryExpression(node as PrefixUnaryExpression | PostfixUnaryExpression, /*discard*/ false);
             case SyntaxKind.PropertyAccessExpression:
                 return visitPropertyAccessExpression(node as PropertyAccessExpression);
             case SyntaxKind.ElementAccessExpression:
@@ -581,7 +577,7 @@ export function transformESDecorators(context: TransformationContext): (x: Sourc
         // as we descend.
 
         for (const member of node.members) {
-            if (isNamedClassElement(member) && nodeOrChildIsDecorated(/*useLegacyDecorators*/ false, member, node)) {
+            if (isNamedClassElement(member) && nodeOrChildIsDecorated(/*legacyDecorators*/ false, member, node)) {
                 if (hasStaticModifier(member)) {
                     staticExtraInitializersName ??= factory.createUniqueName("_staticExtraInitializers", GeneratedIdentifierFlags.Optimistic);
                 }
@@ -640,7 +636,7 @@ export function transformESDecorators(context: TransformationContext): (x: Sourc
     function transformClassLike(node: ClassLikeDeclaration, className: Expression) {
         startLexicalEnvironment();
 
-        const classReference = factory.getLocalName(node, /*allowComments*/ false, /*allowSourceMaps*/ false, /*ignoreAssignedName*/ true);
+        const classReference = node.name ?? factory.getGeneratedNameForNode(node);
         const classInfo = createClassInfo(node);
         const classDefinitionStatements: Statement[] = [];
         let leadingBlockStatements: Statement[] | undefined;
@@ -897,7 +893,7 @@ export function transformESDecorators(context: TransformationContext): (x: Sourc
             //      static { ... }
             //      ...
             //  }
-            const leadingStaticBlockBody = factory.createBlock(leadingBlockStatements, /*multiLine*/ true);
+            const leadingStaticBlockBody = factory.createBlock(leadingBlockStatements, /*multiline*/ true);
             const leadingStaticBlock = factory.createClassStaticBlockDeclaration(leadingStaticBlockBody);
             if (shouldTransformPrivateStaticElementsInClass) {
                 // We use `InternalEmitFlags.TransformPrivateStaticElements` as a marker on a class static block
@@ -919,7 +915,7 @@ export function transformESDecorators(context: TransformationContext): (x: Sourc
             //      ...
             //      static { ... }
             //  }
-            const trailingStaticBlockBody = factory.createBlock(trailingBlockStatements, /*multiLine*/ true);
+            const trailingStaticBlockBody = factory.createBlock(trailingBlockStatements, /*multiline*/ true);
             const trailingStaticBlock = factory.createClassStaticBlockDeclaration(trailingStaticBlockBody);
             newMembers = [...newMembers, trailingStaticBlock];
         }
@@ -984,8 +980,8 @@ export function transformESDecorators(context: TransformationContext): (x: Sourc
     }
 
     function isDecoratedClassLike(node: ClassLikeDeclaration) {
-        return classOrConstructorParameterIsDecorated(/*useLegacyDecorators*/ false, node) ||
-            childIsDecorated(/*useLegacyDecorators*/ false, node);
+        return classOrConstructorParameterIsDecorated(/*legacyDecorators*/ false, node) ||
+            childIsDecorated(/*legacyDecorators*/ false, node);
     }
 
     function visitClassDeclaration(node: ClassDeclaration): VisitResult<Statement> {
@@ -1007,14 +1003,7 @@ export function transformESDecorators(context: TransformationContext): (x: Sourc
                 Debug.assertIsDefined(node.name, "A class declaration that is not a default export must have a name.");
                 const iife = transformClassLike(node, factory.createStringLiteralFromNode(node.name));
                 const modifiers = visitNodes(node.modifiers, modifierVisitor, isModifier);
-                // When we transform to ES5/3 this will be moved inside an IIFE and should reference the name
-                // without any block-scoped variable collision handling
-                const declName = languageVersion <= ScriptTarget.ES2015 ?
-                    factory.getInternalName(node, /*allowComments*/ false, /*allowSourceMaps*/ true) :
-                    factory.getLocalName(node, /*allowComments*/ false, /*allowSourceMaps*/ true);
-                const varDecl = factory.createVariableDeclaration(declName, /*exclamationToken*/ undefined, /*type*/ undefined, iife);
-                setOriginalNode(varDecl, node);
-
+                const varDecl = factory.createVariableDeclaration(node.name, /*exclamationToken*/ undefined, /*type*/ undefined, iife);
                 const varDecls = factory.createVariableDeclarationList([varDecl], NodeFlags.Let);
                 const statement = factory.createVariableStatement(modifiers, varDecls);
                 setOriginalNode(statement, node);

@@ -223,6 +223,7 @@ performFoo();
 function performFoo2({ bar = null }: Foo = {}) {
 >performFoo2 : ({ bar }?: Foo) => void
 >bar : number
+>null : null
 >{} : {}
 
   useBar2(bar);

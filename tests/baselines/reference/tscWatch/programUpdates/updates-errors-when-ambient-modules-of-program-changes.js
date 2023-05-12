@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/myproject/a.ts]
 declare module 'a' {
@@ -47,21 +46,19 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/a.ts (used version)
 
 PolledWatches::
-/user/username/projects/myproject/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/myproject/tsconfig.json: *new*
+/user/username/projects/myproject/tsconfig.json:
   {}
-/user/username/projects/myproject/a.ts: *new*
+/user/username/projects/myproject/a.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject: *new*
+/user/username/projects/myproject:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -79,9 +76,6 @@ declare module 'a' {
 }
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:27 AM[0m] File change detected. Starting incremental compilation...
@@ -131,8 +125,6 @@ Shape signatures in builder refreshed for::
 PolledWatches::
 /user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
-/user/username/projects/node_modules/@types:
-  {"pollingInterval":500}
 
 FsWatches::
 /user/username/projects/myproject/tsconfig.json:
@@ -141,7 +133,7 @@ FsWatches::
   {}
 /a/lib/lib.d.ts:
   {}
-/user/username/projects/myproject/b.ts: *new*
+/user/username/projects/myproject/b.ts:
   {}
 
 FsWatchesRecursive::
@@ -160,9 +152,6 @@ Change:: Delete b.ts
 Input::
 //// [/user/username/projects/myproject/b.ts] deleted
 
-Before running Timeout callback:: count: 1
-3: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:35 AM[0m] File change detected. Starting incremental compilation...
@@ -189,8 +178,6 @@ Shape signatures in builder refreshed for::
 PolledWatches::
 /user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
-/user/username/projects/node_modules/@types:
-  {"pollingInterval":500}
 
 FsWatches::
 /user/username/projects/myproject/tsconfig.json:
@@ -198,10 +185,6 @@ FsWatches::
 /user/username/projects/myproject/a.ts:
   {}
 /a/lib/lib.d.ts:
-  {}
-
-FsWatches *deleted*::
-/user/username/projects/myproject/b.ts:
   {}
 
 FsWatchesRecursive::

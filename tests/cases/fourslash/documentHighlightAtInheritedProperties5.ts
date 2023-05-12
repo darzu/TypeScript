@@ -14,4 +14,4 @@
 //// var d: D;
 //// d.[|prop1|];
 
-verify.baselineDocumentHighlights();
+verify.rangesWithSameTextAreDocumentHighlights();

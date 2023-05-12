@@ -403,6 +403,7 @@ function test5() {
 >React : any
 >React : any
 >null as any : any
+>null : null
 
         const a = <C p={true} />;
 >a : JSX.Element

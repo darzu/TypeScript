@@ -245,14 +245,3 @@ describe("unittests:: config:: commandLineParsing:: parseBuildOptions", () => {
         assertParseResult("errors on invalid excludeFiles", ["--excludeFiles", "**/../*"]);
     });
 });
-
-describe("unittests:: config:: commandLineParsing:: optionDeclarations", () => {
-    it("should have affectsBuildInfo true for every option with affectsSemanticDiagnostics", () => {
-        for (const option of ts.optionDeclarations) {
-            if (option.affectsSemanticDiagnostics) {
-                // semantic diagnostics affect the build info, so ensure they're included
-                assert(option.affectsBuildInfo ?? false, option.name);
-            }
-        }
-    });
-});

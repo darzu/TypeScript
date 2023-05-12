@@ -18,4 +18,4 @@
 ////    [|case|] 16:
 ////}
 
-verify.baselineDocumentHighlights();
+verify.rangesAreOccurrences(false);

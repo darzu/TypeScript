@@ -8,4 +8,5 @@
 ////     }
 //// }
 
-verify.baselineGetDefinitionAtPosition("use1");
+goTo.marker("use1");
+verify.goToDefinitionIs(["def2"]);

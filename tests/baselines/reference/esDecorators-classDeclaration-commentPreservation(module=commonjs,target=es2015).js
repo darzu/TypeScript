@@ -208,7 +208,7 @@ let C = (() => {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.D = void 0;
 /*34*/
-let D = exports.D = (() => {
+exports.D = (() => {
     let _classDecorators = [dec, dec];
     let _classDescriptor;
     let _classExtraInitializers = [];
@@ -243,7 +243,7 @@ exports.default = (() => {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.F = void 0;
 /*40*/
-let F = exports.F = (() => {
+exports.F = (() => {
     let _classDecorators = [dec, dec];
     let _classDescriptor;
     let _classExtraInitializers = [];

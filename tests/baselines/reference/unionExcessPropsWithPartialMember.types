@@ -30,4 +30,5 @@ ab = {...a, y: (null as any as string | undefined)}; // Should be allowed, since
 >(null as any as string | undefined) : string | undefined
 >null as any as string | undefined : string | undefined
 >null as any : any
+>null : null
 

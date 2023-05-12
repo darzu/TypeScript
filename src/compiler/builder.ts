@@ -1,3 +1,4 @@
+import * as ts from "./_namespaces/ts";
 import {
     addRange,
     AffectedFileResult,
@@ -452,7 +453,7 @@ function convertToDiagnostics(diagnostics: readonly ReusableDiagnostic[], newPro
     if (!diagnostics.length) return emptyArray;
     let buildInfoDirectory: string | undefined;
     return diagnostics.map(diagnostic => {
-        const result: Diagnostic = convertToDiagnosticRelatedInformation(diagnostic, newProgram, toPathInBuildInfoDirectory);
+        const result: Diagnostic = convertToDiagnosticRelatedInformation(diagnostic, newProgram, toPath);
         result.reportsUnnecessary = diagnostic.reportsUnnecessary;
         result.reportsDeprecated = diagnostic.reportDeprecated;
         result.source = diagnostic.source;
@@ -460,15 +461,15 @@ function convertToDiagnostics(diagnostics: readonly ReusableDiagnostic[], newPro
         const { relatedInformation } = diagnostic;
         result.relatedInformation = relatedInformation ?
             relatedInformation.length ?
-                relatedInformation.map(r => convertToDiagnosticRelatedInformation(r, newProgram, toPathInBuildInfoDirectory)) :
+                relatedInformation.map(r => convertToDiagnosticRelatedInformation(r, newProgram, toPath)) :
                 [] :
             undefined;
         return result;
     });
 
-    function toPathInBuildInfoDirectory(path: string) {
+    function toPath(path: string) {
         buildInfoDirectory ??= getDirectoryPath(getNormalizedAbsolutePath(getTsBuildInfoEmitOutputFilePath(newProgram.getCompilerOptions())!, newProgram.getCurrentDirectory()));
-        return toPath(path, buildInfoDirectory, newProgram.getCanonicalFileName);
+        return ts.toPath(path, buildInfoDirectory, newProgram.getCanonicalFileName);
     }
 }
 
@@ -1622,7 +1623,7 @@ export function createBuilderProgram(kind: BuilderProgramKind, { newProgram, hos
             }
             else {
                 // When whole program is affected, get all semantic diagnostics (eg when --out or --outFile is specified)
-                result = state.program.getSemanticDiagnostics(/*sourceFile*/ undefined, cancellationToken);
+                result = state.program.getSemanticDiagnostics(/*targetSourceFile*/ undefined, cancellationToken);
                 state.changedFilesSet.clear();
                 state.programEmitPending = getBuilderFileEmit(state.compilerOptions);
             }
@@ -1696,7 +1697,7 @@ export function createBuilderProgramUsingProgramBuildInfo(buildInfo: BuildInfo, 
     const getCanonicalFileName = createGetCanonicalFileName(host.useCaseSensitiveFileNames());
 
     let state: ReusableBuilderProgramState;
-    const filePaths = program.fileNames?.map(toPathInBuildInfoDirectory);
+    const filePaths = program.fileNames?.map(toPath);
     let filePathsSetList: Set<Path>[] | undefined;
     const latestChangedDtsFile = program.latestChangedDtsFile ? toAbsolutePath(program.latestChangedDtsFile) : undefined;
     if (isProgramBundleEmitBuildInfo(program)) {
@@ -1776,8 +1777,8 @@ export function createBuilderProgramUsingProgramBuildInfo(buildInfo: BuildInfo, 
         hasChangedEmitSignature: returnFalse,
     };
 
-    function toPathInBuildInfoDirectory(path: string) {
-        return toPath(path, buildInfoDirectory, getCanonicalFileName);
+    function toPath(path: string) {
+        return ts.toPath(path, buildInfoDirectory, getCanonicalFileName);
     }
 
     function toAbsolutePath(path: string) {

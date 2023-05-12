@@ -5,7 +5,7 @@ import * as ts from "../../_namespaces/ts";
 import {
     createHasErrorMessageLogger,
     nullLogger,
-} from "../helpers/tsserver";
+} from "./helpers";
 
 let lastWrittenToHost: string;
 const noopFileWatcher: ts.FileWatcher = { close: ts.noop };

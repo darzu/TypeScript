@@ -10,4 +10,5 @@
 //// import { a } from [|"./a"/*moduleSpecifier*/|];
 //// [|a/*identifier*/|]
 
-verify.baselineGoToSourceDefinition("identifier", "moduleSpecifier");
+verify.goToSourceDefinition("identifier", "end");
+verify.goToSourceDefinition("moduleSpecifier", { file: "/a.js" })

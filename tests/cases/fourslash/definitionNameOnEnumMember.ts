@@ -7,4 +7,5 @@
 ////}
 ////var enumMember = e.[|/*1*/thirdMember|];
 
-verify.baselineGetDefinitionAtPosition("1");
+goTo.marker("1");
+verify.goToDefinitionName("thirdMember", "e");

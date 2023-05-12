@@ -55,4 +55,4 @@
 ////    set ["prop2"](v) { }
 ////};
 
-verify.baselineRenameAtRangesWithText("prop1");
+verify.rangesWithSameTextAreRenameLocations("prop1");

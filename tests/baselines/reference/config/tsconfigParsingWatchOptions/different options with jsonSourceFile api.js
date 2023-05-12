@@ -1,179 +1,107 @@
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{
+Input:: {
  "watchOptions": {
   "watchFile": "UseFsEvents"
  }
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "watchFile": 4
 }
-Errors::
+Result: Errors::
 
-
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{
+Input:: {
  "watchOptions": {
   "watchDirectory": "UseFsEvents"
  }
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "watchDirectory": 0
 }
-Errors::
+Result: Errors::
 
-
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{
+Input:: {
  "watchOptions": {
   "fallbackPolling": "DynamicPriority"
  }
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "fallbackPolling": 2
 }
-Errors::
+Result: Errors::
 
-
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{
+Input:: {
  "watchOptions": {
   "synchronousWatchDirectory": true
  }
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "synchronousWatchDirectory": true
 }
-Errors::
+Result: Errors::
 
-
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{
+Input:: {
  "watchOptions": {
   "excludeDirectories": [
    "**/temp"
   ]
  }
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "excludeDirectories": [
   "/**/temp"
  ]
 }
-Errors::
+Result: Errors::
 
-
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{
+Input:: {
  "watchOptions": {
   "excludeFiles": [
    "**/temp/*.ts"
   ]
  }
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "excludeFiles": [
   "/**/temp/*.ts"
  ]
 }
-Errors::
+Result: Errors::
 
-
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{
+Input:: {
  "watchOptions": {
   "excludeDirectories": [
    "**/../*"
   ]
  }
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "excludeDirectories": []
 }
-Errors::
-[96mtsconfig.json[0m:[93m4[0m:[93m4[0m - [91merror[0m[90m TS5065: [0mFile specification cannot contain a parent directory ('..') that appears after a recursive directory wildcard ('**'): '**/../*'.
+Result: Errors::
+[96mtsconfig.json[0m:[93m1[0m:[93m40[0m - [91merror[0m[90m TS5065: [0mFile specification cannot contain a parent directory ('..') that appears after a recursive directory wildcard ('**'): '**/../*'.
 
-[7m4[0m    "**/../*"
-[7m [0m [91m   ~~~~~~~~~[0m
+[7m1[0m {"watchOptions":{"excludeDirectories":["**/../*"]}}
+[7m [0m [91m                                       ~~~~~~~~~[0m
 
-
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{
+Input:: {
  "watchOptions": {
   "excludeFiles": [
    "**/../*"
   ]
  }
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "excludeFiles": []
 }
-Errors::
-[96mtsconfig.json[0m:[93m4[0m:[93m4[0m - [91merror[0m[90m TS5065: [0mFile specification cannot contain a parent directory ('..') that appears after a recursive directory wildcard ('**'): '**/../*'.
+Result: Errors::
+[96mtsconfig.json[0m:[93m1[0m:[93m34[0m - [91merror[0m[90m TS5065: [0mFile specification cannot contain a parent directory ('..') that appears after a recursive directory wildcard ('**'): '**/../*'.
 
-[7m4[0m    "**/../*"
-[7m [0m [91m   ~~~~~~~~~[0m
-
+[7m1[0m {"watchOptions":{"excludeFiles":["**/../*"]}}
+[7m [0m [91m                                 ~~~~~~~~~[0m

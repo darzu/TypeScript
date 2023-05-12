@@ -34,7 +34,9 @@ amb = { tag: "A", x: "hi", y: 12 }
 amb = { tag: "A", x: "hi", extra: 12 }
 amb = { tag: "A", y: 12, extra: 12 }
 
-// assignability errors still work
+// assignability errors still work.
+// But note that the error for `z: true` is the fallback one of reporting on
+// the last constituent since assignability error reporting can't find a single best discriminant either.
 amb = { tag: "A" }
 amb = { tag: "A", z: true }
 
@@ -92,7 +94,7 @@ interface IValue {
   value: string
 }
 
-interface StringKeys {
+interface StringKeys { 
     [propertyName: string]: IValue;
 };
 
@@ -176,7 +178,9 @@ amb = { tag: "A", x: "hi", y: 12 };
 // correctly error on excess property 'extra', even when ambiguous
 amb = { tag: "A", x: "hi", extra: 12 };
 amb = { tag: "A", y: 12, extra: 12 };
-// assignability errors still work
+// assignability errors still work.
+// But note that the error for `z: true` is the fallback one of reporting on
+// the last constituent since assignability error reporting can't find a single best discriminant either.
 amb = { tag: "A" };
 amb = { tag: "A", z: true };
 var over;

@@ -2,4 +2,4 @@
 var x: number = 02343;
 
 //// [isLiteral1.js]
-var x = 1251;
+var x = 02343;

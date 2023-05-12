@@ -74,4 +74,7 @@
 // @Filename: /index.ts
 //// import { [|/*start*/add|] } from 'lodash';
 
-verify.baselineGoToSourceDefinition("start");
+verify.goToSourceDefinition("start", [
+  { marker: "variable", unverified: true },
+  { marker: "property", unverified: true },
+]);

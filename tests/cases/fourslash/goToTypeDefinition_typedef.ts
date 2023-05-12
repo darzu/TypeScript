@@ -11,4 +11,4 @@
 /////** @type {I} */
 ////const /*ref*/i = { x: 0 };
 
-verify.baselineGoToType("ref");
+verify.goToType("ref", "def");

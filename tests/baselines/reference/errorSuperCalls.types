@@ -27,6 +27,7 @@ class NoBase {
 >super : any
 
         return null;
+>null : null
     }
     set foo(v) {
 >foo : any
@@ -67,6 +68,7 @@ class NoBase {
 >super : any
 
         return null;
+>null : null
     }
     static set q(n) {
 >q : any
@@ -134,6 +136,7 @@ class OtherDerived extends OtherBase {
 >super : any
 
         return null;
+>null : null
     }
     set foo(n) {
 >foo : any

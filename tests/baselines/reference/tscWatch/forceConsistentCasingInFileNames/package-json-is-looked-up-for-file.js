@@ -1,4 +1,3 @@
-currentDirectory:: /Users/name/projects/lib-boilerplate useCaseSensitiveFileNames: false
 Input::
 //// [/Users/name/projects/lib-boilerplate/package.json]
 {"name":"lib-boilerplate","version":"0.0.2","type":"module","exports":"./src/index.ts"}
@@ -81,31 +80,29 @@ Shape signatures in builder refreshed for::
 /users/name/projects/lib-boilerplate/test/basic.spec.ts (used version)
 
 PolledWatches::
-/users/name/projects/lib-boilerplate/src/package.json: *new*
+/users/name/projects/lib-boilerplate/src/package.json:
   {"pollingInterval":2000}
-/users/name/projects/lib-boilerplate/test/package.json: *new*
+/users/name/projects/lib-boilerplate/test/package.json:
   {"pollingInterval":2000}
-/users/name/projects/lib-boilerplate/node_modules/@types: *new*
-  {"pollingInterval":500}
-/users/name/projects/node_modules/@types: *new*
+/users/name/projects/lib-boilerplate/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/users/name/projects/lib-boilerplate/tsconfig.json: *new*
+/users/name/projects/lib-boilerplate/tsconfig.json:
   {}
-/users/name/projects/lib-boilerplate/src/index.ts: *new*
+/users/name/projects/lib-boilerplate/src/index.ts:
   {}
-/users/name/projects/lib-boilerplate/test/basic.spec.ts: *new*
+/users/name/projects/lib-boilerplate/test/basic.spec.ts:
   {}
-/a/lib/lib.es2021.full.d.ts: *new*
+/a/lib/lib.es2021.full.d.ts:
   {}
-/users/name/projects/lib-boilerplate/package.json: *new*
+/users/name/projects/lib-boilerplate/package.json:
   {}
 
 FsWatchesRecursive::
-/users/name/projects/lib-boilerplate/test: *new*
+/users/name/projects/lib-boilerplate/test:
   {}
-/users/name/projects/lib-boilerplate: *new*
+/users/name/projects/lib-boilerplate:
   {}
 
 exitCode:: ExitStatus.undefined

@@ -8,4 +8,4 @@
 //// }
 
 const [r] = test.ranges();
-verify.baselineDocumentHighlights(r);
+verify.documentHighlightsOf(r, [r]);

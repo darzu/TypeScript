@@ -152,6 +152,7 @@ function e(x: I<"A" | "B">) {
 >(null as unknown as typeof x.p) : "A"
 >null as unknown as typeof x.p : "A"
 >null as unknown : unknown
+>null : null
 >x.p : "A"
 >x : I<"A" | "B">
 >p : "A"

@@ -94,4 +94,5 @@ const options = { value: null };
 >options : A
 >{ value: null } : { value: null; }
 >value : null
+>null : null
 

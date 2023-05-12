@@ -1,13 +1,12 @@
 import { dedent } from "../../_namespaces/Utils";
 import {
-    noChangeRun,
-    verifyTsc,
-} from "../helpers/tsc";
-import {
     appendText,
     loadProjectFromDisk,
-    loadProjectFromFiles, replaceText
-} from "../helpers/vfs";
+    loadProjectFromFiles,
+    noChangeRun,
+    replaceText,
+    verifyTsc,
+} from "../tsc/helpers";
 
 describe("unittests:: tsbuild:: configFileErrors:: when tsconfig extends the missing file", () => {
     verifyTsc({

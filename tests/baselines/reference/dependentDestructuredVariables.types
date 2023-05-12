@@ -632,6 +632,7 @@ declare function readFile(path: string, callback: (...args: [err: null, data: un
 >path : string
 >callback : (...args: [err: null, data: unknown[]] | [err: Error, data: undefined]) => void
 >args : [err: null, data: unknown[]] | [err: Error, data: undefined]
+>null : null
 
 readFile('hello', (err, data) => {
 >readFile('hello', (err, data) => {    if (err === null) {        data.length;    }    else {        err.message;    }}) : void
@@ -644,6 +645,7 @@ readFile('hello', (err, data) => {
     if (err === null) {
 >err === null : boolean
 >err : Error | null
+>null : null
 
         data.length;
 >data.length : number

@@ -2,4 +2,4 @@
 01
 
 //// [scannerES3NumericLiteral2.js]
-1;
+01;

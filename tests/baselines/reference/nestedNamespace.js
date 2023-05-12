@@ -22,7 +22,7 @@ var types;
         return A;
     }());
     types.A = A;
-})(types || (exports.types = types = {}));
+})(types = exports.types || (exports.types = {}));
 //// [b.js]
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });

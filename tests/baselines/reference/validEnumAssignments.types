@@ -74,6 +74,7 @@ e = n;
 e = null;
 >e = null : null
 >e : E
+>null : null
 
 e = undefined;
 >e = undefined : undefined

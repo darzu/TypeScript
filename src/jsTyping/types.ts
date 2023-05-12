@@ -1,16 +1,19 @@
 import {
     CompilerOptions,
+    DirectoryWatcherCallback,
+    FileWatcher,
+    FileWatcherCallback,
     JsTyping,
     MapLike,
     Path,
     SortedReadonlyArray,
     TypeAcquisition,
+    WatchOptions,
 } from "./_namespaces/ts";
 import {
     ActionInvalidate,
     ActionPackageInstalled,
     ActionSet,
-    ActionWatchTypingLocations,
     EventBeginInstallTypes,
     EventEndInstallTypes,
     EventInitializationFailed,
@@ -18,7 +21,7 @@ import {
 } from "./_namespaces/ts.server";
 
 export interface TypingInstallerResponse {
-    readonly kind: ActionSet | ActionInvalidate | EventTypesRegistry | ActionPackageInstalled | EventBeginInstallTypes | EventEndInstallTypes | EventInitializationFailed | ActionWatchTypingLocations;
+    readonly kind: ActionSet | ActionInvalidate | EventTypesRegistry | ActionPackageInstalled | EventBeginInstallTypes | EventEndInstallTypes | EventInitializationFailed;
 }
 
 export interface TypingInstallerRequestWithProjectName {
@@ -32,6 +35,7 @@ export interface DiscoverTypings extends TypingInstallerRequestWithProjectName {
     readonly fileNames: string[];
     readonly projectRootPath: Path;
     readonly compilerOptions: CompilerOptions;
+    readonly watchOptions?: WatchOptions;
     readonly typeAcquisition: TypeAcquisition;
     readonly unresolvedImports: SortedReadonlyArray<string>;
     readonly cachePath?: string;
@@ -95,11 +99,14 @@ export interface EndInstallTypes extends InstallTypes {
     readonly installSuccess: boolean;
 }
 
+/** @internal */
 export interface InstallTypingHost extends JsTyping.TypingResolutionHost {
     useCaseSensitiveFileNames: boolean;
     writeFile(path: string, content: string): void;
     createDirectory(path: string): void;
     getCurrentDirectory?(): string;
+    watchFile?(path: string, callback: FileWatcherCallback, pollingInterval?: number, options?: WatchOptions): FileWatcher;
+    watchDirectory?(path: string, callback: DirectoryWatcherCallback, recursive?: boolean, options?: WatchOptions): FileWatcher;
 }
 
 export interface SetTypings extends ProjectResponse {
@@ -110,11 +117,5 @@ export interface SetTypings extends ProjectResponse {
     readonly kind: ActionSet;
 }
 
-export interface WatchTypingLocations extends ProjectResponse {
-    /** if files is undefined, retain same set of watchers */
-    readonly files: readonly string[] | undefined;
-    readonly kind: ActionWatchTypingLocations;
-}
-
 /** @internal */
-export type TypingInstallerResponseUnion = SetTypings | InvalidateCachedTypings | TypesRegistryResponse | PackageInstalledResponse | InstallTypes | InitializationFailedResponse | WatchTypingLocations;
+export type TypingInstallerResponseUnion = SetTypings | InvalidateCachedTypings | TypesRegistryResponse | PackageInstalledResponse | InstallTypes | InitializationFailedResponse;

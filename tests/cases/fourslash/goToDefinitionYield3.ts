@@ -10,7 +10,5 @@
 ////     }
 //// }
 
-verify.baselineGoToDefinition(
-    "start1",
-    "start2",
-);
+verify.goToDefinition("start1", []);
+verify.goToDefinition("start2", "end2");

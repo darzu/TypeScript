@@ -24,7 +24,7 @@ var a;
         }());
         b.c = c;
     })(b = a.b || (a.b = {}));
-})(a || (exports.a = a = {}));
+})(a = exports.a || (exports.a = {}));
 exports.b = a.b;
 exports.x = new exports.b.c();
 

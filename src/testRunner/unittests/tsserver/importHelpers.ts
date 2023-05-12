@@ -1,13 +1,10 @@
+import { createServerHost } from "../virtualFileSystemWithWatch";
 import {
-    baselineTsserverLogs,
-    createLoggerWithInMemoryLogs,
-    createSession,
-    openExternalProjectForSession,
+    createProjectService,
     toExternalFile,
-} from "../helpers/tsserver";
-import { createServerHost } from "../helpers/virtualFileSystemWithWatch";
+} from "./helpers";
 
-describe("unittests:: tsserver:: importHelpers", () => {
+describe("unittests:: tsserver:: import helpers", () => {
     it("should not crash in tsserver", () => {
         const f1 = {
             path: "/a/app.ts",
@@ -18,8 +15,8 @@ describe("unittests:: tsserver:: importHelpers", () => {
             content: ""
         };
         const host = createServerHost([f1, tslib]);
-        const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
-        openExternalProjectForSession({ projectFileName: "p", rootFiles: [toExternalFile(f1.path)], options: { importHelpers: true } }, session);
-        baselineTsserverLogs("importHelpers", "should not crash in tsserver", session);
+        const service = createProjectService(host);
+        service.openExternalProject({ projectFileName: "p", rootFiles: [toExternalFile(f1.path)], options: { importHelpers: true } });
+        service.checkNumberOfProjects({ externalProjects: 1 });
     });
 });

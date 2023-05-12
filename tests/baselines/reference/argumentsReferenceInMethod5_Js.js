@@ -25,7 +25,7 @@ class A {
 
 //// [a.d.ts]
 declare namespace bar {
-    let arguments: {};
+    const arguments: {};
 }
 declare class A {
     /**

@@ -8,4 +8,4 @@
 ////
 /////*reference*/x;
 
-verify.baselineGoToType("reference");
+verify.goToType("reference", "definition");

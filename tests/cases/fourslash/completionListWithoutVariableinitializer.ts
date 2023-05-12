@@ -46,7 +46,8 @@ verify.completions({
 
 verify.completions({
     marker: ["7"],
-    includes: ["a", "b", "c", "d", "e", "fn"],
+    includes: ["a", "b", "c", "d", "e"],
+    excludes: ["fn"],
 });
 
 verify.completions({
@@ -58,3 +59,4 @@ verify.completions({
     marker: ["9"],
     includes: ["a", "b", "c", "d", "e", "fn"],
 });
+

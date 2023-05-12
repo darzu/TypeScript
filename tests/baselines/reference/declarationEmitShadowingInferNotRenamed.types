@@ -36,4 +36,5 @@ export const createClient = <
     } => {
   return null as any
 >null as any : any
+>null : null
 }

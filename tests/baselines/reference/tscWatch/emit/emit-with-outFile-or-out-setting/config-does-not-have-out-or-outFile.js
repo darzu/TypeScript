@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/a/a.ts]
 let x = 1
@@ -50,18 +49,22 @@ Shape signatures in builder refreshed for::
 /a/b.ts (used version)
 /a/lib/lib.d.ts (used version)
 
+PolledWatches::
+/a/node_modules/@types:
+  {"pollingInterval":500}
+
 FsWatches::
-/a/tsconfig.json: *new*
+/a/tsconfig.json:
   {}
-/a/a.ts: *new*
+/a/a.ts:
   {}
-/a/b.ts: *new*
+/a/b.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/a: *new*
+/a:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -82,9 +85,6 @@ Input::
 let x = 11
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:24 AM[0m] File change detected. Starting incremental compilation...
@@ -110,6 +110,24 @@ Shape signatures in builder refreshed for::
 /a/a.ts (computed .d.ts)
 /a/b.ts (computed .d.ts)
 
+PolledWatches::
+/a/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/a/tsconfig.json:
+  {}
+/a/a.ts:
+  {}
+/a/b.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/a:
+  {}
+
 exitCode:: ExitStatus.undefined
 
 //// [/a/a.js]
@@ -125,9 +143,6 @@ Input::
 let xy = 11
 
 
-Before running Timeout callback:: count: 1
-2: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:35 AM[0m] File change detected. Starting incremental compilation...
@@ -152,6 +167,24 @@ Semantic diagnostics in builder refreshed for::
 Shape signatures in builder refreshed for::
 /a/a.ts (computed .d.ts)
 /a/b.ts (computed .d.ts)
+
+PolledWatches::
+/a/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/a/tsconfig.json:
+  {}
+/a/a.ts:
+  {}
+/a/b.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/a:
+  {}
 
 exitCode:: ExitStatus.undefined
 

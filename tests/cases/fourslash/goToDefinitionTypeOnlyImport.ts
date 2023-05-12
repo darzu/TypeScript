@@ -12,4 +12,4 @@
 ////let kind: [|/*2*/SyntaxKind|];
 
 
-verify.baselineGoToDefinition("2");
+verify.goToDefinition("2", "1");

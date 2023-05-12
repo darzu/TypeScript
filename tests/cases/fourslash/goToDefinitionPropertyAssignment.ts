@@ -7,7 +7,5 @@
 ////
 //// Component.[|/*PropertyClick*/displayName|]
 
-verify.baselineGoToDefinition(
-    "FunctionClick",
-    "PropertyClick",
-);
+verify.goToDefinition("FunctionClick", "FunctionResult")
+verify.goToDefinition("PropertyClick", "PropertyResult")

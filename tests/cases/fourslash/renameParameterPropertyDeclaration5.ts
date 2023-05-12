@@ -6,4 +6,4 @@
 ////     }
 //// }
 
-verify.baselineRenameAtRangesWithText("protectedParam");
+verify.rangesWithSameTextAreRenameLocations("protectedParam");

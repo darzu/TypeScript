@@ -62,5 +62,6 @@ class Test6 {
     public test() {
         var x = new Test6();
         x.a++;
+        x.b++;
     }
 }

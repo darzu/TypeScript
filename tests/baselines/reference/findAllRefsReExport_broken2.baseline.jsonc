@@ -1,65 +1,103 @@
-// === findAllReferences ===
 // === /a.ts ===
-// /*FIND ALL REFS*/<|export { [|{| isWriteAccess: true, isDefinition: true |}x|] } from "nonsense";|>
+// /*FIND ALL REFS*/export { [|x|] } from "nonsense";
 
-  // === Definitions ===
-  // === /a.ts ===
-  // /*FIND ALL REFS*/<|export { [|x|] } from "nonsense";|>
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "alias",
-    "name": "export x",
-    "displayParts": [
-     {
-      "text": "export",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "x",
-      "kind": "aliasName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/a.ts",
+      "kind": "alias",
+      "name": "export x",
+      "textSpan": {
+        "start": 9,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "export",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "x",
+          "kind": "aliasName"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 29
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 9,
+          "length": 1
+        },
+        "fileName": "/a.ts",
+        "contextSpan": {
+          "start": 0,
+          "length": 29
+        },
+        "isWriteAccess": true,
+        "isDefinition": true
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /a.ts ===
-// <|export { /*FIND ALL REFS*/[|{| isWriteAccess: true, isDefinition: true |}x|] } from "nonsense";|>
+// export { /*FIND ALL REFS*/[|x|] } from "nonsense";
 
-  // === Definitions ===
-  // === /a.ts ===
-  // <|export { /*FIND ALL REFS*/[|x|] } from "nonsense";|>
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "alias",
-    "name": "export x",
-    "displayParts": [
-     {
-      "text": "export",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "x",
-      "kind": "aliasName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/a.ts",
+      "kind": "alias",
+      "name": "export x",
+      "textSpan": {
+        "start": 9,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "export",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "x",
+          "kind": "aliasName"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 29
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 9,
+          "length": 1
+        },
+        "fileName": "/a.ts",
+        "contextSpan": {
+          "start": 0,
+          "length": 29
+        },
+        "isWriteAccess": true,
+        "isDefinition": true
+      }
     ]
-   }
-  ]
+  }
+]

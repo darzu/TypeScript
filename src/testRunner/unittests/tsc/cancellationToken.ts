@@ -4,17 +4,17 @@ import * as Utils from "../../_namespaces/Utils";
 import {
     baselineBuildInfo,
     CommandLineProgram,
-} from "../helpers/baseline";
+} from "../tsc/helpers";
 import {
     applyEdit,
     createBaseline,
     watchBaseline,
-} from "../helpers/tscWatch";
+} from "../tscWatch/helpers";
 import {
     createWatchedSystem,
     File,
     libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
 
 describe("unittests:: tsc:: builder cancellationToken", () => {
     verifyCancellation(/*useBuildInfo*/ true, "when emitting buildInfo");
@@ -145,7 +145,7 @@ describe("unittests:: tsc:: builder cancellationToken", () => {
                         parsedConfig.options,
                         host,
                         builderProgram,
-                    /*configFileParsingDiagnostics*/ undefined,
+                    /* configFileParsingDiagnostics*/ undefined,
                     /*projectReferences*/ undefined,
                     );
                 updatePrograms();
@@ -174,7 +174,7 @@ describe("unittests:: tsc:: builder cancellationToken", () => {
                     parsedConfig.options,
                     host,
                 /*oldProgram*/ undefined,
-                /*configFileParsingDiagnostics*/ undefined,
+                /* configFileParsingDiagnostics*/ undefined,
                 /*projectReferences*/ undefined,
                 );
                 updatePrograms();

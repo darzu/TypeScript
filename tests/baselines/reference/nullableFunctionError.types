@@ -1,6 +1,7 @@
 === tests/cases/compiler/nullableFunctionError.ts ===
 null();
 >null() : any
+>null : null
 
 undefined();
 >undefined() : any
@@ -8,6 +9,7 @@ undefined();
 
 let f: null | undefined;
 >f : null | undefined
+>null : null
 
 f();
 >f() : any

@@ -5,4 +5,5 @@
 ////    [|/*2*/A|]
 ////}
 
-verify.baselineGetDefinitionAtPosition("1");
+goTo.marker("1");
+verify.goToDefinitionIs("2");

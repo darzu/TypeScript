@@ -7,4 +7,4 @@
 //// var v: interface1;
 //// v.[|doStuff|]();
 
-verify.baselineRenameAtRangesWithText("doStuff");
+verify.rangesWithSameTextAreRenameLocations("doStuff");

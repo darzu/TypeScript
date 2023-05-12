@@ -16,6 +16,7 @@ class Employee {
 
     public manager: Employee = null;
 >manager : Employee
+>null : null
 
     public reports: Employee[] = [];
 >reports : Employee[]
@@ -53,6 +54,7 @@ class Employee2 {
 >this.manager : Employee
 >this : this
 >manager : Employee
+>null : null
 
         this.reports = [];
 >this.reports = [] : undefined[]

@@ -6,4 +6,4 @@
 ////
 ////var x = new Fo/*fooReference*/o<Ba/*barReference*/r>();
 
-verify.baselineGetDefinitionAtPosition("barReference", "fooReference");
+verify.goToDefinitionForMarkers("bar", "foo");

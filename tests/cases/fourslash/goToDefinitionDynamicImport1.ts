@@ -6,4 +6,5 @@
 //// import([|"./f/*1*/oo"|])
 //// var x = import([|"./fo/*2*/o"|])
 
-verify.baselineGoToDefinition("1", "2");
+verify.goToDefinition("1", "Destination");
+verify.goToDefinition("2", "Destination");

@@ -1,12 +1,14 @@
-// === findAllReferences ===
+// === /tests/cases/fourslash/referencesOnStatic_2.ts ===
+// var q = foo.[|n|];
+
 // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
 // var n = 43;
 // 
 // class foo {
-//     /*FIND ALL REFS*/<|static [|{| isWriteAccess: true, isDefinition: true |}n|] = '';|>
+//     /*FIND ALL REFS*/static [|n|] = '';
 // 
 //     public bar() {
-//         foo.[|{| isWriteAccess: true |}n|] = "'";
+//         foo.[|n|] = "'";
 //         if(foo.[|n|]) {
 //             var x = foo.[|n|];
 //         }
@@ -16,7 +18,7 @@
 // class foo2 {
 //     private x = foo.[|n|];
 //     constructor() {
-//         foo.[|{| isWriteAccess: true |}n|] = x;
+//         foo.[|n|] = x;
 //     }
 // 
 //     function b(n) {
@@ -24,83 +26,157 @@
 //     }
 // }
 
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+      "kind": "property",
+      "name": "(property) foo.n: string",
+      "textSpan": {
+        "start": 36,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "n",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "string",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 29,
+        "length": 14
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 36,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "contextSpan": {
+          "start": 29,
+          "length": 14
+        },
+        "isWriteAccess": true,
+        "isDefinition": true
+      },
+      {
+        "textSpan": {
+          "start": 76,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 100,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 129,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 184,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 219,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 269,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 12,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_2.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      }
+    ]
+  }
+]
+
 // === /tests/cases/fourslash/referencesOnStatic_2.ts ===
 // var q = foo.[|n|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
-  // var n = 43;
-  // 
-  // class foo {
-  //     /*FIND ALL REFS*/<|static [|n|] = '';|>
-  // 
-  //     public bar() {
-  //         foo.n = "'";
-  // --- (line: 8) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) foo.n: string",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "n",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "string",
-      "kind": "keyword"
-     }
-    ]
-   }
-  ]
-
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
 // var n = 43;
 // 
 // class foo {
-//     <|static /*FIND ALL REFS*/[|{| isWriteAccess: true, isDefinition: true |}n|] = '';|>
+//     static /*FIND ALL REFS*/[|n|] = '';
 // 
 //     public bar() {
-//         foo.[|{| isWriteAccess: true |}n|] = "'";
+//         foo.[|n|] = "'";
 //         if(foo.[|n|]) {
 //             var x = foo.[|n|];
 //         }
@@ -110,7 +186,7 @@
 // class foo2 {
 //     private x = foo.[|n|];
 //     constructor() {
-//         foo.[|{| isWriteAccess: true |}n|] = x;
+//         foo.[|n|] = x;
 //     }
 // 
 //     function b(n) {
@@ -118,83 +194,157 @@
 //     }
 // }
 
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+      "kind": "property",
+      "name": "(property) foo.n: string",
+      "textSpan": {
+        "start": 36,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "n",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "string",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 29,
+        "length": 14
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 36,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "contextSpan": {
+          "start": 29,
+          "length": 14
+        },
+        "isWriteAccess": true,
+        "isDefinition": true
+      },
+      {
+        "textSpan": {
+          "start": 76,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 100,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 129,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 184,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 219,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 269,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 12,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_2.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      }
+    ]
+  }
+]
+
 // === /tests/cases/fourslash/referencesOnStatic_2.ts ===
 // var q = foo.[|n|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
-  // var n = 43;
-  // 
-  // class foo {
-  //     <|static /*FIND ALL REFS*/[|n|] = '';|>
-  // 
-  //     public bar() {
-  //         foo.n = "'";
-  // --- (line: 8) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) foo.n: string",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "n",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "string",
-      "kind": "keyword"
-     }
-    ]
-   }
-  ]
-
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
 // var n = 43;
 // 
 // class foo {
-//     <|static [|{| isWriteAccess: true |}n|] = '';|>
+//     static [|n|] = '';
 // 
 //     public bar() {
-//         foo./*FIND ALL REFS*/[|{| isWriteAccess: true |}n|] = "'";
+//         foo./*FIND ALL REFS*/[|n|] = "'";
 //         if(foo.[|n|]) {
 //             var x = foo.[|n|];
 //         }
@@ -204,7 +354,7 @@
 // class foo2 {
 //     private x = foo.[|n|];
 //     constructor() {
-//         foo.[|{| isWriteAccess: true |}n|] = x;
+//         foo.[|n|] = x;
 //     }
 // 
 //     function b(n) {
@@ -212,86 +362,149 @@
 //     }
 // }
 
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+      "kind": "property",
+      "name": "(property) foo.n: string",
+      "textSpan": {
+        "start": 36,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "n",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "string",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 29,
+        "length": 14
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 36,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "contextSpan": {
+          "start": 29,
+          "length": 14
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 76,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 100,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 129,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 184,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 219,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 269,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 12,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_2.ts",
+        "isWriteAccess": false
+      }
+    ]
+  }
+]
+
 // === /tests/cases/fourslash/referencesOnStatic_2.ts ===
 // var q = foo.[|n|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
-  // var n = 43;
-  // 
-  // class foo {
-  //     <|static [|n|] = '';|>
-  // 
-  //     public bar() {
-  //         foo./*FIND ALL REFS*/n = "'";
-  //         if(foo.n) {
-  //             var x = foo.n;
-  //         }
-  // --- (line: 11) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) foo.n: string",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "n",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "string",
-      "kind": "keyword"
-     }
-    ]
-   }
-  ]
-
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
 // var n = 43;
 // 
 // class foo {
-//     <|static [|{| isWriteAccess: true |}n|] = '';|>
+//     static [|n|] = '';
 // 
 //     public bar() {
-//         foo.[|{| isWriteAccess: true |}n|] = "'";
+//         foo.[|n|] = "'";
 //         if(foo./*FIND ALL REFS*/[|n|]) {
 //             var x = foo.[|n|];
 //         }
@@ -301,7 +514,7 @@
 // class foo2 {
 //     private x = foo.[|n|];
 //     constructor() {
-//         foo.[|{| isWriteAccess: true |}n|] = x;
+//         foo.[|n|] = x;
 //     }
 // 
 //     function b(n) {
@@ -309,87 +522,149 @@
 //     }
 // }
 
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+      "kind": "property",
+      "name": "(property) foo.n: string",
+      "textSpan": {
+        "start": 36,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "n",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "string",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 29,
+        "length": 14
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 36,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "contextSpan": {
+          "start": 29,
+          "length": 14
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 76,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 100,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 129,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 184,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 219,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 269,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 12,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_2.ts",
+        "isWriteAccess": false
+      }
+    ]
+  }
+]
+
 // === /tests/cases/fourslash/referencesOnStatic_2.ts ===
 // var q = foo.[|n|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
-  // var n = 43;
-  // 
-  // class foo {
-  //     <|static [|n|] = '';|>
-  // 
-  //     public bar() {
-  //         foo.n = "'";
-  //         if(foo./*FIND ALL REFS*/n) {
-  //             var x = foo.n;
-  //         }
-  //     }
-  // --- (line: 12) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) foo.n: string",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "n",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "string",
-      "kind": "keyword"
-     }
-    ]
-   }
-  ]
-
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
 // var n = 43;
 // 
 // class foo {
-//     <|static [|{| isWriteAccess: true |}n|] = '';|>
+//     static [|n|] = '';
 // 
 //     public bar() {
-//         foo.[|{| isWriteAccess: true |}n|] = "'";
+//         foo.[|n|] = "'";
 //         if(foo.[|n|]) {
 //             var x = foo./*FIND ALL REFS*/[|n|];
 //         }
@@ -399,7 +674,7 @@
 // class foo2 {
 //     private x = foo.[|n|];
 //     constructor() {
-//         foo.[|{| isWriteAccess: true |}n|] = x;
+//         foo.[|n|] = x;
 //     }
 // 
 //     function b(n) {
@@ -407,88 +682,149 @@
 //     }
 // }
 
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+      "kind": "property",
+      "name": "(property) foo.n: string",
+      "textSpan": {
+        "start": 36,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "n",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "string",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 29,
+        "length": 14
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 36,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "contextSpan": {
+          "start": 29,
+          "length": 14
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 76,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 100,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 129,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 184,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 219,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 269,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 12,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_2.ts",
+        "isWriteAccess": false
+      }
+    ]
+  }
+]
+
 // === /tests/cases/fourslash/referencesOnStatic_2.ts ===
 // var q = foo.[|n|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
-  // var n = 43;
-  // 
-  // class foo {
-  //     <|static [|n|] = '';|>
-  // 
-  //     public bar() {
-  //         foo.n = "'";
-  //         if(foo.n) {
-  //             var x = foo./*FIND ALL REFS*/n;
-  //         }
-  //     }
-  // }
-  // --- (line: 13) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) foo.n: string",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "n",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "string",
-      "kind": "keyword"
-     }
-    ]
-   }
-  ]
-
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
 // var n = 43;
 // 
 // class foo {
-//     <|static [|{| isWriteAccess: true |}n|] = '';|>
+//     static [|n|] = '';
 // 
 //     public bar() {
-//         foo.[|{| isWriteAccess: true |}n|] = "'";
+//         foo.[|n|] = "'";
 //         if(foo.[|n|]) {
 //             var x = foo.[|n|];
 //         }
@@ -498,7 +834,7 @@
 // class foo2 {
 //     private x = foo./*FIND ALL REFS*/[|n|];
 //     constructor() {
-//         foo.[|{| isWriteAccess: true |}n|] = x;
+//         foo.[|n|] = x;
 //     }
 // 
 //     function b(n) {
@@ -506,93 +842,149 @@
 //     }
 // }
 
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+      "kind": "property",
+      "name": "(property) foo.n: string",
+      "textSpan": {
+        "start": 36,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "n",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "string",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 29,
+        "length": 14
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 36,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "contextSpan": {
+          "start": 29,
+          "length": 14
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 76,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 100,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 129,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 184,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 219,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 269,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 12,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_2.ts",
+        "isWriteAccess": false
+      }
+    ]
+  }
+]
+
 // === /tests/cases/fourslash/referencesOnStatic_2.ts ===
 // var q = foo.[|n|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
-  // var n = 43;
-  // 
-  // class foo {
-  //     <|static [|n|] = '';|>
-  // 
-  //     public bar() {
-  //         foo.n = "'";
-  // --- (line: 8) skipped ---
-
-  // --- (line: 11) skipped ---
-  // }
-  // 
-  // class foo2 {
-  //     private x = foo./*FIND ALL REFS*/n;
-  //     constructor() {
-  //         foo.n = x;
-  //     }
-  // --- (line: 19) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) foo.n: string",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "n",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "string",
-      "kind": "keyword"
-     }
-    ]
-   }
-  ]
-
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
 // var n = 43;
 // 
 // class foo {
-//     <|static [|{| isWriteAccess: true |}n|] = '';|>
+//     static [|n|] = '';
 // 
 //     public bar() {
-//         foo.[|{| isWriteAccess: true |}n|] = "'";
+//         foo.[|n|] = "'";
 //         if(foo.[|n|]) {
 //             var x = foo.[|n|];
 //         }
@@ -602,7 +994,7 @@
 // class foo2 {
 //     private x = foo.[|n|];
 //     constructor() {
-//         foo./*FIND ALL REFS*/[|{| isWriteAccess: true |}n|] = x;
+//         foo./*FIND ALL REFS*/[|n|] = x;
 //     }
 // 
 //     function b(n) {
@@ -610,93 +1002,149 @@
 //     }
 // }
 
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+      "kind": "property",
+      "name": "(property) foo.n: string",
+      "textSpan": {
+        "start": 36,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "n",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "string",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 29,
+        "length": 14
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 36,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "contextSpan": {
+          "start": 29,
+          "length": 14
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 76,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 100,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 129,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 184,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 219,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 269,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 12,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_2.ts",
+        "isWriteAccess": false
+      }
+    ]
+  }
+]
+
 // === /tests/cases/fourslash/referencesOnStatic_2.ts ===
 // var q = foo.[|n|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
-  // var n = 43;
-  // 
-  // class foo {
-  //     <|static [|n|] = '';|>
-  // 
-  //     public bar() {
-  //         foo.n = "'";
-  // --- (line: 8) skipped ---
-
-  // --- (line: 13) skipped ---
-  // class foo2 {
-  //     private x = foo.n;
-  //     constructor() {
-  //         foo./*FIND ALL REFS*/n = x;
-  //     }
-  // 
-  //     function b(n) {
-  // --- (line: 21) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) foo.n: string",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "n",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "string",
-      "kind": "keyword"
-     }
-    ]
-   }
-  ]
-
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
 // var n = 43;
 // 
 // class foo {
-//     <|static [|{| isWriteAccess: true |}n|] = '';|>
+//     static [|n|] = '';
 // 
 //     public bar() {
-//         foo.[|{| isWriteAccess: true |}n|] = "'";
+//         foo.[|n|] = "'";
 //         if(foo.[|n|]) {
 //             var x = foo.[|n|];
 //         }
@@ -706,7 +1154,7 @@
 // class foo2 {
 //     private x = foo.[|n|];
 //     constructor() {
-//         foo.[|{| isWriteAccess: true |}n|] = x;
+//         foo.[|n|] = x;
 //     }
 // 
 //     function b(n) {
@@ -714,91 +1162,149 @@
 //     }
 // }
 
-// === /tests/cases/fourslash/referencesOnStatic_2.ts ===
-// var q = foo.[|n|];
-
-  // === Definitions ===
-  // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
-  // var n = 43;
-  // 
-  // class foo {
-  //     <|static [|n|] = '';|>
-  // 
-  //     public bar() {
-  //         foo.n = "'";
-  // --- (line: 8) skipped ---
-
-  // --- (line: 17) skipped ---
-  //     }
-  // 
-  //     function b(n) {
-  //         n = foo./*FIND ALL REFS*/n;
-  //     }
-  // }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) foo.n: string",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "n",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "string",
-      "kind": "keyword"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+      "kind": "property",
+      "name": "(property) foo.n: string",
+      "textSpan": {
+        "start": 36,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "n",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "string",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 29,
+        "length": 14
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 36,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "contextSpan": {
+          "start": 29,
+          "length": 14
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 76,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 100,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 129,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 184,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 219,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 269,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 12,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_2.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
+// === /tests/cases/fourslash/referencesOnStatic_2.ts ===
+// var q = foo./*FIND ALL REFS*/[|n|];
 
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
 // var n = 43;
 // 
 // class foo {
-//     <|static [|{| isWriteAccess: true |}n|] = '';|>
+//     static [|n|] = '';
 // 
 //     public bar() {
-//         foo.[|{| isWriteAccess: true |}n|] = "'";
+//         foo.[|n|] = "'";
 //         if(foo.[|n|]) {
 //             var x = foo.[|n|];
 //         }
@@ -808,7 +1314,7 @@
 // class foo2 {
 //     private x = foo.[|n|];
 //     constructor() {
-//         foo.[|{| isWriteAccess: true |}n|] = x;
+//         foo.[|n|] = x;
 //     }
 // 
 //     function b(n) {
@@ -816,68 +1322,134 @@
 //     }
 // }
 
-// === /tests/cases/fourslash/referencesOnStatic_2.ts ===
-// var q = foo./*FIND ALL REFS*/[|n|];
-
-  // === Definitions ===
-  // === /tests/cases/fourslash/referencesOnStatic_1.ts ===
-  // var n = 43;
-  // 
-  // class foo {
-  //     <|static [|n|] = '';|>
-  // 
-  //     public bar() {
-  //         foo.n = "'";
-  // --- (line: 8) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) foo.n: string",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "n",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "string",
-      "kind": "keyword"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+      "kind": "property",
+      "name": "(property) foo.n: string",
+      "textSpan": {
+        "start": 36,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "n",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "string",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 29,
+        "length": 14
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 36,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "contextSpan": {
+          "start": 29,
+          "length": 14
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 76,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 100,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 129,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 184,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 219,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 269,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 12,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/referencesOnStatic_2.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]

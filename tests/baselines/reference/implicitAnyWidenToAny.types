@@ -2,6 +2,7 @@
 // these should be errors
 var x = null;                        // error at "x"
 >x : any
+>null : null
 
 var x1 = undefined;		             // error at "x1"
 >x1 : any
@@ -10,6 +11,7 @@ var x1 = undefined;		             // error at "x1"
 var widenArray = [null, undefined];  // error at "widenArray"
 >widenArray : any[]
 >[null, undefined] : null[]
+>null : null
 >undefined : undefined
 
 var emptyArray = [];
@@ -33,6 +35,7 @@ var bar = "Hello World";
 
 var foo1: any = null;
 >foo1 : any
+>null : null
 
 var foo2: any = undefined;
 >foo2 : any
@@ -46,6 +49,7 @@ var c: AnimalObj = { x: null };
 >c : AnimalObj
 >{ x: null } : { x: null; }
 >x : null
+>null : null
 
 var array1 = ["Bob",2];
 >array1 : (string | number)[]
@@ -60,17 +64,20 @@ var array2: any[] = [];
 var array3: any[] = [null, undefined];
 >array3 : any[]
 >[null, undefined] : null[]
+>null : null
 >undefined : undefined
 
 var array4: number[] = [null, undefined];
 >array4 : number[]
 >[null, undefined] : null[]
+>null : null
 >undefined : undefined
 
 var array5 = <any[]>[null, undefined];
 >array5 : any[]
 ><any[]>[null, undefined] : any[]
 >[null, undefined] : null[]
+>null : null
 >undefined : undefined
 
 var objLit: { new (n: number): any; };

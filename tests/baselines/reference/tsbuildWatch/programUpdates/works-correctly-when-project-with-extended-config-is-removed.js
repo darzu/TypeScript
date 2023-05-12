@@ -1,4 +1,3 @@
-currentDirectory:: /a/b useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -93,23 +92,27 @@ Shape signatures in builder refreshed for::
 /a/lib/lib.d.ts (used version)
 /a/b/other.ts (computed .d.ts during emit)
 
+PolledWatches::
+
 FsWatches::
-/a/b/project1.tsconfig.json: *new*
+/a/b/project1.tsconfig.json:
   {}
-/a/b/alpha.tsconfig.json: *new*
+/a/b/alpha.tsconfig.json:
   {}
-/a/b/commonfile1.ts: *new*
+/a/b/commonfile1.ts:
   {}
-/a/b/commonfile2.ts: *new*
+/a/b/commonfile2.ts:
   {}
-/a/b/project2.tsconfig.json: *new*
+/a/b/project2.tsconfig.json:
   {}
-/a/b/bravo.tsconfig.json: *new*
+/a/b/bravo.tsconfig.json:
   {}
-/a/b/other.ts: *new*
+/a/b/other.ts:
   {}
-/a/b/tsconfig.json: *new*
+/a/b/tsconfig.json:
   {}
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 
@@ -270,9 +273,6 @@ Input::
 {"references":[{"path":"./project1.tsconfig.json"}],"files":[]}
 
 
-Before running Timeout callback:: count: 1
-1: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:58 AM[0m] File change detected. Starting incremental compilation...
@@ -280,6 +280,8 @@ Output::
 [[90m12:00:59 AM[0m] Found 0 errors. Watching for file changes.
 
 
+
+PolledWatches::
 
 FsWatches::
 /a/b/project1.tsconfig.json:
@@ -293,13 +295,7 @@ FsWatches::
 /a/b/tsconfig.json:
   {}
 
-FsWatches *deleted*::
-/a/b/project2.tsconfig.json:
-  {}
-/a/b/bravo.tsconfig.json:
-  {}
-/a/b/other.ts:
-  {}
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 

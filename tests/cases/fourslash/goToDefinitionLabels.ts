@@ -9,11 +9,11 @@
 ////    }
 ////}
 
-verify.baselineGoToDefinition(
-    "1",
-    "2",
+verify.goToDefinition({
+    1: "label1Definition",
+    2: "label2Definition",
     // labels across function boundaries
-    "3",
+    3: "label1Definition",
     // undefined label
-    "4",
-);
+    4: []
+});

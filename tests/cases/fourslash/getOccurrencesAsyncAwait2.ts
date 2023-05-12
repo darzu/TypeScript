@@ -8,4 +8,4 @@
 //// }
 ////}
 
-verify.baselineDocumentHighlights();
+verify.rangesAreOccurrences(false);

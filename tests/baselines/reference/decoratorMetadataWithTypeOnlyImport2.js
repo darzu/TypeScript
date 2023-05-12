@@ -27,7 +27,7 @@ var Services;
         return Service;
     }());
     Services.Service = Service;
-})(Services || (exports.Services = Services = {}));
+})(Services = exports.Services || (exports.Services = {}));
 //// [index.js]
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

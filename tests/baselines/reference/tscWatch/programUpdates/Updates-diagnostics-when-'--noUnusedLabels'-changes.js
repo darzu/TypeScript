@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -44,16 +43,18 @@ Shape signatures in builder refreshed for::
 /a.ts (used version)
 /a/lib/lib.d.ts (used version)
 
+PolledWatches::
+
 FsWatches::
-/tsconfig.json: *new*
+/tsconfig.json:
   {}
-/a.ts: *new*
+/a.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/: *new*
+/:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -70,9 +71,6 @@ Input::
 {"compilerOptions":{"allowUnusedLabels":false}}
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:19 AM[0m] File change detected. Starting incremental compilation...
@@ -99,6 +97,20 @@ Semantic diagnostics in builder refreshed for::
 
 No shapes updated in the builder::
 
+PolledWatches::
+
+FsWatches::
+/tsconfig.json:
+  {}
+/a.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/:
+  {}
+
 exitCode:: ExitStatus.undefined
 
 
@@ -109,9 +121,6 @@ Input::
 {"compilerOptions":{"allowUnusedLabels":true}}
 
 
-Before running Timeout callback:: count: 1
-2: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:23 AM[0m] File change detected. Starting incremental compilation...
@@ -132,6 +141,20 @@ Semantic diagnostics in builder refreshed for::
 /a/lib/lib.d.ts
 
 No shapes updated in the builder::
+
+PolledWatches::
+
+FsWatches::
+/tsconfig.json:
+  {}
+/a.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/:
+  {}
 
 exitCode:: ExitStatus.undefined
 

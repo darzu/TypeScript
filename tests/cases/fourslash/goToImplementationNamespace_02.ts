@@ -8,4 +8,4 @@
 ////
 //// Foo.hell/*reference*/o();
 
-verify.baselineGoToImplementation("reference");
+verify.allRangesAppearInImplementationList("reference");

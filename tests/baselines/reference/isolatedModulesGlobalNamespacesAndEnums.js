@@ -45,7 +45,7 @@ exports.Instantiated = void 0;
 var Instantiated;
 (function (Instantiated) {
     Instantiated.x = 1;
-})(Instantiated || (exports.Instantiated = Instantiated = {}));
+})(Instantiated = exports.Instantiated || (exports.Instantiated = {}));
 //// [enum1.js]
 var Enum;
 (function (Enum) {

@@ -2,26 +2,24 @@ import * as ts from "../../_namespaces/ts";
 import {
     commonFile1,
     commonFile2,
-} from "../helpers/tscWatch";
+} from "../tscWatch/helpers";
+import {
+    createServerHost,
+    File,
+    libFile,
+    Tsc_WatchDirectory,
+} from "../virtualFileSystemWithWatch";
 import {
     baselineTsserverLogs,
     createLoggerWithInMemoryLogs,
     createProjectService,
     createSession,
     Logger,
-    openExternalProjectForSession,
     openFilesForSession,
     protocolFileLocationFromSubstring,
-    setCompilerOptionsForInferredProjectsRequestForSession,
     TestSession,
     toExternalFiles,
-} from "../helpers/tsserver";
-import {
-    createServerHost,
-    File,
-    libFile,
-    Tsc_WatchDirectory,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "./helpers";
 
 describe("unittests:: tsserver:: watchEnvironment:: tsserverProjectSystem watchDirectories implementation", () => {
     function verifyCompletionListWithNewFileInSubFolder(scenario: string, tscWatchDirectory: Tsc_WatchDirectory) {
@@ -172,7 +170,7 @@ it(`unittests:: tsserver:: watchEnvironment:: tsserverProjectSystem recursive wa
         emacsIgnoredFileFromIgnoreDirectory
     ].forEach(ignoredEntity => {
         host.ensureFileOrFolder(ignoredEntity);
-        session.testhost.logTimeoutQueueLength();
+        host.checkTimeoutQueueLength(0);
     });
 
     baselineTsserverLogs("watchEnvironment", `recursive directory does not watch files starting with dot in node_modules`, session);
@@ -196,7 +194,6 @@ it("unittests:: tsserver:: watchEnvironment:: tsserverProjectSystem watching fil
         );
         logger.host = host;
         logger.info(`For files of style ${path}`);
-        logger.log(`currentDirectory:: ${host.getCurrentDirectory()} useCaseSensitiveFileNames: ${host.useCaseSensitiveFileNames}`);
         const session = createSession(host, { logger });
         openFilesForSession([file], session);
     }
@@ -382,11 +379,14 @@ describe("unittests:: tsserver:: watchEnvironment:: handles watch compiler optio
             const host = createServerHost(files, { currentDirectory: "/user/username/projects/myproject" });
             const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
             setupConfigureHost(session, configureHost);
-            openExternalProjectForSession({
-                projectFileName: `/user/username/projects/myproject/project.csproj`,
-                rootFiles: toExternalFiles([main.path, bar.path, foo.path]),
-                options: { excludeDirectories: ["node_modules"] }
-            }, session);
+            session.executeCommandSeq<ts.server.protocol.OpenExternalProjectRequest>({
+                command: ts.server.protocol.CommandTypes.OpenExternalProject,
+                arguments: {
+                    projectFileName: `/user/username/projects/myproject/project.csproj`,
+                    rootFiles: toExternalFiles([main.path, bar.path, foo.path]),
+                    options: { excludeDirectories: ["node_modules"] }
+                }
+            });
             openFilesForSession([main], session);
             return session;
         }
@@ -423,10 +423,13 @@ describe("unittests:: tsserver:: watchEnvironment:: handles watch compiler optio
             const host = createServerHost(files, { currentDirectory: "/user/username/projects/myproject" });
             const session = createSession(host, { useInferredProjectPerProjectRoot: true, logger: createLoggerWithInMemoryLogs(host) });
             setupConfigureHost(session, configureHost);
-            setCompilerOptionsForInferredProjectsRequestForSession({
-                options: { excludeDirectories: ["node_modules"] },
-                projectRootPath: "/user/username/projects/myproject"
-            }, session);
+            session.executeCommandSeq<ts.server.protocol.SetCompilerOptionsForInferredProjectsRequest>({
+                command: ts.server.protocol.CommandTypes.CompilerOptionsForInferredProjects,
+                arguments: {
+                    options: { excludeDirectories: ["node_modules"] },
+                    projectRootPath: "/user/username/projects/myproject"
+                }
+            });
             openFilesForSession([{ file: main, projectRootPath: "/user/username/projects/myproject" }], session);
             return session;
         }

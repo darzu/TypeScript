@@ -27,4 +27,4 @@
 ////    x;
 ////}
 
-verify.baselineGoToDefinition("classReference", "classAliasDefinition");
+verify.goToDefinition(["classReference", "classAliasDefinition"], "classDefinition");

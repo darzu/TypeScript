@@ -8,4 +8,4 @@
 ////
 //// new Bar().hel/*reference*/lo;
 
-verify.baselineGoToImplementation("reference");
+verify.allRangesAppearInImplementationList("reference");

@@ -5,4 +5,4 @@
 ////     private [|value|]: number;
 //// }
 
-verify.baselineDocumentHighlights();
+verify.rangesAreDocumentHighlights();

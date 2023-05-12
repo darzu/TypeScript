@@ -6,6 +6,7 @@
 >[] : undefined[]
 >(null as any) : any
 >null as any : any
+>null : null
 
 let x: any;
 >x : any

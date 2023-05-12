@@ -54,5 +54,6 @@ function f<T>() {
 >x : T extends string ? string : string
 >null as any as A : T extends number ? T extends string ? string : string : never
 >null as any : any
+>null : null
 }
 

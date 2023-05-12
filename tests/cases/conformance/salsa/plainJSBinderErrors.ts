@@ -27,7 +27,7 @@ class C {
         const arguments = 8
     }
     withOctal() {
-        const redundant = 0o10
+        const redundant = 010
         with (redundant) {
             return toFixed()
         }

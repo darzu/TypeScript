@@ -14,4 +14,4 @@
 ////    }
 ////}
 
-verify.baselineRenameAtRangesWithText("a");
+verify.rangesWithSameTextAreRenameLocations("a");

@@ -1,6 +1,13 @@
 import * as ts from "../../_namespaces/ts";
 import {
+    createServerHost,
+    File,
+    libFile,
+} from "../virtualFileSystemWithWatch";
+import {
     baselineTsserverLogs,
+    checkNumberOfProjects,
+    checkProjectActualFiles,
     closeFilesForSession,
     createLoggerWithInMemoryLogs,
     createSession,
@@ -8,12 +15,7 @@ import {
     protocolFileLocationFromSubstring,
     TestSession,
     TestSessionRequest,
-} from "../helpers/tsserver";
-import {
-    createServerHost,
-    File,
-    libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "./helpers";
 
 describe("unittests:: tsserver:: Semantic operations on Syntax server", () => {
     function setup() {
@@ -153,17 +155,22 @@ function fooB() { }`
             content: "{}"
         };
         const host = createServerHost([file1, file2, file3, something, libFile, configFile]);
-        const session = createSession(host, { serverMode: ts.LanguageServiceMode.Syntactic, useSingleInferredProject: true, logger: createLoggerWithInMemoryLogs(host) });
+        const session = createSession(host, { serverMode: ts.LanguageServiceMode.Syntactic, useSingleInferredProject: true });
         const service = session.getProjectService();
         openFilesForSession([file1], session);
+        checkNumberOfProjects(service, { inferredProjects: 1 });
         const project = service.inferredProjects[0];
+        checkProjectActualFiles(project, ts.emptyArray);
 
         openFilesForSession([file2], session);
+        checkNumberOfProjects(service, { inferredProjects: 1 });
         assert.isFalse(project.dirty);
         project.updateGraph();
+        checkProjectActualFiles(project, ts.emptyArray);
 
         closeFilesForSession([file2], session);
+        checkNumberOfProjects(service, { inferredProjects: 1 });
         assert.isTrue(project.dirty);
-        baselineTsserverLogs("syntacticServer", "should not include referenced files from unopened files", session);
+        checkProjectActualFiles(project, ts.emptyArray);
     });
 });

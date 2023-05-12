@@ -1,16 +1,16 @@
 import * as ts from "../../_namespaces/ts";
 import {
+    createServerHost,
+    File,
+    libFile,
+} from "../virtualFileSystemWithWatch";
+import {
     baselineTsserverLogs,
     createLoggerWithInMemoryLogs,
     createSession,
     openFilesForSession,
     TestTypingsInstaller,
-} from "../helpers/tsserver";
-import {
-    createServerHost,
-    File,
-    libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "./helpers";
 
 describe("unittests:: tsserver:: completions", () => {
     it("works", () => {
@@ -176,10 +176,9 @@ export interface BrowserRouterProps {
         ];
 
         const host = createServerHost(files, { windowsStyleRoot: "c:/" });
-        const logger = createLoggerWithInMemoryLogs(host);
         const session = createSession(host, {
-            typingsInstaller: new TestTypingsInstaller(globalCacheLocation, /*throttleLimit*/ 5, host, logger),
-            logger,
+            typingsInstaller: new TestTypingsInstaller(globalCacheLocation, /*throttleLimit*/ 5, host),
+            logger: createLoggerWithInMemoryLogs(host),
         });
         openFilesForSession([appFile], session);
         session.executeCommandSeq<ts.server.protocol.CompletionsRequest>({

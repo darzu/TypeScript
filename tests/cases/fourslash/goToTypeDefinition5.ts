@@ -7,4 +7,4 @@
 /////*reference*/Foo;
 
 
-verify.baselineGoToType("reference");
+verify.goToType("reference", []);

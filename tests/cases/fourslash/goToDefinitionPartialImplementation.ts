@@ -16,4 +16,4 @@
 ////    var x: [|/*Part2Use*/IA|];
 ////}
 
-verify.baselineGoToDefinition("Part2Use");
+verify.goToDefinition("Part2Use", ["Part1Definition", "Part2Definition"]);

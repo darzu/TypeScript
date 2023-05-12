@@ -33,6 +33,7 @@ export class AddressComp extends React.Component<Properties, void> {
 >render : () => any
 
     return null;
+>null : null
   }
 }
 

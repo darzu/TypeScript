@@ -94,7 +94,7 @@ exports.x = 1; // error
 var Values;
 (function (Values) {
     Values.x = 1;
-})(Values || (exports.Values = Values = {}));
+})(Values = exports.Values || (exports.Values = {}));
 //// [main2.js]
 "use strict";
 module.exports = { x: 1 };

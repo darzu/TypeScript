@@ -6,5 +6,6 @@ class A<T>{
 >foo : () => any
 
   return null;
+>null : null
  }
 }

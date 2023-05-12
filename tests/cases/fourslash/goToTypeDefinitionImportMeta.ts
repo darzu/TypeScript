@@ -10,4 +10,4 @@
 ////interface /*definition*/ImportMeta {
 ////}
 
-verify.baselineGoToType("reference");
+verify.goToType("reference", "definition");

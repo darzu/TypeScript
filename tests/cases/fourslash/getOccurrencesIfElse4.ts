@@ -23,4 +23,8 @@
 ////else { }
 
 
-verify.baselineDocumentHighlights(test.markers());
+for (var i = 1; i <= test.markers().length; i++) {
+    goTo.marker("" + i);
+
+    verify.occurrencesAtPositionCount(1);
+}

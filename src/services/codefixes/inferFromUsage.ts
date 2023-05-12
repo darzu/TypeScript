@@ -92,11 +92,13 @@ import {
     SyntaxKind,
     textChanges,
     Token,
+    TransientSymbol,
     tryCast,
     Type,
     TypeFlags,
     TypeNode,
     TypeReference,
+    UnderscoreEscapedMap,
     UnionOrIntersectionType,
     UnionReduction,
     UserPreferences,
@@ -440,7 +442,7 @@ function tryReplaceImportTypeNodeWithAutoImport(
 ): boolean {
     const importableReference = tryGetAutoImportableReferenceFromTypeNode(typeNode, scriptTarget);
     if (importableReference && changes.tryInsertTypeAnnotation(sourceFile, declaration, importableReference.typeNode)) {
-        forEach(importableReference.symbols, s => importAdder.addImportFromExportedSymbol(s, /*isValidTypeOnlyUseSite*/ true));
+        forEach(importableReference.symbols, s => importAdder.addImportFromExportedSymbol(s, /*usageIsTypeOnly*/ true));
         return true;
     }
     return false;
@@ -488,7 +490,7 @@ function annotateJSDocParameters(changes: textChanges.ChangeTracker, sourceFile:
     }
     else {
         const paramTags = map(inferences, ({ name, typeNode, isOptional }) =>
-            factory.createJSDocParameterTag(/*tagName*/ undefined, name, /*isBracketed*/ !!isOptional, factory.createJSDocTypeExpression(typeNode), /*isNameFirst*/ false, /*comment*/ undefined));
+            factory.createJSDocParameterTag(/*tagName*/ undefined, name, /*isBracketed*/ !!isOptional, factory.createJSDocTypeExpression(typeNode), /* isNameFirst */ false, /*comment*/ undefined));
         changes.addJSDocTags(sourceFile, signature, paramTags);
     }
 }
@@ -579,7 +581,7 @@ function inferTypeFromReferences(program: Program, references: readonly Identifi
         isNumberOrString: boolean | undefined;
 
         candidateTypes: Type[] | undefined;
-        properties: Map<__String, Usage> | undefined;
+        properties: UnderscoreEscapedMap<Usage> | undefined;
         calls: CallUsage[] | undefined;
         constructs: CallUsage[] | undefined;
         numberIndex: Usage | undefined;
@@ -869,9 +871,6 @@ function inferTypeFromReferences(program: Program, references: readonly Identifi
             case SyntaxKind.EqualsEqualsEqualsToken:
             case SyntaxKind.ExclamationEqualsEqualsToken:
             case SyntaxKind.ExclamationEqualsToken:
-            case SyntaxKind.AmpersandAmpersandEqualsToken:
-            case SyntaxKind.QuestionQuestionEqualsToken:
-            case SyntaxKind.BarBarEqualsToken:
                 addCandidateType(usage, checker.getTypeAtLocation(parent.left === node ? parent.right : parent.left));
                 break;
 
@@ -1025,10 +1024,10 @@ function inferTypeFromReferences(program: Program, references: readonly Identifi
         const numberIndices = [];
         let stringIndexReadonly = false;
         let numberIndexReadonly = false;
-        const props = createMultiMap<__String, Type>();
+        const props = createMultiMap<Type>();
         for (const anon of anons) {
             for (const p of checker.getPropertiesOfType(anon)) {
-                props.add(p.escapedName, p.valueDeclaration ? checker.getTypeOfSymbolAtLocation(p, p.valueDeclaration) : checker.getAnyType());
+                props.add(p.name, p.valueDeclaration ? checker.getTypeOfSymbolAtLocation(p, p.valueDeclaration) : checker.getAnyType());
             }
             calls.push(...checker.getSignaturesOfType(anon, SignatureKind.Call));
             constructs.push(...checker.getSignaturesOfType(anon, SignatureKind.Construct));
@@ -1045,7 +1044,7 @@ function inferTypeFromReferences(program: Program, references: readonly Identifi
         }
         const members = mapEntries(props, (name, types) => {
             const isOptional = types.length < anons.length ? SymbolFlags.Optional : 0;
-            const s = checker.createSymbol(SymbolFlags.Property | isOptional, name);
+            const s = checker.createSymbol(SymbolFlags.Property | isOptional, name as __String);
             s.links.type = checker.getUnionType(types);
             return [name, s];
         });
@@ -1054,7 +1053,7 @@ function inferTypeFromReferences(program: Program, references: readonly Identifi
         if (numberIndices.length) indexInfos.push(checker.createIndexInfo(checker.getNumberType(), checker.getUnionType(numberIndices), numberIndexReadonly));
         return checker.createAnonymousType(
             anons[0].symbol,
-            members,
+            members as UnderscoreEscapedMap<TransientSymbol>,
             calls,
             constructs,
             indexInfos);

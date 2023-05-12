@@ -7,7 +7,7 @@
 ////    [|/*letProp*/y|]
 ////}
 
-verify.baselineGoToDefinition(
-    "varProp",
-    "letProp",
-);
+verify.goToDefinition({
+    varProp: "varDef",
+    letProp: "letDef"
+});

@@ -2,6 +2,7 @@
 function test(strOrNull: string | null, strOrUndefined: string | undefined) {
 >test : (strOrNull: string | null, strOrUndefined: string | undefined) => void
 >strOrNull : string | null
+>null : null
 >strOrUndefined : string | undefined
 
     var str: string = "original";
@@ -10,9 +11,11 @@ function test(strOrNull: string | null, strOrUndefined: string | undefined) {
 
     var nil: null;
 >nil : null
+>null : null
 
     if (null === strOrNull) {
 >null === strOrNull : boolean
+>null : null
 >strOrNull : string | null
 
         nil = strOrNull;

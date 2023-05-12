@@ -1,8 +1,24 @@
-// === getFileReferences ===
-// fileName: /util.ts
+// === /test.ts ===
+// import "[|./util|]";
 
 // === /index.ts ===
 // export * from "[|./util|]";
 
-// === /test.ts ===
-// import "[|./util|]";
+[
+  {
+    "fileName": "/index.ts",
+    "textSpan": {
+      "start": 15,
+      "length": 6
+    },
+    "isWriteAccess": false
+  },
+  {
+    "fileName": "/test.ts",
+    "textSpan": {
+      "start": 8,
+      "length": 6
+    },
+    "isWriteAccess": false
+  }
+]

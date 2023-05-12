@@ -1,14 +1,14 @@
 import * as Utils from "../../_namespaces/Utils";
 import {
-    TscWatchCompileChange,
-    verifyTscWatch,
-} from "../helpers/tscWatch";
-import {
     createWatchedSystem,
     File,
     libFile,
     SymLink,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
+import {
+    TscWatchCompileChange,
+    verifyTscWatch,
+} from "./helpers";
 
 describe("unittests:: tsc-watch:: forceConsistentCasingInFileNames", () => {
     const loggerFile: File = {

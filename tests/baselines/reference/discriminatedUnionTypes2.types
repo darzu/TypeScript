@@ -90,6 +90,7 @@ function f13(x: { a: null; b: string } | { a: string, c: number }) {
 >f13 : (x: {    a: null;    b: string;} | {    a: string;    c: number;}) => void
 >x : { a: null; b: string; } | { a: string; c: number; }
 >a : null
+>null : null
 >b : string
 >a : string
 >c : number
@@ -99,6 +100,7 @@ function f13(x: { a: null; b: string } | { a: string, c: number }) {
 >x : { a: null; b: string; } | { a: string; c: number; }
 >{ a: null, b: "foo", c: 4} : { a: null; b: string; c: number; }
 >a : null
+>null : null
 >b : string
 >"foo" : "foo"
 >c : number
@@ -182,11 +184,13 @@ interface WithError {
 
     data: null
 >data : null
+>null : null
 }
 
 interface WithoutError<Data> {
     error: null
 >error : null
+>null : null
 
     data: Data
 >data : Data
@@ -204,9 +208,11 @@ function f20<Data>(carrier: DataCarrier<Data>) {
 >carrier.error : Error | null
 >carrier : DataCarrier<Data>
 >error : Error | null
+>null : null
 
         const error: null = carrier.error
 >error : null
+>null : null
 >carrier.error : null
 >carrier : WithoutError<Data>
 >error : null
@@ -226,6 +232,7 @@ function f20<Data>(carrier: DataCarrier<Data>) {
 
         const data: null = carrier.data
 >data : null
+>null : null
 >carrier.data : null
 >carrier : WithError
 >data : null

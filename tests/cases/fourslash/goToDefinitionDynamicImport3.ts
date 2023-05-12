@@ -5,4 +5,4 @@
 
 //// import('./foo').then(({ [|ba/*1*/r|] }) => undefined);
 
-verify.baselineGoToDefinition("1");
+verify.goToDefinition("1", "Destination");

@@ -1,14 +1,12 @@
 import * as ts from "../../_namespaces/ts";
 import {
-    baselineTsserverLogs,
-    createLoggerWithInMemoryLogs,
-    createSession,
-    openFilesForSession,
-} from "../helpers/tsserver";
-import {
     createServerHost,
     File,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
+import {
+    createSession,
+    openFilesForSession,
+} from "./helpers";
 
 function createExportingModuleFile(path: string, exportPrefix: string, exportCount: number): File {
     return {
@@ -78,7 +76,6 @@ describe("unittests:: tsserver:: completionsIncomplete", () => {
                 assert(!completions.isIncomplete);
                 assert.lengthOf(completions.entries.filter(entry => (entry.data as any)?.moduleSpecifier), exportingFiles.length);
             });
-        baselineTsserverLogs("completionsIncomplete", "works", session);
     });
 
     it("resolves more when available from module specifier cache (1)", () => {
@@ -89,7 +86,6 @@ describe("unittests:: tsserver:: completionsIncomplete", () => {
         typeToTriggerCompletions(indexFile.path, "a", completions => {
             assert(!completions.isIncomplete);
         });
-        baselineTsserverLogs("completionsIncomplete", "resolves more when available from module specifier cache (1)", session);
     });
 
     it("resolves more when available from module specifier cache (2)", () => {
@@ -101,7 +97,6 @@ describe("unittests:: tsserver:: completionsIncomplete", () => {
         typeToTriggerCompletions(indexFile.path, "a", completions => assert(completions.isIncomplete))
             .backspace()
             .type("a", completions => assert(!completions.isIncomplete));
-        baselineTsserverLogs("completionsIncomplete", "resolves more when available from module specifier cache (2)", session);
     });
 
     it("ambient module specifier resolutions do not count against the resolution limit", () => {
@@ -118,7 +113,6 @@ describe("unittests:: tsserver:: completionsIncomplete", () => {
             assert(!completions.isIncomplete);
             assert.lengthOf(completions.entries.filter(e => (e.data as any)?.moduleSpecifier), ambientFiles.length * 5 + exportingFiles.length);
         });
-        baselineTsserverLogs("completionsIncomplete", "ambient module specifier resolutions do not count against the resolution limit", session);
     });
 
     it("works with PackageJsonAutoImportProvider", () => {
@@ -135,7 +129,6 @@ describe("unittests:: tsserver:: completionsIncomplete", () => {
                     indexFile.path,
                     completions.entries.find(entry => (entry.data as any)?.moduleSpecifier?.startsWith("dep-a"))!);
             });
-        baselineTsserverLogs("completionsIncomplete", "works with PackageJsonAutoImportProvider", session);
     });
 
     it("works for transient symbols between requests", () => {
@@ -159,13 +152,12 @@ describe("unittests:: tsserver:: completionsIncomplete", () => {
                 const sigint = completions.entries.find(e => e.name === "SIGINT");
                 assert((sigint!.data as any).moduleSpecifier);
             });
-        baselineTsserverLogs("completionsIncomplete", "works for transient symbols between requests", session);
     });
 });
 
 function setup(files: File[]) {
     const host = createServerHost(files);
-    const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
+    const session = createSession(host);
     const projectService = session.getProjectService();
     session.executeCommandSeq<ts.server.protocol.ConfigureRequest>({
         command: ts.server.protocol.CommandTypes.Configure,

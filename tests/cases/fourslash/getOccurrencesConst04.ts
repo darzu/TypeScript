@@ -6,4 +6,9 @@
 ////    }
 ////}
 
-verify.baselineDocumentHighlights(["1", "2", "3"]);
+goTo.marker("1");
+verify.occurrencesAtPositionCount(1);
+goTo.marker("2");
+verify.occurrencesAtPositionCount(1);
+goTo.marker("3");
+verify.occurrencesAtPositionCount(1);

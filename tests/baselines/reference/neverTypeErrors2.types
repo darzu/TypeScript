@@ -28,6 +28,7 @@ function f1() {
     x = null;
 >x = null : null
 >x : never
+>null : null
 
     x = {};
 >x = {} : {}

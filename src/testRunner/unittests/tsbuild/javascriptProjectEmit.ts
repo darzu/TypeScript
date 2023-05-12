@@ -1,12 +1,10 @@
 import * as Utils from "../../_namespaces/Utils";
-import { symbolLibContent } from "../helpers/contents";
-import {
-    verifyTsc,
-} from "../helpers/tsc";
 import {
     loadProjectFromFiles,
-    replaceText
-} from "../helpers/vfs";
+    replaceText,
+    symbolLibContent,
+    verifyTsc,
+} from "../tsc/helpers";
 
 describe("unittests:: tsbuild:: javascriptProjectEmit::", () => {
     verifyTsc({

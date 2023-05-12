@@ -8,6 +8,7 @@ const value: { inner: number | string } = null as any;
 >value : { inner: number | string; }
 >inner : string | number
 >null as any : any
+>null : null
 
 function isNumber(obj: any): obj is number {
 >isNumber : (obj: any) => obj is number

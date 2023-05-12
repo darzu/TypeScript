@@ -37,4 +37,4 @@
 ////const instance = new mod.Foo();
 ////instance.[|/*1*/methodName|]({member: 12});
 
-verify.baselineGoToDefinition("1");
+verify.goToDefinition("1", "2");

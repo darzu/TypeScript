@@ -246,6 +246,7 @@ function f3() {
 >cond ? "abc" : null : "abc"
 >cond : boolean
 >"abc" : "abc"
+>null : null
 
     const c5 = cond ? 456 : undefined;
 >c5 : 456

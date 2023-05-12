@@ -9,6 +9,7 @@ class B<T, U> {
     constructor(x: T, y?: U) { return null; }
 >x : T
 >y : U
+>null : null
 }
 
 class C<T, U> {
@@ -17,6 +18,7 @@ class C<T, U> {
     constructor(x: T, y?: U) { return null; }
 >x : T
 >y : U
+>null : null
 }
 
 interface I<T, U> {

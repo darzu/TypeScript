@@ -10,4 +10,4 @@
 ////    static [|/*1*/override|] m() {}
 ////}
 
-verify.baselineGoToDefinition("1");
+verify.goToDefinition("1", "2");

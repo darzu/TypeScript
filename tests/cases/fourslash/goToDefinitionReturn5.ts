@@ -6,4 +6,4 @@
 ////    }
 ////}
 
-verify.baselineGoToDefinition("start");
+verify.goToDefinition("start", []);

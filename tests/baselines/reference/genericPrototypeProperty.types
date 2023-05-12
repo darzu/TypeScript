@@ -8,6 +8,7 @@ class C<T> {
     foo(x: T): T { return null; }
 >foo : (x: T) => T
 >x : T
+>null : null
 }
 
 var r = C.prototype;
@@ -29,4 +30,5 @@ var r3 = r.foo(null);
 >r.foo : (x: any) => any
 >r : C<any>
 >foo : (x: any) => any
+>null : null
 

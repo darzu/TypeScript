@@ -12,6 +12,7 @@ class Foo {
   @dec public foo: string | null;
 >dec : (obj: {}, prop: string) => any
 >foo : string
+>null : null
 
   @dec public bar: string;
 >dec : (obj: {}, prop: string) => any

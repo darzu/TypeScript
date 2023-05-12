@@ -10,4 +10,4 @@
 //// /// <reference path="0.d.ts" />
 //// [|myLib|].doThing();
 
-verify.baselineRenameAtRangesWithText("myLib");
+verify.rangesWithSameTextAreRenameLocations("myLib");

@@ -4,4 +4,4 @@
 ////declare const i: { [K in "m"]: I[K] };
 ////i.[|/*ref*/m|]();
 
-verify.baselineGoToDefinition("ref");
+verify.goToDefinition("ref", "def");

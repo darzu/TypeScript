@@ -1,5 +1,16 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
-Info seq  [hh:mm:ss:mss] Provided types map file "/a/lib/typesMap.json" doesn't exist
+Info 0    [00:00:15.000] Provided types map file "/a/lib/typesMap.json" doesn't exist
+Info 1    [00:00:16.000] request:
+    {
+      "command": "geterr",
+      "arguments": {
+        "delay": 0,
+        "files": [
+          "/a/b/project/file.ts"
+        ]
+      },
+      "seq": 1,
+      "type": "request"
+    }
 Before request
 //// [/a/b/project/file.ts]
 let x: number = false;
@@ -18,34 +29,38 @@ interface String { charAt: any; }
 interface Array<T> { length: number; [n: number]: T; }
 
 
-Info seq  [hh:mm:ss:mss] request:
-    {
-      "command": "geterr",
-      "arguments": {
-        "delay": 0,
-        "files": [
-          "/a/b/project/file.ts"
-        ]
-      },
-      "seq": 1,
-      "type": "request"
-    }
-Info seq  [hh:mm:ss:mss] response:
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
+
+After request
+
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
+
+Info 2    [00:00:17.000] response:
     {
       "responseRequired": false
     }
-After request
+Before checking timeout queue length (1) and running
 
-Before running Timeout callback:: count: 1
-1: checkOne
+PolledWatches::
 
-Info seq  [hh:mm:ss:mss] event:
-    {
-     "seq": 0,
-     "type": "event",
-     "event": "requestCompleted",
-     "body": {
-      "request_seq": 1
-     }
-    }
-After running Timeout callback:: count: 0
+FsWatches::
+
+FsWatchesRecursive::
+
+Info 3    [00:00:18.000] event:
+    {"seq":0,"type":"event","event":"requestCompleted","body":{"request_seq":1}}
+After checking timeout queue length (1) and running
+
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::

@@ -8,6 +8,7 @@ class B<T> {
 
     constructor(x: T) { return null; }
 >x : T
+>null : null
 }
 
 class C<T> {
@@ -15,6 +16,7 @@ class C<T> {
 
     constructor(x: T) { return null; }
 >x : T
+>null : null
 }
 
 interface I<T> {
@@ -36,6 +38,7 @@ var b = { new<T>(x: T): T { return null; } }; // not a construct signature, func
 >{ new<T>(x: T): T { return null; } } : { new<T>(x: T): T; }
 >new : <T>(x: T) => T
 >x : T
+>null : null
 
 function foo1b(x: B<string>);
 >foo1b : { (x: B<string>): any; (x: B<string>): any; }

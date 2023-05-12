@@ -1,11 +1,11 @@
-import { libContent } from "../helpers/contents";
-import { verifyTscWatch } from "../helpers/tscWatch";
+import { libContent } from "../tsc/helpers";
+import { verifyTscWatch } from "../tscWatch/helpers";
 import {
     createWatchedSystem,
     File,
     getTsBuildProjectFile,
     libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
 
 describe("unittests:: tsbuildWatch:: watchMode:: with demo project", () => {
     const projectLocation = `/user/username/projects/demo`;
@@ -55,8 +55,9 @@ describe("unittests:: tsbuildWatch:: watchMode:: with demo project", () => {
                 caption: "Fix error",
                 edit: sys => sys.writeFile(coreFiles[0].path, coreFiles[0].content),
                 timeouts: sys => {
-                    sys.runQueuedTimeoutCallbacks(); // build core
-                    sys.runQueuedTimeoutCallbacks(); // build animals, zoo and solution
+                    sys.checkTimeoutQueueLengthAndRun(1); // build core
+                    sys.checkTimeoutQueueLengthAndRun(1); // build animals, zoo and solution
+                    sys.checkTimeoutQueueLength(0);
                 },
             }
         ]
@@ -79,7 +80,10 @@ ${coreFiles[1].content}`);
 import * as A from '../animals';
 ${coreFiles[1].content}`),
                 // build core
-                timeouts: sys => sys.runQueuedTimeoutCallbacks(),
+                timeouts: sys => {
+                    sys.checkTimeoutQueueLengthAndRun(1);
+                    sys.checkTimeoutQueueLength(0);
+                },
             }
         ]
     });

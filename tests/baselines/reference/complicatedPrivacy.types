@@ -57,6 +57,7 @@ module m1 {
 
     } {
         return null;
+>null : null
     }
 
     export function f4(arg1: 

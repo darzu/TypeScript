@@ -22,4 +22,4 @@
 //// let opt3 = [|<[|{| "contextRangeIndex": 8 |}Opt|] wrong />|];
 //// let opt4 = [|<[|{| "contextRangeIndex": 10 |}Opt|] propx={100} propString="hi" />|];
 
-verify.baselineRenameAtRangesWithText("Opt");
+verify.rangesWithSameTextAreRenameLocations("Opt");

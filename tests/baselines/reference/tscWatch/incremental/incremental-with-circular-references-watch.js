@@ -1,4 +1,3 @@
-currentDirectory:: /users/username/projects/project useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -78,27 +77,25 @@ Shape signatures in builder refreshed for::
 /users/username/projects/project/index.ts (used version)
 
 PolledWatches::
-/users/username/projects/project/node_modules/@types: *new*
-  {"pollingInterval":500}
-/users/username/projects/node_modules/@types: *new*
+/users/username/projects/project/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/users/username/projects/project/tsconfig.json: *new*
+/users/username/projects/project/tsconfig.json:
   {}
-/users/username/projects/project/a.ts: *new*
+/users/username/projects/project/a.ts:
   {}
-/users/username/projects/project/b.ts: *new*
+/users/username/projects/project/b.ts:
   {}
-/users/username/projects/project/c.ts: *new*
+/users/username/projects/project/c.ts:
   {}
-/users/username/projects/project/index.ts: *new*
+/users/username/projects/project/index.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/users/username/projects/project: *new*
+/users/username/projects/project:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -263,30 +260,6 @@ export interface A {
 
 
 
-PolledWatches *deleted*::
-/users/username/projects/project/node_modules/@types:
-  {"pollingInterval":500}
-/users/username/projects/node_modules/@types:
-  {"pollingInterval":500}
-
-FsWatches *deleted*::
-/users/username/projects/project/tsconfig.json:
-  {}
-/users/username/projects/project/a.ts:
-  {}
-/users/username/projects/project/b.ts:
-  {}
-/users/username/projects/project/c.ts:
-  {}
-/users/username/projects/project/index.ts:
-  {}
-/a/lib/lib.d.ts:
-  {}
-
-FsWatchesRecursive *deleted*::
-/users/username/projects/project:
-  {}
-
 Output::
 >> Screen clear
 [[90m12:00:44 AM[0m] Starting compilation in watch mode...
@@ -318,27 +291,25 @@ Shape signatures in builder refreshed for::
 /users/username/projects/project/b.ts (used version)
 
 PolledWatches::
-/users/username/projects/project/node_modules/@types: *new*
-  {"pollingInterval":500}
-/users/username/projects/node_modules/@types: *new*
+/users/username/projects/project/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/users/username/projects/project/tsconfig.json: *new*
+/users/username/projects/project/tsconfig.json:
   {}
-/users/username/projects/project/a.ts: *new*
+/users/username/projects/project/a.ts:
   {}
-/users/username/projects/project/b.ts: *new*
+/users/username/projects/project/b.ts:
   {}
-/users/username/projects/project/c.ts: *new*
+/users/username/projects/project/c.ts:
   {}
-/users/username/projects/project/index.ts: *new*
+/users/username/projects/project/index.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/users/username/projects/project: *new*
+/users/username/projects/project:
   {}
 
 exitCode:: ExitStatus.undefined

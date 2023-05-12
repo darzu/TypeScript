@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/reexport useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/reexport/src/tsconfig.json]
 {
@@ -127,27 +126,27 @@ Shape signatures in builder refreshed for::
 /user/username/projects/reexport/src/main/index.ts (used version)
 
 PolledWatches::
-/user/username/projects/reexport/src/pure/package.json: *new*
+/user/username/projects/reexport/src/pure/package.json:
   {"pollingInterval":2000}
 
 FsWatches::
-/user/username/projects/reexport/src/pure/tsconfig.json: *new*
+/user/username/projects/reexport/src/pure/tsconfig.json:
   {}
-/user/username/projects/reexport/src/pure/index.ts: *new*
+/user/username/projects/reexport/src/pure/index.ts:
   {}
-/user/username/projects/reexport/src/pure/session.ts: *new*
+/user/username/projects/reexport/src/pure/session.ts:
   {}
-/user/username/projects/reexport/src/main/tsconfig.json: *new*
+/user/username/projects/reexport/src/main/tsconfig.json:
   {}
-/user/username/projects/reexport/src/main/index.ts: *new*
+/user/username/projects/reexport/src/main/index.ts:
   {}
-/user/username/projects/reexport/src/tsconfig.json: *new*
+/user/username/projects/reexport/src/tsconfig.json:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/reexport/src/pure: *new*
+/user/username/projects/reexport/src/pure:
   {}
-/user/username/projects/reexport/src/main: *new*
+/user/username/projects/reexport/src/main:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -283,13 +282,6 @@ export interface Session {
 
 
 
-Before running Timeout callback:: count: 1
-1: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 1
-2: timerToBuildInvalidatedProject
-Before running Timeout callback:: count: 1
-2: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:01:09 AM[0m] File change detected. Starting incremental compilation...
@@ -350,6 +342,30 @@ Shape signatures in builder refreshed for::
 /user/username/projects/reexport/out/pure/session.d.ts (used version)
 /user/username/projects/reexport/out/pure/index.d.ts (used version)
 /user/username/projects/reexport/src/main/index.ts (used version)
+
+PolledWatches::
+/user/username/projects/reexport/src/pure/package.json:
+  {"pollingInterval":2000}
+
+FsWatches::
+/user/username/projects/reexport/src/pure/tsconfig.json:
+  {}
+/user/username/projects/reexport/src/pure/index.ts:
+  {}
+/user/username/projects/reexport/src/pure/session.ts:
+  {}
+/user/username/projects/reexport/src/main/tsconfig.json:
+  {}
+/user/username/projects/reexport/src/main/index.ts:
+  {}
+/user/username/projects/reexport/src/tsconfig.json:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/reexport/src/pure:
+  {}
+/user/username/projects/reexport/src/main:
+  {}
 
 exitCode:: ExitStatus.undefined
 
@@ -449,13 +465,6 @@ export interface Session {
 
 
 
-Before running Timeout callback:: count: 1
-3: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 1
-4: timerToBuildInvalidatedProject
-Before running Timeout callback:: count: 1
-4: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:01:34 AM[0m] File change detected. Starting incremental compilation...
@@ -508,6 +517,30 @@ Shape signatures in builder refreshed for::
 /user/username/projects/reexport/out/pure/session.d.ts (used version)
 /user/username/projects/reexport/out/pure/index.d.ts (used version)
 /user/username/projects/reexport/src/main/index.ts (used version)
+
+PolledWatches::
+/user/username/projects/reexport/src/pure/package.json:
+  {"pollingInterval":2000}
+
+FsWatches::
+/user/username/projects/reexport/src/pure/tsconfig.json:
+  {}
+/user/username/projects/reexport/src/pure/index.ts:
+  {}
+/user/username/projects/reexport/src/pure/session.ts:
+  {}
+/user/username/projects/reexport/src/main/tsconfig.json:
+  {}
+/user/username/projects/reexport/src/main/index.ts:
+  {}
+/user/username/projects/reexport/src/tsconfig.json:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/reexport/src/pure:
+  {}
+/user/username/projects/reexport/src/main:
+  {}
 
 exitCode:: ExitStatus.undefined
 

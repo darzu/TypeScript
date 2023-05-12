@@ -14,4 +14,4 @@
 ////    }
 ////}
 
-verify.baselineGetDefinitionAtPosition("constReference", "cbReference", "propReference");
+verify.goToDefinitionForMarkers("const", "cb", "prop");

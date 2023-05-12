@@ -59,6 +59,7 @@ class Test6 {
     public test() {
         var x = new Test6();
         x.a++;
+        x.b++;
     }
 }
 
@@ -143,6 +144,7 @@ var Test6 = /** @class */ (function () {
     Test6.prototype.test = function () {
         var x = new Test6();
         x.a++;
+        x.b++;
     };
     return Test6;
 }());

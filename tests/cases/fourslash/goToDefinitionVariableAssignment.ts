@@ -9,4 +9,4 @@
 ////new [|Foo/*ref*/|]();
 
 goTo.file("foo.js");
-verify.baselineGoToDefinition("ref");
+verify.goToDefinition("ref", "def");

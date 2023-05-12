@@ -1,11 +1,9 @@
 import {
-    verifyTsc,
-} from "../helpers/tsc";
-import {
     appendText,
     loadProjectFromDisk,
-    replaceText
-} from "../helpers/vfs";
+    replaceText,
+    verifyTsc,
+} from "../tsc/helpers";
 
 describe("unittests:: tsbuild:: lateBoundSymbol:: interface is merged and contains late bound member", () => {
     verifyTsc({

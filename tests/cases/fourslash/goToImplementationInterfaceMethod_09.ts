@@ -27,4 +27,5 @@
 ////     hello() {}
 //// }
 
-verify.baselineGoToImplementation("function_call", "element_access");
+verify.allRangesAppearInImplementationList("function_call");
+verify.allRangesAppearInImplementationList("element_access");

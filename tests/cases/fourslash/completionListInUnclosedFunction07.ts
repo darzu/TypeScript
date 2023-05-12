@@ -4,4 +4,5 @@
 ////    function bar(a: number, b: string = /*1*/, c: typeof x = "hello"
 ////}
 
-verify.completions({ marker: "1", includes: ["foo", "x", "y", "z", "bar", "a"]})
+// Note: Ideally `c` wouldn't be included since it hasn't been initialized yet.
+verify.completions({ marker: "1", includes: ["foo", "x", "y", "z", "bar", "a", "b", "c"]})

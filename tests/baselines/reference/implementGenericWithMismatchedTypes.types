@@ -15,6 +15,7 @@ class C<T> implements IFoo<T> { // error
 >x : string
 
         return null;
+>null : null
     }
 }
 
@@ -31,5 +32,6 @@ class C2<T> implements IFoo2<T> { // error
 >x : Tstring
 
         return null;
+>null : null
     }
 }

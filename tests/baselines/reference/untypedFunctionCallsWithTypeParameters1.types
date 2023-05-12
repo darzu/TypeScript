@@ -31,6 +31,7 @@ class C implements Function {
 
     prototype = null;
 >prototype : any
+>null : null
 
     length = 1;
 >length : number
@@ -38,6 +39,7 @@ class C implements Function {
 
     arguments = null;
 >arguments : any
+>null : null
 
     caller = () => { };
 >caller : () => void

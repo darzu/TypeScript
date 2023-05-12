@@ -2,4 +2,4 @@
 
 //// [|/*start*/await|] Promise.resolve(0);
 
-verify.baselineGoToDefinition("start");
+verify.goToDefinition("start", []);

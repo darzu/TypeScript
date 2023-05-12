@@ -7,4 +7,4 @@
 ////     return gen
 //// }
 
-verify.baselineGoToDefinition("start");
+verify.goToDefinition("start", "end");

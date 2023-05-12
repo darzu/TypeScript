@@ -4,4 +4,4 @@
 ////[|import [|{| "contextRangeIndex": 0 |}M|] = SomeModule;|]
 ////import C = [|M|].SomeClass;
 
-verify.baselineRenameAtRangesWithText("M");
+verify.rangesWithSameTextAreRenameLocations("M");

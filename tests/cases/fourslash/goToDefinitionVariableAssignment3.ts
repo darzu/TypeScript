@@ -6,4 +6,4 @@
 ////new [|Foo/*ref*/|]();
 
 goTo.file("foo.ts");
-verify.baselineGoToDefinition("ref");
+verify.goToDefinition("ref", "def");

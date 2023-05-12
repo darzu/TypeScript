@@ -14,4 +14,4 @@
 ////ambientClass./*staticMethodReference*/method();
 ////ambientClassVariable./*instanceMethodReference*/method();
 
-verify.baselineGetDefinitionAtPosition("ambientVariableReference", "ambientFunctionReference", "constructorReference", "staticMethodReference", "instanceMethodReference");
+verify.goToDefinitionForMarkers("ambientVariable", "ambientFunction", "constructor", "staticMethod", "instanceMethod");

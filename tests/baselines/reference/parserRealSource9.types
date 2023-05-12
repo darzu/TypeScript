@@ -20,6 +20,7 @@ module TypeScript {
 
             var extendsList: Type[] = null;
 >extendsList : Type[]
+>null : null
 
             if (typeLinks) {
 >typeLinks : TypeLink[]
@@ -525,6 +526,7 @@ module TypeScript {
 >bindType : (scope: SymbolScope, type: Type, instanceType: Type) => void
 >scope : SymbolScope
 >instanceType : Type
+>null : null
             }
             if (type.hasMembers()) {
 >type.hasMembers() : any
@@ -752,6 +754,7 @@ module TypeScript {
 >type : Type
 >call : any
 >scope : SymbolScope
+>null : null
             }
             if (type.index) {
 >type.index : any
@@ -767,6 +770,7 @@ module TypeScript {
 >type : Type
 >index : any
 >scope : SymbolScope
+>null : null
             }
             if (type.elementType) {
 >type.elementType : any
@@ -782,6 +786,7 @@ module TypeScript {
 >type.elementType : any
 >type : Type
 >elementType : any
+>null : null
             }
         }
 

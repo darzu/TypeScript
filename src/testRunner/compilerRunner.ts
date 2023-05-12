@@ -18,6 +18,7 @@ import * as vpath from "./_namespaces/vpath";
 export const enum CompilerTestType {
     Conformance,
     Regressions,
+    Test262
 }
 
 interface CompilerFileBasedTest extends FileBasedTest {
@@ -39,6 +40,9 @@ export class CompilerBaselineRunner extends RunnerBase {
         }
         else if (testType === CompilerTestType.Regressions) {
             this.testSuiteName = "compiler";
+        }
+        else if (testType === CompilerTestType.Test262) {
+            this.testSuiteName = "test262";
         }
         else {
             this.testSuiteName = "compiler"; // default to this for historical reasons

@@ -12,4 +12,4 @@
 //// new [|/*start*/StringStreamm|]()
 //// };
 
-verify.baselineGoToDefinition('start')
+verify.goToDefinition('start', 'end')

@@ -7,4 +7,4 @@
 ////import { /*def*/f } from "foo";
 ////[|/*use*/f|]();
 
-verify.baselineGoToDefinition("use");
+verify.goToDefinition("use", "def");

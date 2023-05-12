@@ -14,7 +14,5 @@
 
 const [r0Def, r0, r1, r2] = test.ranges();
 
-verify.baselineCommands(
-    { type: "findAllReferences", markerOrRange: ['0', '1', '2'] },
-    { type: "findRenameLocations", markerOrRange: r0 },
-);
+verify.renameLocations(r0, [r0]);
+verify.baselineFindAllReferences('0', '1', '2')

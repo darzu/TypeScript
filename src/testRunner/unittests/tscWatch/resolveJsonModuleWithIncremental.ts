@@ -1,10 +1,10 @@
 import {
-    verifyTscWatch,
-} from "../helpers/tscWatch";
-import {
     createWatchedSystem,
     libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
+import {
+    verifyTscWatch,
+} from "./helpers";
 
 describe("unittests:: tsc-watch:: resolveJsonModuleWithIncremental:: emit file --incremental", () => {
     verifyTscWatch({

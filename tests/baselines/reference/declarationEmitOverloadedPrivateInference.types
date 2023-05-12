@@ -4,6 +4,7 @@ function noArgs(): string {
 
     return null as any;
 >null as any : any
+>null : null
 }
 
 function oneArg(input: string): string {
@@ -12,6 +13,7 @@ function oneArg(input: string): string {
 
     return null as any;
 >null as any : any
+>null : null
 }
 
 export class Wrapper {
@@ -38,6 +40,7 @@ export class Wrapper {
 
         return null as any;
 >null as any : any
+>null : null
     }
 
     public Proxies = {

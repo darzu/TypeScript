@@ -10,4 +10,4 @@
 ////        continue foo;
 ////}
 
-verify.baselineDocumentHighlights();
+verify.rangesAreOccurrences(false);

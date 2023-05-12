@@ -29,7 +29,7 @@ function createCancellationToken(args: string[]): ServerCancellationToken {
         return {
             isCancellationRequested: () => false,
             setRequest: (_requestId: number): void => void 0,
-            resetRequest: (_requestId: number): void => void 0,
+            resetRequest: (_requestId: number): void => void 0
         };
     }
     // cancellationPipeName is a string without '*' inside that can optionally end with '*'
@@ -40,35 +40,30 @@ function createCancellationToken(args: string[]): ServerCancellationToken {
     if (cancellationPipeName.charAt(cancellationPipeName.length - 1) === "*") {
         const namePrefix = cancellationPipeName.slice(0, -1);
         if (namePrefix.length === 0 || namePrefix.indexOf("*") >= 0) {
-            throw new Error(
-                "Invalid name for template cancellation pipe: it should have length greater than 2 characters and contain only one '*'."
-            );
+            throw new Error("Invalid name for template cancellation pipe: it should have length greater than 2 characters and contain only one '*'.");
         }
         let perRequestPipeName: string | undefined;
         let currentRequestId: number;
         return {
-            isCancellationRequested: () =>
-                perRequestPipeName !== undefined &&
-                pipeExists(perRequestPipeName),
+            isCancellationRequested: () => perRequestPipeName !== undefined && pipeExists(perRequestPipeName),
             setRequest(requestId: number) {
                 currentRequestId = requestId;
                 perRequestPipeName = namePrefix + requestId;
             },
             resetRequest(requestId: number) {
                 if (currentRequestId !== requestId) {
-                    throw new Error(
-                        `Mismatched request id, expected ${currentRequestId}, actual ${requestId}`
-                    );
+                    throw new Error(`Mismatched request id, expected ${currentRequestId}, actual ${requestId}`);
                 }
                 perRequestPipeName = undefined;
-            },
+            }
         };
-    } else {
+    }
+    else {
         return {
             isCancellationRequested: () => pipeExists(cancellationPipeName!), // TODO: GH#18217
             setRequest: (_requestId: number): void => void 0,
-            resetRequest: (_requestId: number): void => void 0,
+            resetRequest: (_requestId: number): void => void 0
         };
     }
 }
-export default createCancellationToken;
+export = createCancellationToken;

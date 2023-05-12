@@ -16,6 +16,7 @@ var Div = 3;
 // OK
 function Fact(): any { return null; }
 >Fact : () => any
+>null : null
 
 <Fact />
 ><Fact /> : JSX.Element

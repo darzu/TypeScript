@@ -653,6 +653,9 @@ export namespace SmartIndenter {
             case SyntaxKind.TypeLiteral:
             case SyntaxKind.MappedType:
             case SyntaxKind.TupleType:
+            case SyntaxKind.CaseBlock:
+            case SyntaxKind.DefaultClause:
+            case SyntaxKind.CaseClause:
             case SyntaxKind.ParenthesizedExpression:
             case SyntaxKind.PropertyAccessExpression:
             case SyntaxKind.CallExpression:
@@ -681,11 +684,7 @@ export namespace SmartIndenter {
             case SyntaxKind.ExportSpecifier:
             case SyntaxKind.ImportSpecifier:
             case SyntaxKind.PropertyDeclaration:
-            case SyntaxKind.CaseClause:
-            case SyntaxKind.DefaultClause:
                 return true;
-            case SyntaxKind.CaseBlock:
-                return settings.indentSwitchCase ?? true;
             case SyntaxKind.VariableDeclaration:
             case SyntaxKind.PropertyAssignment:
             case SyntaxKind.BinaryExpression:

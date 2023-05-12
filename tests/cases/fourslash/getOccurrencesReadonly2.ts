@@ -4,4 +4,4 @@
 ////  [|readonly|] prop: string;
 ////}
 
-verify.baselineDocumentHighlights();
+verify.rangesAreOccurrences(false);

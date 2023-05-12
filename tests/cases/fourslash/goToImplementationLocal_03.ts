@@ -9,4 +9,4 @@
 //// hello = {};
 ////
 
-verify.baselineGoToImplementation("local_var");
+verify.allRangesAppearInImplementationList("local_var");

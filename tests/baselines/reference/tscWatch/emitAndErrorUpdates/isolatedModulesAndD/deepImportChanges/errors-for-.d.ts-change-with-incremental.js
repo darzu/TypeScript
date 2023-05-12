@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/myproject/a.ts]
 import {B} from './b';
@@ -67,27 +66,25 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/a.ts (computed .d.ts during emit)
 
 PolledWatches::
-/user/username/projects/myproject/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/myproject/tsconfig.json: *new*
+/user/username/projects/myproject/tsconfig.json:
   {}
-/user/username/projects/myproject/a.ts: *new*
+/user/username/projects/myproject/a.ts:
   {}
-/user/username/projects/myproject: *new*
+/user/username/projects/myproject:
   {}
-/user/username/projects/myproject/b.d.ts: *new*
+/user/username/projects/myproject/b.d.ts:
   {}
-/user/username/projects/myproject/c.d.ts: *new*
+/user/username/projects/myproject/c.d.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject: *new*
+/user/username/projects/myproject:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -202,10 +199,6 @@ export class C
 }
 
 
-Before running Timeout callback:: count: 2
-2: timerToInvalidateFailedLookupResolutions
-3: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:38 AM[0m] File change detected. Starting incremental compilation...
@@ -237,6 +230,28 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/c.d.ts (used version)
 /user/username/projects/myproject/b.d.ts (used version)
 /user/username/projects/myproject/a.ts (computed .d.ts during emit)
+
+PolledWatches::
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/a.ts:
+  {}
+/user/username/projects/myproject:
+  {}
+/user/username/projects/myproject/b.d.ts:
+  {}
+/user/username/projects/myproject/c.d.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 
@@ -351,9 +366,6 @@ export class C
 }
 
 
-Before running Timeout callback:: count: 1
-4: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:52 AM[0m] File change detected. Starting incremental compilation...
@@ -380,6 +392,28 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/c.d.ts (used version)
 /user/username/projects/myproject/b.d.ts (used version)
 /user/username/projects/myproject/a.ts (computed .d.ts during emit)
+
+PolledWatches::
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/a.ts:
+  {}
+/user/username/projects/myproject:
+  {}
+/user/username/projects/myproject/b.d.ts:
+  {}
+/user/username/projects/myproject/c.d.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 
@@ -482,9 +516,6 @@ export class C
 }
 
 
-Before running Timeout callback:: count: 1
-5: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:01:06 AM[0m] File change detected. Starting incremental compilation...
@@ -516,6 +547,28 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/c.d.ts (used version)
 /user/username/projects/myproject/b.d.ts (used version)
 /user/username/projects/myproject/a.ts (computed .d.ts during emit)
+
+PolledWatches::
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/a.ts:
+  {}
+/user/username/projects/myproject:
+  {}
+/user/username/projects/myproject/b.d.ts:
+  {}
+/user/username/projects/myproject/c.d.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 

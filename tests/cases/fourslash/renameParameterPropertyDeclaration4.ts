@@ -7,4 +7,4 @@
 //// }
 
 const [r0Def, r0, r1] = test.ranges();
-verify.baselineRename([r0, r1]);
+verify.renameLocations([r0, r1], [{ range: r0, prefixText: "protectedParam: " }, r1]);

@@ -26,6 +26,7 @@ const u = undefined;
 
 const n = null;
 >n : null
+>null : null
 
 const z = s || x || u;
 >z : undefined

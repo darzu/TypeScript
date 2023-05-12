@@ -3,4 +3,4 @@
 ////interface I<[|T|]> extends I<[|T|]>, [|T|] {
 ////}
 
-verify.baselineDocumentHighlights();
+verify.rangesAreDocumentHighlights();

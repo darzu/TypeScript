@@ -61,6 +61,7 @@ import {
     nodeIsMissing,
     ParameterDeclaration,
     parseIsolatedJSDocComment,
+    Push,
     Scanner,
     ScriptTarget,
     SemanticMeaning,
@@ -152,8 +153,8 @@ export function createClassifier(): Classifier {
                 handleToken();
                 lastNonTriviaToken = token;
             }
-            const end = scanner.getTokenEnd();
-            pushEncodedClassification(scanner.getTokenStart(), end, offset, classFromKind(token), spans);
+            const end = scanner.getTextPos();
+            pushEncodedClassification(scanner.getTokenPos(), end, offset, classFromKind(token), spans);
             if (end >= text.length) {
                 const end = getNewEndOfLineState(scanner, token, lastOrUndefined(templateStack));
                 if (end !== undefined) {
@@ -213,7 +214,7 @@ export function createClassifier(): Classifier {
                         const lastTemplateStackToken = lastOrUndefined(templateStack);
 
                         if (lastTemplateStackToken === SyntaxKind.TemplateHead) {
-                            token = scanner.reScanTemplateToken(/*isTaggedTemplate*/ false);
+                            token = scanner.reScanTemplateToken(/* isTaggedTemplate */ false);
 
                             // Only pop on a TemplateTail; a TemplateMiddle indicates there is more for us.
                             if (token === SyntaxKind.TemplateTail) {
@@ -311,7 +312,7 @@ function getNewEndOfLineState(scanner: Scanner, token: SyntaxKind, lastOnTemplat
     }
 }
 
-function pushEncodedClassification(start: number, end: number, offset: number, classification: ClassificationType, result: number[]): void {
+function pushEncodedClassification(start: number, end: number, offset: number, classification: ClassificationType, result: Push<number>): void {
     if (classification === ClassificationType.whiteSpace) {
         // Don't bother with whitespace classifications.  They're not needed.
         return;
@@ -656,7 +657,7 @@ function getClassificationTypeName(type: ClassificationType): ClassificationType
         case ClassificationType.jsxAttribute: return ClassificationTypeNames.jsxAttribute;
         case ClassificationType.jsxText: return ClassificationTypeNames.jsxText;
         case ClassificationType.jsxAttributeStringLiteralValue: return ClassificationTypeNames.jsxAttributeStringLiteralValue;
-        default: return undefined!; // TODO: GH#18217 Debug.assertNever(type);
+        default: return undefined!; // TODO: GH#18217 throw Debug.assertNever(type);
     }
 }
 
@@ -700,16 +701,16 @@ export function getEncodedSyntacticClassifications(cancellationToken: Cancellati
     }
 
     function classifyLeadingTriviaAndGetTokenStart(token: Node): number {
-        triviaScanner.resetTokenState(token.pos);
+        triviaScanner.setTextPos(token.pos);
         while (true) {
-            const start = triviaScanner.getTokenEnd();
+            const start = triviaScanner.getTextPos();
             // only bother scanning if we have something that could be trivia.
             if (!couldStartTrivia(sourceFile.text, start)) {
                 return start;
             }
 
             const kind = triviaScanner.scan();
-            const end = triviaScanner.getTokenEnd();
+            const end = triviaScanner.getTextPos();
             const width = end - start;
 
             // The moment we get something that isn't trivia, then stop processing.
@@ -731,7 +732,7 @@ export function getEncodedSyntacticClassifications(cancellationToken: Cancellati
                     // Classifying a comment might cause us to reuse the trivia scanner
                     // (because of jsdoc comments).  So after we classify the comment make
                     // sure we set the scanner position back to where it needs to be.
-                    triviaScanner.resetTokenState(end);
+                    triviaScanner.setTextPos(end);
                     continue;
 
                 case SyntaxKind.ConflictMarkerTrivia:
@@ -989,17 +990,17 @@ export function getEncodedSyntacticClassifications(cancellationToken: Cancellati
             }
         }
         pushClassification(start, i - start, ClassificationType.comment);
-        mergeConflictScanner.resetTokenState(i);
+        mergeConflictScanner.setTextPos(i);
 
-        while (mergeConflictScanner.getTokenEnd() < end) {
+        while (mergeConflictScanner.getTextPos() < end) {
             classifyDisabledCodeToken();
         }
     }
 
     function classifyDisabledCodeToken() {
-        const start = mergeConflictScanner.getTokenEnd();
+        const start = mergeConflictScanner.getTextPos();
         const tokenKind = mergeConflictScanner.scan();
-        const end = mergeConflictScanner.getTokenEnd();
+        const end = mergeConflictScanner.getTextPos();
 
         const type = classifyTokenType(tokenKind);
         if (type) {

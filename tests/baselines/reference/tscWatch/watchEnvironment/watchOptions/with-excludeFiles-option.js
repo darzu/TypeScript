@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -63,25 +62,23 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/src/main.ts (used version)
 
 PolledWatches::
-/user/username/projects/myproject/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/myproject/tsconfig.json: *new*
+/user/username/projects/myproject/tsconfig.json:
   {}
-/user/username/projects/myproject/src/main.ts: *new*
+/user/username/projects/myproject/src/main.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject/node_modules: *new*
+/user/username/projects/myproject/node_modules:
   {}
-/user/username/projects/myproject/src: *new*
+/user/username/projects/myproject/src:
   {}
-/user/username/projects/myproject: *new*
+/user/username/projects/myproject:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -101,9 +98,27 @@ Input::
 export function fooBar(): string;
 
 
-Timeout callback:: count: 0
-Immedidate callback:: count: 0
 Output::
+
+PolledWatches::
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/src/main.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject/node_modules:
+  {}
+/user/username/projects/myproject/src:
+  {}
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 

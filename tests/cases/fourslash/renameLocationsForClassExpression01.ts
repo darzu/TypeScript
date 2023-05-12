@@ -20,4 +20,4 @@
 ////}
 ////var z = class Foo {}
 
-verify.baselineRenameAtRangesWithText("Foo");
+verify.rangesWithSameTextAreRenameLocations("Foo");

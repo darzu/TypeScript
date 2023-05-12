@@ -29,10 +29,12 @@ System.register([], function (exports_1, context_1) {
             exports_1("TopLevelClass", TopLevelClass);
             (function (TopLevelModule) {
                 var v;
-            })(TopLevelModule || (exports_1("TopLevelModule", TopLevelModule = {})));
+            })(TopLevelModule || (TopLevelModule = {}));
+            exports_1("TopLevelModule", TopLevelModule);
             (function (TopLevelEnum) {
                 TopLevelEnum[TopLevelEnum["E"] = 0] = "E";
-            })(TopLevelEnum || (exports_1("TopLevelEnum", TopLevelEnum = {})));
+            })(TopLevelEnum || (TopLevelEnum = {}));
+            exports_1("TopLevelEnum", TopLevelEnum);
             (function (TopLevelModule2) {
                 var NonTopLevelClass = /** @class */ (function () {
                     function NonTopLevelClass() {
@@ -50,7 +52,8 @@ System.register([], function (exports_1, context_1) {
                 (function (NonTopLevelEnum) {
                     NonTopLevelEnum[NonTopLevelEnum["E"] = 0] = "E";
                 })(NonTopLevelEnum = TopLevelModule2.NonTopLevelEnum || (TopLevelModule2.NonTopLevelEnum = {}));
-            })(TopLevelModule2 || (exports_1("TopLevelModule2", TopLevelModule2 = {})));
+            })(TopLevelModule2 || (TopLevelModule2 = {}));
+            exports_1("TopLevelModule2", TopLevelModule2);
         }
     };
 });

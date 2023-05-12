@@ -43,6 +43,8 @@ false? (() => null): null;
 >false : false
 >(() => null) : () => any
 >() => null : () => any
+>null : null
+>null : null
 
 // missing fatarrow
 var x1 = () :void {};

@@ -94,13 +94,11 @@ import {
     isAnyImportSyntax,
     isArray,
     isArrayBindingElement,
-    isBinaryExpression,
     isBindingElement,
     isBindingPattern,
     isClassDeclaration,
     isClassElement,
     isDeclaration,
-    isElementAccessExpression,
     isEntityName,
     isEntityNameExpression,
     isExportAssignment,
@@ -116,7 +114,6 @@ import {
     isGlobalScopeAugmentation,
     isIdentifier,
     isIdentifierANonContextualKeyword,
-    isIdentifierText,
     isImportDeclaration,
     isImportEqualsDeclaration,
     isIndexSignatureDeclaration,
@@ -169,7 +166,6 @@ import {
     Node,
     NodeArray,
     NodeBuilderFlags,
-    NodeFactory,
     NodeFlags,
     NodeId,
     normalizeSlashes,
@@ -184,7 +180,6 @@ import {
     pushIfUnique,
     removeAllComments,
     ResolutionMode,
-    ScriptTarget,
     SetAccessorDeclaration,
     setCommentRange,
     setEmitFlags,
@@ -250,10 +245,10 @@ export function isInternalDeclaration(node: Node, currentSourceFile: SourceFile)
                 // to handle
                 // ... parameters, /** @internal */
                 // public param: string
-                getTrailingCommentRanges(text, skipTrivia(text, previousSibling.end + 1, /*stopAfterLineBreak*/ false, /*stopAtComments*/ true)),
+                getTrailingCommentRanges(text, skipTrivia(text, previousSibling.end + 1, /* stopAfterLineBreak */ false, /* stopAtComments */ true)),
                 getLeadingCommentRanges(text, node.pos)
             )
-            : getTrailingCommentRanges(text, skipTrivia(text, node.pos, /*stopAfterLineBreak*/ false, /*stopAtComments*/ true));
+            : getTrailingCommentRanges(text, skipTrivia(text, node.pos, /* stopAfterLineBreak */ false, /* stopAtComments */ true));
         return commentRanges && commentRanges.length && hasInternalAnnotation(last(commentRanges), currentSourceFile);
     }
     const leadingCommentRanges = parseTreeNode && getLeadingCommentRangesOfNode(parseTreeNode, currentSourceFile);
@@ -368,14 +363,14 @@ export function transformDeclarations(context: TransformationContext) {
                     context.addDiagnostic(createDiagnosticForNode(symbolAccessibilityResult.errorNode || errorInfo.errorNode,
                         errorInfo.diagnosticMessage,
                         getTextOfNode(errorInfo.typeName),
-                        symbolAccessibilityResult.errorSymbolName!,
-                        symbolAccessibilityResult.errorModuleName!));
+                        symbolAccessibilityResult.errorSymbolName,
+                        symbolAccessibilityResult.errorModuleName));
                 }
                 else {
                     context.addDiagnostic(createDiagnosticForNode(symbolAccessibilityResult.errorNode || errorInfo.errorNode,
                         errorInfo.diagnosticMessage,
-                        symbolAccessibilityResult.errorSymbolName!,
-                        symbolAccessibilityResult.errorModuleName!));
+                        symbolAccessibilityResult.errorSymbolName,
+                        symbolAccessibilityResult.errorModuleName));
                 }
                 return true;
             }
@@ -391,7 +386,7 @@ export function transformDeclarations(context: TransformationContext) {
 
     function trackSymbol(symbol: Symbol, enclosingDeclaration?: Node, meaning?: SymbolFlags) {
         if (symbol.flags & SymbolFlags.TypeParameter) return false;
-        const issuedDiagnostic = handleSymbolAccessibilityError(resolver.isSymbolAccessible(symbol, enclosingDeclaration, meaning, /*shouldComputeAliasToMarkVisible*/ true));
+        const issuedDiagnostic = handleSymbolAccessibilityError(resolver.isSymbolAccessible(symbol, enclosingDeclaration, meaning, /*shouldComputeAliasesToMakeVisible*/ true));
         recordTypeReferenceDirectivesIfNecessary(resolver.getTypeReferenceDirectivesForSymbol(symbol, meaning));
         return issuedDiagnostic;
     }
@@ -706,7 +701,7 @@ export function transformDeclarations(context: TransformationContext) {
                 return factory.updateBindingElement(
                     elem,
                     elem.dotDotDotToken,
-                    /*propertyName*/ undefined,
+                    /* propertyName */ undefined,
                     elem.propertyName,
                     shouldPrintWithInitializer(elem) ? elem.initializer : undefined
                 );
@@ -729,7 +724,7 @@ export function transformDeclarations(context: TransformationContext) {
         }
         const newParam = factory.updateParameterDeclaration(
             p,
-            maskModifiers(factory, p, modifierMask),
+            maskModifiers(p, modifierMask),
             p.dotDotDotToken,
             filterBindingPatternInitializersAndRenamings(p.name),
             resolver.isOptionalParameter(p) ? (p.questionToken || factory.createToken(SyntaxKind.QuestionToken)) : undefined,
@@ -1130,7 +1125,7 @@ export function transformDeclarations(context: TransformationContext) {
         if (isMethodDeclaration(input) || isMethodSignature(input)) {
             if (hasEffectiveModifier(input, ModifierFlags.Private)) {
                 if (input.symbol && input.symbol.declarations && input.symbol.declarations[0] !== input) return; // Elide all but the first overload
-                return cleanup(factory.createPropertyDeclaration(ensureModifiers(input), input.name, /*questionOrExclamationToken*/ undefined, /*type*/ undefined, /*initializer*/ undefined));
+                return cleanup(factory.createPropertyDeclaration(ensureModifiers(input), input.name, /*questionToken*/ undefined, /*type*/ undefined, /*initializer*/ undefined));
             }
         }
 
@@ -1494,16 +1489,13 @@ export function transformDeclarations(context: TransformationContext) {
                     fakespace.symbol = props[0].parent!;
                     const exportMappings: [Identifier, string][] = [];
                     let declarations: (VariableStatement | ExportDeclaration)[] = mapDefined(props, p => {
-                        if (!p.valueDeclaration || !(isPropertyAccessExpression(p.valueDeclaration) || isElementAccessExpression(p.valueDeclaration) || isBinaryExpression(p.valueDeclaration))) {
-                            return undefined;
-                        }
-                        const nameStr = unescapeLeadingUnderscores(p.escapedName);
-                        if (!isIdentifierText(nameStr, ScriptTarget.ESNext)) {
-                            return undefined; // unique symbol or non-identifier name - omit, since there's no syntax that can preserve it
+                        if (!p.valueDeclaration || !isPropertyAccessExpression(p.valueDeclaration)) {
+                            return undefined; // TODO GH#33569: Handle element access expressions that created late bound names (rather than silently omitting them)
                         }
                         getSymbolAccessibilityDiagnostic = createGetSymbolAccessibilityDiagnosticForNode(p.valueDeclaration);
                         const type = resolver.createTypeOfDeclaration(p.valueDeclaration, fakespace, declarationEmitNodeBuilderFlags, symbolTracker);
                         getSymbolAccessibilityDiagnostic = oldDiag;
+                        const nameStr = unescapeLeadingUnderscores(p.escapedName);
                         const isNonContextualKeywordName = isStringANonContextualKeyword(nameStr);
                         const name = isNonContextualKeywordName ? factory.getGeneratedNameForNode(p.valueDeclaration) : factory.createIdentifier(nameStr);
                         if (isNonContextualKeywordName) {
@@ -1655,7 +1647,7 @@ export function transformDeclarations(context: TransformationContext) {
                                 elems.push(factory.createPropertyDeclaration(
                                     ensureModifiers(param),
                                     elem.name as Identifier,
-                                    /*questionOrExclamationToken*/ undefined,
+                                    /*questionToken*/ undefined,
                                     ensureType(elem, /*type*/ undefined),
                                     /*initializer*/ undefined
                                 ));
@@ -1673,7 +1665,7 @@ export function transformDeclarations(context: TransformationContext) {
                     factory.createPropertyDeclaration(
                         /*modifiers*/ undefined,
                         factory.createPrivateIdentifier("#private"),
-                        /*questionOrExclamationToken*/ undefined,
+                        /*questionToken*/ undefined,
                         /*type*/ undefined,
                         /*initializer*/ undefined
                     )
@@ -1864,7 +1856,7 @@ function isAlwaysType(node: Node) {
 }
 
 // Elide "public" modifier, as it is the default
-function maskModifiers(factory: NodeFactory, node: Node, modifierMask?: ModifierFlags, modifierAdditions?: ModifierFlags): Modifier[] | undefined {
+function maskModifiers(node: Node, modifierMask?: ModifierFlags, modifierAdditions?: ModifierFlags): Modifier[] | undefined {
     return factory.createModifiersFromModifierFlags(maskModifierFlags(node, modifierMask, modifierAdditions));
 }
 

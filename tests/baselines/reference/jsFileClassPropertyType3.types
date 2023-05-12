@@ -11,6 +11,7 @@ class C {
 >this.p : any
 >this : this
 >p : any
+>null : null
         }
         else {
             this.p = 0;

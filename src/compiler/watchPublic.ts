@@ -1,3 +1,4 @@
+import * as ts from "./_namespaces/ts";
 import {
     BuilderProgram,
     BuildInfo,
@@ -48,7 +49,6 @@ import {
     getParsedCommandLineOfConfigFile,
     getSourceFileVersionAsHashFromText,
     getTsBuildInfoEmitOutputFilePath,
-    HasInvalidatedLibResolutions,
     HasInvalidatedResolutions,
     isArray,
     isIgnoredFileFromWildCardWatching,
@@ -81,7 +81,6 @@ import {
     sys,
     System,
     toPath,
-    toPath as ts_toPath,
     updateErrorForNoInputFiles,
     updateMissingFilePathsWatch,
     updateSharedExtendedConfigFileWatcher,
@@ -230,19 +229,6 @@ export interface ProgramHost<T extends BuilderProgram> {
         containingSourceFile: SourceFile | undefined,
         reusedNames: readonly T[] | undefined
     ): readonly ResolvedTypeReferenceDirectiveWithFailedLookupLocations[];
-    /** @internal */
-    resolveLibrary?(
-        libraryName: string,
-        resolveFrom: string,
-        options: CompilerOptions,
-        libFileName: string,
-    ): ResolvedModuleWithFailedLookupLocations;
-    /**
-     * If provided along with custom resolveLibrary, used to determine if we should redo library resolutions
-     * @internal
-     */
-    hasInvalidatedLibResolutions?(libFileName: string): boolean;
-
     /** If provided along with custom resolveModuleNames or resolveTypeReferenceDirectives, used to determine if unchanged file path needs to re-resolve modules/type reference directives */
     hasInvalidatedResolutions?(filePath: Path): boolean;
     /**
@@ -517,9 +503,6 @@ export function createWatchProgram<T extends BuilderProgram>(host: WatchCompiler
     if (!compilerHost.resolveTypeReferenceDirectiveReferences && !compilerHost.resolveTypeReferenceDirectives) {
        compilerHost.resolveTypeReferenceDirectiveReferences = resolutionCache.resolveTypeReferenceDirectiveReferences.bind(resolutionCache);
     }
-    compilerHost.resolveLibrary = !host.resolveLibrary ?
-        resolutionCache.resolveLibrary.bind(resolutionCache) :
-        host.resolveLibrary.bind(host);
     compilerHost.getModuleResolutionCache = host.resolveModuleNameLiterals || host.resolveModuleNames ?
         maybeBind(host, host.getModuleResolutionCache) :
         (() => resolutionCache.getModuleResolutionCache());
@@ -528,9 +511,6 @@ export function createWatchProgram<T extends BuilderProgram>(host: WatchCompiler
     // All resolutions are invalid if user provided resolutions and didnt supply hasInvalidatedResolutions
     const customHasInvalidatedResolutions = userProvidedResolution ?
         maybeBind(host, host.hasInvalidatedResolutions) || returnTrue :
-        returnFalse;
-    const customHasInvalidLibResolutions = host.resolveLibrary ?
-        maybeBind(host, host.hasInvalidatedLibResolutions) || returnTrue :
         returnFalse;
 
     builderProgram = readBuilderProgram(compilerOptions, compilerHost) as any as T;
@@ -604,17 +584,16 @@ export function createWatchProgram<T extends BuilderProgram>(host: WatchCompiler
         if (hasChangedCompilerOptions) {
             newLine = updateNewLine();
             if (program && changesAffectModuleResolution(program.getCompilerOptions(), compilerOptions)) {
-                debugger;
-                resolutionCache.onChangesAffectModuleResolution();
+                resolutionCache.clear();
             }
         }
 
-        const { hasInvalidatedResolutions, hasInvalidatedLibResolutions } = resolutionCache.createHasInvalidatedResolutions(customHasInvalidatedResolutions, customHasInvalidLibResolutions);
+        const hasInvalidatedResolutions = resolutionCache.createHasInvalidatedResolutions(customHasInvalidatedResolutions);
         const {
             originalReadFile, originalFileExists, originalDirectoryExists,
             originalCreateDirectory, originalWriteFile, readFileWithCache
         } = changeCompilerHostLikeToUseCache(compilerHost, toPath);
-        if (isProgramUptoDate(getCurrentProgram(), rootFileNames, compilerOptions, path => getSourceVersion(path, readFileWithCache), fileName => compilerHost.fileExists(fileName), hasInvalidatedResolutions, hasInvalidatedLibResolutions, hasChangedAutomaticTypeDirectiveNames, getParsedCommandLine, projectReferences)) {
+        if (isProgramUptoDate(getCurrentProgram(), rootFileNames, compilerOptions, path => getSourceVersion(path, readFileWithCache), fileName => compilerHost.fileExists(fileName), hasInvalidatedResolutions, hasChangedAutomaticTypeDirectiveNames, getParsedCommandLine, projectReferences)) {
             if (hasChangedConfigFileParsingErrors) {
                 if (reportFileChangeDetectedOnCreateProgram) {
                     reportWatchDiagnostic(Diagnostics.File_change_detected_Starting_incremental_compilation);
@@ -627,7 +606,7 @@ export function createWatchProgram<T extends BuilderProgram>(host: WatchCompiler
             if (reportFileChangeDetectedOnCreateProgram) {
                 reportWatchDiagnostic(Diagnostics.File_change_detected_Starting_incremental_compilation);
             }
-            createNewProgram(hasInvalidatedResolutions, hasInvalidatedLibResolutions);
+            createNewProgram(hasInvalidatedResolutions);
         }
 
         reportFileChangeDetectedOnCreateProgram = false;
@@ -644,7 +623,7 @@ export function createWatchProgram<T extends BuilderProgram>(host: WatchCompiler
         return builderProgram;
     }
 
-    function createNewProgram(hasInvalidatedResolutions: HasInvalidatedResolutions, hasInvalidatedLibResolutions: HasInvalidatedLibResolutions) {
+    function createNewProgram(hasInvalidatedResolutions: HasInvalidatedResolutions) {
         // Compile the program
         writeLog("CreatingProgramWith::");
         writeLog(`  roots: ${JSON.stringify(rootFileNames)}`);
@@ -656,7 +635,6 @@ export function createWatchProgram<T extends BuilderProgram>(host: WatchCompiler
         hasChangedConfigFileParsingErrors = false;
         resolutionCache.startCachingPerDirectoryResolution();
         compilerHost.hasInvalidatedResolutions = hasInvalidatedResolutions;
-        compilerHost.hasInvalidatedLibResolutions = hasInvalidatedLibResolutions;
         compilerHost.hasChangedAutomaticTypeDirectiveNames = hasChangedAutomaticTypeDirectiveNames;
         const oldProgram = getCurrentProgram();
         builderProgram = createProgram(rootFileNames, compilerOptions, compilerHost, builderProgram, configFileParsingDiagnostics, projectReferences);
@@ -694,7 +672,7 @@ export function createWatchProgram<T extends BuilderProgram>(host: WatchCompiler
     }
 
     function toPath(fileName: string) {
-        return ts_toPath(fileName, currentDirectory, getCanonicalFileName);
+        return ts.toPath(fileName, currentDirectory, getCanonicalFileName);
     }
 
     function isFileMissingOnHost(hostSourceFile: HostFileInfo | undefined): hostSourceFile is FileMissingOnHost {
@@ -825,7 +803,7 @@ export function createWatchProgram<T extends BuilderProgram>(host: WatchCompiler
         }
         const pending = clearInvalidateResolutionsOfFailedLookupLocations();
         writeLog(`Scheduling invalidateFailedLookup${pending ? ", Cancelled earlier one" : ""}`);
-        timerToInvalidateFailedLookupResolutions = host.setTimeout(invalidateResolutionsOfFailedLookup, 250, "timerToInvalidateFailedLookupResolutions");
+        timerToInvalidateFailedLookupResolutions = host.setTimeout(invalidateResolutionsOfFailedLookup, 250);
     }
 
     function invalidateResolutionsOfFailedLookup() {
@@ -847,7 +825,7 @@ export function createWatchProgram<T extends BuilderProgram>(host: WatchCompiler
             host.clearTimeout(timerToUpdateProgram);
         }
         writeLog("Scheduling update");
-        timerToUpdateProgram = host.setTimeout(updateProgramWithWatchStatus, 250, "timerToUpdateProgram");
+        timerToUpdateProgram = host.setTimeout(updateProgramWithWatchStatus, 250);
     }
 
     function scheduleProgramReload() {
@@ -865,19 +843,19 @@ export function createWatchProgram<T extends BuilderProgram>(host: WatchCompiler
     function updateProgram() {
         switch (reloadLevel) {
             case ConfigFileProgramReloadLevel.Partial:
-                perfLogger?.logStartUpdateProgram("PartialConfigReload");
+                perfLogger.logStartUpdateProgram("PartialConfigReload");
                 reloadFileNamesFromConfigFile();
                 break;
             case ConfigFileProgramReloadLevel.Full:
-                perfLogger?.logStartUpdateProgram("FullConfigReload");
+                perfLogger.logStartUpdateProgram("FullConfigReload");
                 reloadConfigFile();
                 break;
             default:
-                perfLogger?.logStartUpdateProgram("SynchronizeProgram");
+                perfLogger.logStartUpdateProgram("SynchronizeProgram");
                 synchronizeProgram();
                 break;
         }
-        perfLogger?.logStopUpdateProgram("Done");
+        perfLogger.logStopUpdateProgram("Done");
         return getCurrentBuilderProgram();
     }
 

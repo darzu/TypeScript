@@ -22,4 +22,4 @@
 ////
 //// obj2.[|/*ref*/id|];
 
-verify.baselineGoToDefinition("ref");
+verify.goToDefinition("ref", "def");

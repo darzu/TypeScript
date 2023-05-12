@@ -1,5 +1,13 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
-Info seq  [hh:mm:ss:mss] Provided types map file "/a/lib/typesMap.json" doesn't exist
+Info 0    [00:00:31.000] Provided types map file "/a/lib/typesMap.json" doesn't exist
+Info 1    [00:00:32.000] request:
+    {
+      "command": "open",
+      "arguments": {
+        "file": "/user/username/projects/myproject/a.ts"
+      },
+      "seq": 1,
+      "type": "request"
+    }
 Before request
 //// [/user/username/projects/myproject/a.ts]
 import { y, cc } from "./b";
@@ -34,34 +42,38 @@ interface Array<T> { length: number; [n: number]: T; }
 {}
 
 
-Info seq  [hh:mm:ss:mss] request:
-    {
-      "command": "open",
-      "arguments": {
-        "file": "/user/username/projects/myproject/a.ts"
-      },
-      "seq": 1,
-      "type": "request"
-    }
-Info seq  [hh:mm:ss:mss] Starting updateGraphWorker: Project: /dev/null/inferredProject1*
-Info seq  [hh:mm:ss:mss] Finishing updateGraphWorker: Project: /dev/null/inferredProject1* Version: 1 structureChanged: false Elapsed:: *ms
-Info seq  [hh:mm:ss:mss] Same program as before
-Info seq  [hh:mm:ss:mss] Project '/dev/null/inferredProject1*' (Inferred)
-Info seq  [hh:mm:ss:mss] 	Files (0) NoProgram
+PolledWatches::
 
-Info seq  [hh:mm:ss:mss] -----------------------------------------------
-Info seq  [hh:mm:ss:mss] Open files: 
-Info seq  [hh:mm:ss:mss] 	FileName: /user/username/projects/myproject/a.ts ProjectRootPath: undefined
-Info seq  [hh:mm:ss:mss] 		Projects: /dev/null/inferredProject1*
-Info seq  [hh:mm:ss:mss] response:
+FsWatches::
+
+FsWatchesRecursive::
+
+Info 2    [00:00:33.000] Starting updateGraphWorker: Project: /dev/null/inferredProject1*
+Info 3    [00:00:34.000] Finishing updateGraphWorker: Project: /dev/null/inferredProject1* Version: 1 structureChanged: false Elapsed:: *ms
+Info 4    [00:00:35.000] Project '/dev/null/inferredProject1*' (Inferred)
+Info 5    [00:00:36.000] 	Files (0) NoProgram
+
+Info 6    [00:00:37.000] -----------------------------------------------
+Info 7    [00:00:38.000] Project '/dev/null/inferredProject1*' (Inferred)
+Info 7    [00:00:39.000] 	Files (0) NoProgram
+
+Info 7    [00:00:40.000] -----------------------------------------------
+Info 7    [00:00:41.000] Open files: 
+Info 7    [00:00:42.000] 	FileName: /user/username/projects/myproject/a.ts ProjectRootPath: undefined
+Info 7    [00:00:43.000] 		Projects: /dev/null/inferredProject1*
+After request
+
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
+
+Info 7    [00:00:44.000] response:
     {
       "responseRequired": false
     }
-After request
-
-Before request
-
-Info seq  [hh:mm:ss:mss] request:
+Info 8    [00:00:45.000] request:
     {
       "command": "semanticDiagnosticsSync",
       "arguments": {
@@ -70,5 +82,13 @@ Info seq  [hh:mm:ss:mss] request:
       "seq": 2,
       "type": "request"
     }
-Info seq  [hh:mm:ss:mss] Request: semanticDiagnosticsSync not allowed in LanguageServiceMode.Syntactic
-Info seq  [hh:mm:ss:mss] LanguageService Operation: getSemanticDiagnostics not allowed in LanguageServiceMode.Syntactic
+Before request
+
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
+
+Info 9    [00:00:46.000] Request: semanticDiagnosticsSync not allowed in LanguageServiceMode.Syntactic
+Info 10   [00:00:47.000] LanguageService Operation: getSemanticDiagnostics not allowed in LanguageServiceMode.Syntactic

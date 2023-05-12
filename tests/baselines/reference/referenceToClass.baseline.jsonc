@@ -1,9 +1,8 @@
-// === findAllReferences ===
 // === /tests/cases/fourslash/referenceToClass_1.ts ===
-// <|class /*FIND ALL REFS*/[|{| isWriteAccess: true, isDefinition: true |}foo|] {
+// class /*FIND ALL REFS*/[|foo|] {
 //     public n: [|foo|];
 //     public foo: number;
-// }|>
+// }
 // 
 // class bar {
 //     public n: [|foo|];
@@ -17,49 +16,105 @@
 // === /tests/cases/fourslash/referenceToClass_2.ts ===
 // var k: [|foo|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referenceToClass_1.ts ===
-  // <|class /*FIND ALL REFS*/[|foo|] {
-  //     public n: foo;
-  //     public foo: number;
-  // }|>
-  // 
-  // class bar {
-  //     public n: foo;
-  // --- (line: 8) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "class",
-    "name": "class foo",
-    "displayParts": [
-     {
-      "text": "class",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+      "kind": "class",
+      "name": "class foo",
+      "textSpan": {
+        "start": 6,
+        "length": 3
+      },
+      "displayParts": [
+        {
+          "text": "class",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 56
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "contextSpan": {
+          "start": 0,
+          "length": 56
+        },
+        "isWriteAccess": true,
+        "isDefinition": true
+      },
+      {
+        "textSpan": {
+          "start": 26,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 84,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 108,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 142,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      },
+      {
+        "textSpan": {
+          "start": 7,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_2.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referenceToClass_1.ts ===
-// <|class [|{| isWriteAccess: true |}foo|] {
+// class [|foo|] {
 //     public n: /*FIND ALL REFS*/[|foo|];
 //     public foo: number;
-// }|>
+// }
 // 
 // class bar {
 //     public n: [|foo|];
@@ -73,49 +128,99 @@
 // === /tests/cases/fourslash/referenceToClass_2.ts ===
 // var k: [|foo|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referenceToClass_1.ts ===
-  // <|class [|foo|] {
-  //     public n: /*FIND ALL REFS*/foo;
-  //     public foo: number;
-  // }|>
-  // 
-  // class bar {
-  //     public n: foo;
-  // --- (line: 8) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "class",
-    "name": "class foo",
-    "displayParts": [
-     {
-      "text": "class",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+      "kind": "class",
+      "name": "class foo",
+      "textSpan": {
+        "start": 6,
+        "length": 3
+      },
+      "displayParts": [
+        {
+          "text": "class",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 56
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "contextSpan": {
+          "start": 0,
+          "length": 56
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 26,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 84,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 108,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 142,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 7,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_2.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referenceToClass_1.ts ===
-// <|class [|{| isWriteAccess: true |}foo|] {
+// class [|foo|] {
 //     public n: [|foo|];
 //     public foo: number;
-// }|>
+// }
 // 
 // class bar {
 //     public n: /*FIND ALL REFS*/[|foo|];
@@ -129,52 +234,99 @@
 // === /tests/cases/fourslash/referenceToClass_2.ts ===
 // var k: [|foo|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referenceToClass_1.ts ===
-  // <|class [|foo|] {
-  //     public n: foo;
-  //     public foo: number;
-  // }|>
-  // 
-  // class bar {
-  //     public n: /*FIND ALL REFS*/foo;
-  //     public k = new foo();
-  // }
-  // 
-  // --- (line: 11) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "class",
-    "name": "class foo",
-    "displayParts": [
-     {
-      "text": "class",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+      "kind": "class",
+      "name": "class foo",
+      "textSpan": {
+        "start": 6,
+        "length": 3
+      },
+      "displayParts": [
+        {
+          "text": "class",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 56
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "contextSpan": {
+          "start": 0,
+          "length": 56
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 26,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 84,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 108,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 142,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 7,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_2.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referenceToClass_1.ts ===
-// <|class [|{| isWriteAccess: true |}foo|] {
+// class [|foo|] {
 //     public n: [|foo|];
 //     public foo: number;
-// }|>
+// }
 // 
 // class bar {
 //     public n: [|foo|];
@@ -188,54 +340,99 @@
 // === /tests/cases/fourslash/referenceToClass_2.ts ===
 // var k: [|foo|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referenceToClass_1.ts ===
-  // <|class [|foo|] {
-  //     public n: foo;
-  //     public foo: number;
-  // }|>
-  // 
-  // class bar {
-  //     public n: foo;
-  //     public k = new /*FIND ALL REFS*/foo();
-  // }
-  // 
-  // module mod {
-  //     var k: foo = null;
-  // }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "class",
-    "name": "class foo",
-    "displayParts": [
-     {
-      "text": "class",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+      "kind": "class",
+      "name": "class foo",
+      "textSpan": {
+        "start": 6,
+        "length": 3
+      },
+      "displayParts": [
+        {
+          "text": "class",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 56
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "contextSpan": {
+          "start": 0,
+          "length": 56
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 26,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 84,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 108,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 142,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 7,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_2.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referenceToClass_1.ts ===
-// <|class [|{| isWriteAccess: true |}foo|] {
+// class [|foo|] {
 //     public n: [|foo|];
 //     public foo: number;
-// }|>
+// }
 // 
 // class bar {
 //     public n: [|foo|];
@@ -249,54 +446,99 @@
 // === /tests/cases/fourslash/referenceToClass_2.ts ===
 // var k: [|foo|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referenceToClass_1.ts ===
-  // <|class [|foo|] {
-  //     public n: foo;
-  //     public foo: number;
-  // }|>
-  // 
-  // class bar {
-  //     public n: foo;
-  //     public k = new foo();
-  // }
-  // 
-  // module mod {
-  //     var k: /*FIND ALL REFS*/foo = null;
-  // }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "class",
-    "name": "class foo",
-    "displayParts": [
-     {
-      "text": "class",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+      "kind": "class",
+      "name": "class foo",
+      "textSpan": {
+        "start": 6,
+        "length": 3
+      },
+      "displayParts": [
+        {
+          "text": "class",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 56
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "contextSpan": {
+          "start": 0,
+          "length": 56
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 26,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 84,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 108,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 142,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 7,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_2.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/referenceToClass_1.ts ===
-// <|class [|{| isWriteAccess: true |}foo|] {
+// class [|foo|] {
 //     public n: [|foo|];
 //     public foo: number;
-// }|>
+// }
 // 
 // class bar {
 //     public n: [|foo|];
@@ -310,37 +552,90 @@
 // === /tests/cases/fourslash/referenceToClass_2.ts ===
 // var k: /*FIND ALL REFS*/[|foo|];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referenceToClass_1.ts ===
-  // <|class [|foo|] {
-  //     public n: foo;
-  //     public foo: number;
-  // }|>
-  // 
-  // class bar {
-  //     public n: foo;
-  // --- (line: 8) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "class",
-    "name": "class foo",
-    "displayParts": [
-     {
-      "text": "class",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "foo",
-      "kind": "className"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+      "kind": "class",
+      "name": "class foo",
+      "textSpan": {
+        "start": 6,
+        "length": 3
+      },
+      "displayParts": [
+        {
+          "text": "class",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "foo",
+          "kind": "className"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 56
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 6,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "contextSpan": {
+          "start": 0,
+          "length": 56
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 26,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 84,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 108,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 142,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_1.ts",
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 7,
+          "length": 3
+        },
+        "fileName": "/tests/cases/fourslash/referenceToClass_2.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]

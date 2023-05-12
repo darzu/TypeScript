@@ -6,4 +6,5 @@
 //// 
 //// }
 
-verify.baselineDocumentHighlights("");
+goTo.marker();
+verify.occurrencesAtPositionCount(1);

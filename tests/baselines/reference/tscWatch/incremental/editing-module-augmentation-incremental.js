@@ -1,4 +1,3 @@
-currentDirectory:: /users/username/projects/project useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -52,6 +51,12 @@ Shape signatures in builder refreshed for::
 /users/username/projects/project/node_modules/classnames/index.d.ts (used version)
 /users/username/projects/project/src/index.ts (used version)
 /users/username/projects/project/src/types/classnames.d.ts (used version)
+
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.Success
 
@@ -183,6 +188,12 @@ Semantic diagnostics in builder refreshed for::
 Shape signatures in builder refreshed for::
 /users/username/projects/project/src/types/classnames.d.ts (used version)
 /users/username/projects/project/src/index.ts (computed .d.ts)
+
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.DiagnosticsPresent_OutputsGenerated
 

@@ -83,7 +83,6 @@ import {
     JSDocTagInfo,
     LanguageServiceMode,
     LineAndCharacter,
-    LinkedEditingInfo,
     map,
     mapDefined,
     mapDefinedIterator,
@@ -136,6 +135,7 @@ import {
     toFileNameLowerCase,
     tracing,
     unmangleScopedPackageName,
+    UserPreferences,
     version,
     WithMetadata,
 } from "./_namespaces/ts";
@@ -160,7 +160,6 @@ import {
     LogLevel,
     Msg,
     NormalizedPath,
-    nullTypingsInstaller,
     Project,
     ProjectInfoTelemetryEvent,
     ProjectKind,
@@ -268,12 +267,9 @@ function convertToLocation(lineAndCharacter: LineAndCharacter): protocol.Locatio
     return { line: lineAndCharacter.line + 1, offset: lineAndCharacter.character + 1 };
 }
 
-/** @internal */
-export function formatDiagnosticToProtocol(diag: Diagnostic, includeFileName: true): protocol.DiagnosticWithFileName;
-/** @internal */
-export function formatDiagnosticToProtocol(diag: Diagnostic, includeFileName: false): protocol.Diagnostic;
-/** @internal */
-export function formatDiagnosticToProtocol(diag: Diagnostic, includeFileName: boolean): protocol.Diagnostic | protocol.DiagnosticWithFileName {
+function formatDiagnosticToProtocol(diag: Diagnostic, includeFileName: true): protocol.DiagnosticWithFileName;
+function formatDiagnosticToProtocol(diag: Diagnostic, includeFileName: false): protocol.Diagnostic;
+function formatDiagnosticToProtocol(diag: Diagnostic, includeFileName: boolean): protocol.Diagnostic | protocol.DiagnosticWithFileName {
     const start = (diag.file && convertToLocation(getLineAndCharacterOfPosition(diag.file, diag.start!)))!; // TODO: GH#18217
     const end = (diag.file && convertToLocation(getLineAndCharacterOfPosition(diag.file, diag.start! + diag.length!)))!; // TODO: GH#18217
     const text = flattenDiagnosticMessageText(diag.messageText, "\n");
@@ -319,7 +315,7 @@ export function formatMessage<T extends protocol.Message>(msg: T, logger: Logger
 
     const json = JSON.stringify(msg);
     if (verboseLogging) {
-        logger.info(`${msg.type}:${indent(JSON.stringify(msg, undefined, " "))}`);
+        logger.info(`${msg.type}:${indent(json)}`);
     }
 
     const len = byteLength(json, "utf8");
@@ -330,8 +326,8 @@ export function formatMessage<T extends protocol.Message>(msg: T, logger: Logger
  * Allows to schedule next step in multistep operation
  */
 interface NextStep {
-    immediate(actionType: string, action: () => void): void;
-    delay(actionType: string, ms: number, action: () => void): void;
+    immediate(action: () => void): void;
+    delay(ms: number, action: () => void): void;
 }
 
 /**
@@ -372,22 +368,22 @@ class MultistepOperation implements NextStep {
         this.setImmediateId(undefined);
     }
 
-    public immediate(actionType: string, action: () => void) {
+    public immediate(action: () => void) {
         const requestId = this.requestId!;
         Debug.assert(requestId === this.operationHost.getCurrentRequestId(), "immediate: incorrect request id");
         this.setImmediateId(this.operationHost.getServerHost().setImmediate(() => {
             this.immediateId = undefined;
             this.operationHost.executeWithRequestId(requestId, () => this.executeAction(action));
-        }, actionType));
+        }));
     }
 
-    public delay(actionType: string, ms: number, action: () => void) {
+    public delay(ms: number, action: () => void) {
         const requestId = this.requestId!;
         Debug.assert(requestId === this.operationHost.getCurrentRequestId(), "delay: incorrect request id");
         this.setTimerHandle(this.operationHost.getServerHost().setTimeout(() => {
             this.timerHandle = undefined;
             this.operationHost.executeWithRequestId(requestId, () => this.executeAction(action));
-        }, ms, actionType));
+        }, ms));
     }
 
     private executeAction(action: (next: NextStep) => void) {
@@ -496,14 +492,14 @@ function getRenameLocationsWorker(
     initialLocation: DocumentPosition,
     findInStrings: boolean,
     findInComments: boolean,
-    preferences: protocol.UserPreferences
+    { providePrefixAndSuffixTextForRename }: UserPreferences
 ): readonly RenameLocation[] {
     const perProjectResults = getPerProjectReferences(
         projects,
         defaultProject,
         initialLocation,
         /*isForRename*/ true,
-        (project, position) => project.getLanguageService().findRenameLocations(position.fileName, position.pos, findInStrings, findInComments, preferences),
+        (project, position) => project.getLanguageService().findRenameLocations(position.fileName, position.pos, findInStrings, findInComments, providePrefixAndSuffixTextForRename),
         (renameLocation, cb) => cb(documentSpanLocation(renameLocation)),
     );
 
@@ -881,7 +877,6 @@ const invalidPartialSemanticModeCommands: readonly protocol.CommandTypes[] = [
     protocol.CommandTypes.ApplyCodeActionCommand,
     protocol.CommandTypes.GetSupportedCodeFixes,
     protocol.CommandTypes.GetApplicableRefactors,
-    protocol.CommandTypes.GetMoveToRefactoringFileSuggestions,
     protocol.CommandTypes.GetEditsForRefactor,
     protocol.CommandTypes.GetEditsForRefactorFull,
     protocol.CommandTypes.OrganizeImports,
@@ -918,6 +913,7 @@ const invalidSyntacticModeCommands: readonly protocol.CommandTypes[] = [
     protocol.CommandTypes.SignatureHelpFull,
     protocol.CommandTypes.Navto,
     protocol.CommandTypes.NavtoFull,
+    protocol.CommandTypes.Occurrences,
     protocol.CommandTypes.DocumentHighlights,
     protocol.CommandTypes.DocumentHighlightsFull,
 ];
@@ -927,7 +923,7 @@ export interface SessionOptions {
     cancellationToken: ServerCancellationToken;
     useSingleInferredProject: boolean;
     useInferredProjectPerProjectRoot: boolean;
-    typingsInstaller?: ITypingsInstaller;
+    typingsInstaller: ITypingsInstaller;
     byteLength: (buf: string, encoding?: BufferEncoding) => number;
     hrtime: (start?: [number, number]) => [number, number];
     logger: Logger;
@@ -973,7 +969,7 @@ export class Session<TMessage = string> implements EventSender {
     constructor(opts: SessionOptions) {
         this.host = opts.host;
         this.cancellationToken = opts.cancellationToken;
-        this.typingsInstaller = opts.typingsInstaller || nullTypingsInstaller;
+        this.typingsInstaller = opts.typingsInstaller;
         this.byteLength = opts.byteLength;
         this.hrtime = opts.hrtime;
         this.logger = opts.logger;
@@ -1182,7 +1178,7 @@ export class Session<TMessage = string> implements EventSender {
 
     protected writeMessage(msg: protocol.Message) {
         const msgText = formatMessage(msg, this.logger, this.byteLength, this.host.newLine);
-        perfLogger?.logEvent(`Response message size: ${msgText.length}`);
+        perfLogger.logEvent(`Response message size: ${msgText.length}`);
         this.host.write(msgText);
     }
 
@@ -1273,7 +1269,7 @@ export class Session<TMessage = string> implements EventSender {
         const goNext = () => {
             index++;
             if (checkList.length > index) {
-                next.delay("checkOne", followMs, checkOne);
+                next.delay(followMs, checkOne);
             }
         };
         const checkOne = () => {
@@ -1310,7 +1306,7 @@ export class Session<TMessage = string> implements EventSender {
                 goNext();
                 return;
             }
-            next.immediate("semanticCheck", () => {
+            next.immediate(() => {
                 this.semanticCheck(fileName, project);
                 if (this.changeSeq !== seq) {
                     return;
@@ -1320,7 +1316,7 @@ export class Session<TMessage = string> implements EventSender {
                     goNext();
                     return;
                 }
-                next.immediate("suggestionCheck", () => {
+                next.immediate(() => {
                     this.suggestionCheck(fileName, project);
                     goNext();
                 });
@@ -1328,7 +1324,7 @@ export class Session<TMessage = string> implements EventSender {
         };
 
         if (checkList.length > index && this.changeSeq === seq) {
-            next.delay("checkOne", ms, checkOne);
+            next.delay(ms, checkOne);
         }
     }
 
@@ -1772,6 +1768,24 @@ export class Session<TMessage = string> implements EventSender {
             implementations.map(Session.mapToOriginalLocation);
     }
 
+    private getOccurrences(args: protocol.FileLocationRequestArgs): readonly protocol.OccurrencesResponseItem[] {
+        const { file, project } = this.getFileAndProject(args);
+        const position = this.getPositionInFile(args, file);
+        const occurrences = project.getLanguageService().getOccurrencesAtPosition(file, position);
+        return occurrences ?
+            occurrences.map<protocol.OccurrencesResponseItem>(occurrence => {
+                const { fileName, isWriteAccess, textSpan, isInString, contextSpan } = occurrence;
+                const scriptInfo = project.getScriptInfo(fileName)!;
+                return {
+                    ...toProtocolTextSpanWithContext(textSpan, contextSpan, scriptInfo),
+                    file: fileName,
+                    isWriteAccess,
+                    ...(isInString ? { isInString } : undefined)
+                };
+            }) :
+            emptyArray;
+    }
+
     private getSyntacticDiagnosticsSync(args: protocol.SyntacticDiagnosticsSyncRequestArgs) {
         const { configFile } = this.getConfigFileAndProject(args);
         if (configFile) {
@@ -1805,15 +1819,6 @@ export class Session<TMessage = string> implements EventSender {
         const position = this.getPositionInFile(args, file);
         const tag = languageService.getJsxClosingTagAtPosition(file, position);
         return tag === undefined ? undefined : { newText: tag.newText, caretOffset: 0 };
-    }
-
-    private getLinkedEditingRange(args: protocol.FileLocationRequestArgs): protocol.LinkedEditingRangesBody | undefined {
-        const { file, languageService } = this.getFileAndLanguageServiceForSyntacticOperation(args);
-        const position = this.getPositionInFile(args, file);
-        const linkedEditInfo = languageService.getLinkedEditingRangeAtPosition(file, position);
-        const scriptInfo = this.projectService.getScriptInfoForNormalizedPath(file);
-        if (scriptInfo === undefined || linkedEditInfo === undefined) return undefined;
-        return convertLinkedEditInfoToRanges(linkedEditInfo, scriptInfo);
     }
 
     private getDocumentHighlights(args: protocol.DocumentHighlightsRequestArgs, simplifiedResult: boolean): readonly protocol.DocumentHighlightsItem[] | readonly DocumentHighlights[] {
@@ -2144,7 +2149,7 @@ export class Session<TMessage = string> implements EventSender {
         else {
             return useDisplayParts ? quickInfo : {
                 ...quickInfo,
-                tags: this.mapJSDocTagInfo(quickInfo.tags, project, /*richResponse*/ false) as JSDocTagInfo[]
+                tags: this.mapJSDocTagInfo(quickInfo.tags, project, /*useDisplayParts*/ false) as JSDocTagInfo[]
             };
         }
     }
@@ -2197,7 +2202,7 @@ export class Session<TMessage = string> implements EventSender {
         // only to the previous line.  If all this is true, then
         // add edits necessary to properly indent the current line.
         if ((args.key === "\n") && ((!edits) || (edits.length === 0) || allEditsBeforePos(edits, position))) {
-            const { lineText, absolutePosition } = scriptInfo.textStorage.getAbsolutePositionAndLineText(args.line);
+            const { lineText, absolutePosition } = scriptInfo.getAbsolutePositionAndLineText(args.line);
             if (lineText && lineText.search("\\S") < 0) {
                 const preferredIndent = languageService.getIndentationAtPosition(file, position, formatOptions);
                 let hasIndent = 0;
@@ -2432,8 +2437,6 @@ export class Session<TMessage = string> implements EventSender {
     private change(args: protocol.ChangeRequestArgs) {
         const scriptInfo = this.projectService.getScriptInfo(args.file)!;
         Debug.assert(!!scriptInfo);
-        // Because we are going to apply edits, its better to switch to svc now instead of computing line map
-        scriptInfo.textStorage.switchToScriptVersionCache();
         const start = scriptInfo.lineOffsetToPosition(args.line, args.offset);
         const end = scriptInfo.lineOffsetToPosition(args.endLine, args.endOffset);
         if (start >= 0) {
@@ -2588,7 +2591,7 @@ export class Session<TMessage = string> implements EventSender {
 
         // Mutates `outputs`
         function addItemsForProject(project: Project) {
-            const projectItems = project.getLanguageService().getNavigateToItems(searchValue, maxResultCount, /*fileName*/ undefined, /*excludeDts*/ project.isNonTsProject());
+            const projectItems = project.getLanguageService().getNavigateToItems(searchValue, maxResultCount, /*filename*/ undefined, /*excludeDts*/ project.isNonTsProject());
             const unseenItems = filter(projectItems, item => tryAddSeenItem(item) && !getMappedLocationForProject(documentSpanLocation(item), project));
             if (unseenItems.length) {
                 outputs.push({ project, navigateToItems: unseenItems });
@@ -2675,7 +2678,7 @@ export class Session<TMessage = string> implements EventSender {
     private getApplicableRefactors(args: protocol.GetApplicableRefactorsRequestArgs): protocol.ApplicableRefactorInfo[] {
         const { file, project } = this.getFileAndProject(args);
         const scriptInfo = project.getScriptInfoForNormalizedPath(file)!;
-        return project.getLanguageService().getApplicableRefactors(file, this.extractPositionOrRange(args, scriptInfo), this.getPreferences(file), args.triggerReason, args.kind, args.includeInteractiveActions);
+        return project.getLanguageService().getApplicableRefactors(file, this.extractPositionOrRange(args, scriptInfo), this.getPreferences(file), args.triggerReason, args.kind);
     }
 
     private getEditsForRefactor(args: protocol.GetEditsForRefactorRequestArgs, simplifiedResult: boolean): RefactorEditInfo | protocol.RefactorEditInfo {
@@ -2688,7 +2691,6 @@ export class Session<TMessage = string> implements EventSender {
             args.refactor,
             args.action,
             this.getPreferences(file),
-            args.interactiveRefactorArguments
         );
 
         if (result === undefined) {
@@ -2704,19 +2706,11 @@ export class Session<TMessage = string> implements EventSender {
                 const renameScriptInfo = project.getScriptInfoForNormalizedPath(toNormalizedPath(renameFilename))!;
                 mappedRenameLocation = getLocationInNewDocument(getSnapshotText(renameScriptInfo.getSnapshot()), renameFilename, renameLocation, edits);
             }
-            return {
-                renameLocation: mappedRenameLocation,
-                renameFilename,
-                edits: this.mapTextChangesToCodeEdits(edits)
-            };
+            return { renameLocation: mappedRenameLocation, renameFilename, edits: this.mapTextChangesToCodeEdits(edits) };
         }
-        return result;
-    }
-
-    private getMoveToRefactoringFileSuggestions(args: protocol.GetMoveToRefactoringFileSuggestionsRequestArgs): { newFileName: string, files: string[] }{
-        const { file, project } = this.getFileAndProject(args);
-        const scriptInfo = project.getScriptInfoForNormalizedPath(file)!;
-        return project.getLanguageService().getMoveToRefactoringFileSuggestions(file, this.extractPositionOrRange(args, scriptInfo), this.getPreferences(file));
+        else {
+            return result;
+        }
     }
 
     private organizeImports(args: protocol.OrganizeImportsRequestArgs, simplifiedResult: boolean): readonly protocol.FileCodeEdits[] | readonly FileTextChanges[] {
@@ -3392,6 +3386,9 @@ export class Session<TMessage = string> implements EventSender {
         [protocol.CommandTypes.NavTreeFull]: (request: protocol.FileRequest) => {
             return this.requiredResponse(this.getNavigationTree(request.arguments, /*simplifiedResult*/ false));
         },
+        [protocol.CommandTypes.Occurrences]: (request: protocol.FileLocationRequest) => {
+            return this.requiredResponse(this.getOccurrences(request.arguments));
+        },
         [protocol.CommandTypes.DocumentHighlights]: (request: protocol.DocumentHighlightsRequest) => {
             return this.requiredResponse(this.getDocumentHighlights(request.arguments, /*simplifiedResult*/ true));
         },
@@ -3411,9 +3408,6 @@ export class Session<TMessage = string> implements EventSender {
         },
         [protocol.CommandTypes.JsxClosingTag]: (request: protocol.JsxClosingTagRequest) => {
             return this.requiredResponse(this.getJsxClosingTag(request.arguments));
-        },
-        [protocol.CommandTypes.LinkedEditingRange]: (request: protocol.LinkedEditingRangeRequest) => {
-            return this.requiredResponse(this.getLinkedEditingRange(request.arguments));
         },
         [protocol.CommandTypes.GetCodeFixes]: (request: protocol.CodeFixRequest) => {
             return this.requiredResponse(this.getCodeFixes(request.arguments, /*simplifiedResult*/ true));
@@ -3438,9 +3432,6 @@ export class Session<TMessage = string> implements EventSender {
         },
         [protocol.CommandTypes.GetEditsForRefactor]: (request: protocol.GetEditsForRefactorRequest) => {
             return this.requiredResponse(this.getEditsForRefactor(request.arguments, /*simplifiedResult*/ true));
-        },
-        [protocol.CommandTypes.GetMoveToRefactoringFileSuggestions]: (request: protocol.GetMoveToRefactoringFileSuggestionsRequest) => {
-            return this.requiredResponse(this.getMoveToRefactoringFileSuggestions(request.arguments));
         },
         [protocol.CommandTypes.GetEditsForRefactorFull]: (request: protocol.GetEditsForRefactorRequest) => {
             return this.requiredResponse(this.getEditsForRefactor(request.arguments, /*simplifiedResult*/ false));
@@ -3569,7 +3560,7 @@ export class Session<TMessage = string> implements EventSender {
             relevantFile = request.arguments && (request as protocol.FileRequest).arguments.file ? (request as protocol.FileRequest).arguments : undefined;
 
             tracing?.instant(tracing.Phase.Session, "request", { seq: request.seq, command: request.command });
-            perfLogger?.logStartCommand("" + request.command, this.toStringMessage(message).substring(0, 100));
+            perfLogger.logStartCommand("" + request.command, this.toStringMessage(message).substring(0, 100));
 
             tracing?.push(tracing.Phase.Session, "executeCommand", { seq: request.seq, command: request.command }, /*separateBeginAndEnd*/ true);
             const { response, responseRequired } = this.executeCommand(request);
@@ -3586,7 +3577,7 @@ export class Session<TMessage = string> implements EventSender {
             }
 
             // Note: Log before writing the response, else the editor can complete its activity before the server does
-            perfLogger?.logStopCommand("" + request.command, "Success");
+            perfLogger.logStopCommand("" + request.command, "Success");
             tracing?.instant(tracing.Phase.Session, "response", { seq: request.seq, command: request.command, success: !!response });
             if (response) {
                 this.doOutput(response, request.command, request.seq, /*success*/ true);
@@ -3601,14 +3592,14 @@ export class Session<TMessage = string> implements EventSender {
 
             if (err instanceof OperationCanceledException) {
                 // Handle cancellation exceptions
-                perfLogger?.logStopCommand("" + (request && request.command), "Canceled: " + err);
+                perfLogger.logStopCommand("" + (request && request.command), "Canceled: " + err);
                 tracing?.instant(tracing.Phase.Session, "commandCanceled", { seq: request?.seq, command: request?.command });
                 this.doOutput({ canceled: true }, request!.command, request!.seq, /*success*/ true);
                 return;
             }
 
             this.logErrorWorker(err, this.toStringMessage(message), relevantFile);
-            perfLogger?.logStopCommand("" + (request && request.command), "Error: " + err);
+            perfLogger.logStopCommand("" + (request && request.command), "Error: " + err);
             tracing?.instant(tracing.Phase.Session, "commandError", { seq: request?.seq, command: request?.command, message: (err as Error).message });
 
             this.doOutput(
@@ -3671,19 +3662,6 @@ function convertTextChangeToCodeEdit(change: TextChange, scriptInfo: ScriptInfoO
 
 function positionToLineOffset(info: ScriptInfoOrConfig, position: number): protocol.Location {
     return isConfigFile(info) ? locationFromLineAndCharacter(info.getLineAndCharacterOfPosition(position)) : info.positionToLineOffset(position);
-}
-
-function convertLinkedEditInfoToRanges(linkedEdit: LinkedEditingInfo, scriptInfo: ScriptInfo): protocol.LinkedEditingRangesBody {
-    const ranges = linkedEdit.ranges.map(
-            r => {
-                return {
-                    start: scriptInfo.positionToLineOffset(r.start),
-                    end: scriptInfo.positionToLineOffset(r.start + r.length),
-                };
-            }
-        );
-    if (!linkedEdit.wordPattern) return { ranges };
-    return { ranges, wordPattern: linkedEdit.wordPattern };
 }
 
 function locationFromLineAndCharacter(lc: LineAndCharacter): protocol.Location {

@@ -13,6 +13,7 @@ f("", x => null, x => x.toLowerCase());
 >"" : ""
 >x => null : (x: string) => any
 >x : string
+>null : null
 >x => x.toLowerCase() : (x: string) => string
 >x : string
 >x.toLowerCase() : string
@@ -38,6 +39,7 @@ g("", x => null, x => x.toLowerCase());
 >"" : ""
 >x => null : (x: string) => any
 >x : string
+>null : null
 >x => x.toLowerCase() : (x: string) => string
 >x : string
 >x.toLowerCase() : string

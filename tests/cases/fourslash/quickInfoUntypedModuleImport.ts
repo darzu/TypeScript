@@ -11,12 +11,11 @@ goTo.file("a.ts");
 verify.numberOfErrorsInCurrentFile(0);
 
 goTo.marker("fooModule");
+verify.goToDefinitionIs(["index"]);
 verify.quickInfoIs("");
 
 goTo.marker("foo");
+verify.goToDefinitionIs("foo");
 verify.quickInfoIs("import foo");
 
-verify.baselineCommands(
-    { type: "findAllReferences", markerOrRange: ['foo', 'fooModule', 'fooCall'] },
-    { type: "getDefinitionAtPosition", markerOrRange: ["fooModule", "foo"] },
-);
+verify.baselineFindAllReferences('foo', 'fooModule', 'fooCall');

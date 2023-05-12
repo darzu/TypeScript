@@ -1,33 +1,18 @@
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{
+Input:: {
  "watchOptions": {
   "watchFile": "UseFsEvents"
- }
+ },
+ "compileOnSave": false
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 {
  "watchFile": 4
 }
-Errors::
+Result: Errors::
 
-
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{}
-
-
-configFileName:: tsconfig.json
+Input:: {
+ "compileOnSave": false
+}
 Result: WatchOptions::
 
-Errors::
-
+Result: Errors::

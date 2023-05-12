@@ -13,6 +13,7 @@ export function make<P, CTor>(x: { new (): CTor & {props: P} }): Things<P, CTor>
 
     return null as any;
 >null as any : any
+>null : null
 }
 
 export interface Props {

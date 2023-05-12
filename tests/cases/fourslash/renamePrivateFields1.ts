@@ -8,4 +8,4 @@
 ////   }
 ////}
 
-verify.baselineRenameAtRangesWithText("#foo");
+verify.rangesWithSameTextAreRenameLocations("#foo");

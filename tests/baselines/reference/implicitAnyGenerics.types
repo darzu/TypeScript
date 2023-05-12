@@ -37,6 +37,7 @@ var d = new D(null);
 >d : D<any>
 >new D(null) : D<any>
 >D : typeof D
+>null : null
 
 var d2 = new D(1);
 >d2 : D<number>
@@ -61,9 +62,11 @@ var d5: D<any> = new D(null);
 >d5 : D<any>
 >new D(null) : D<any>
 >D : typeof D
+>null : null
 
 function foo<T>(): T { return null; };
 >foo : <T>() => T
+>null : null
 
 foo() 
 >foo() : unknown

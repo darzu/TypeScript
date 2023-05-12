@@ -318,7 +318,7 @@ var publicModule;
         };
         return privateClassWithTypeParametersFromPrivateModule;
     }());
-})(publicModule || (exports.publicModule = publicModule = {}));
+})(publicModule = exports.publicModule || (exports.publicModule = {}));
 var privateModule;
 (function (privateModule) {
     var privateClassInPrivateModule = /** @class */ (function () {

@@ -1,15 +1,6 @@
 import * as fakes from "../../_namespaces/fakes";
 import * as ts from "../../_namespaces/ts";
 import * as vfs from "../../_namespaces/vfs";
-import { createSolutionBuilderHostForBaseline } from "../helpers/solutionBuilder";
-import {
-    noChangeOnlyRuns,
-    testTscCompileLike,
-    TestTscEdit,
-    TscCompileSystem,
-    verifyTsc,
-    verifyTscCompileLike,
-} from "../helpers/tsc";
 import {
     addRest,
     addShebang,
@@ -18,11 +9,20 @@ import {
     addTestPrologue,
     addTripleSlashRef,
     appendText,
-    changeStubToRest, enableStrict,
-    loadProjectFromDisk, prependText,
+    changeStubToRest,
+    createSolutionBuilderHostForBaseline,
+    enableStrict,
+    loadProjectFromDisk,
+    noChangeOnlyRuns,
+    prependText,
     removeRest,
-    replaceText
-} from "../helpers/vfs";
+    replaceText,
+    testTscCompileLike,
+    TestTscEdit,
+    TscCompileSystem,
+    verifyTsc,
+    verifyTscCompileLike,
+} from "../tsc/helpers";
 
 describe("unittests:: tsbuild:: outFile::", () => {
     let outFileFs: vfs.FileSystem;

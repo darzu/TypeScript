@@ -24,5 +24,5 @@ define(["require", "exports"], function (require, exports) {
     var c;
     (function (c) {
         c.x.foo();
-    })(c || (exports.c = c = {}));
+    })(c = exports.c || (exports.c = {}));
 });

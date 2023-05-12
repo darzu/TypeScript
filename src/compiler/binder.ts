@@ -44,7 +44,6 @@ import {
     declarationNameToString,
     DeleteExpression,
     DestructuringAssignment,
-    DiagnosticArguments,
     DiagnosticCategory,
     DiagnosticMessage,
     DiagnosticRelatedInformation,
@@ -89,7 +88,6 @@ import {
     getEnclosingBlockScopeContainer,
     getErrorSpanForNode,
     getEscapedTextOfIdentifierOrLiteral,
-    getEscapedTextOfJsxNamespacedName,
     getExpandoInitializer,
     getHostSignatureFromJSDoc,
     getImmediatelyInvokedFunctionExpression,
@@ -172,7 +170,6 @@ import {
     isJSDocTemplateTag,
     isJSDocTypeAlias,
     isJsonSourceFile,
-    isJsxNamespacedName,
     isLeftHandSideExpression,
     isLogicalOrCoalescingAssignmentExpression,
     isLogicalOrCoalescingAssignmentOperator,
@@ -253,6 +250,7 @@ import {
     nodeIsPresent,
     NonNullChain,
     NonNullExpression,
+    NumericLiteral,
     objectAllocator,
     ObjectLiteralExpression,
     OptionalChain,
@@ -298,6 +296,7 @@ import {
     TextRange,
     ThisExpression,
     ThrowStatement,
+    TokenFlags,
     tokenToString,
     tracing,
     TracingNode,
@@ -488,14 +487,14 @@ function initFlowNode<T extends FlowNode>(node: T) {
     return node;
 }
 
-const binder = /* @__PURE__ */ createBinder();
+const binder = createBinder();
 
 /** @internal */
 export function bindSourceFile(file: SourceFile, options: CompilerOptions) {
     performance.mark("beforeBind");
-    perfLogger?.logStartBindFile("" + file.fileName);
+    perfLogger.logStartBindFile("" + file.fileName);
     binder(file, options);
-    perfLogger?.logStopBindFile();
+    perfLogger.logStopBindFile();
     performance.mark("afterBind");
     performance.measure("Bind", "beforeBind", "afterBind");
 }
@@ -556,8 +555,8 @@ function createBinder(): (file: SourceFile, options: CompilerOptions) => void {
      * If so, the node _must_ be in the current file (as that's the only way anything could have traversed to it to yield it as the error node)
      * This version of `createDiagnosticForNode` uses the binder's context to account for this, and always yields correct diagnostics even in these situations.
      */
-    function createDiagnosticForNode(node: Node, message: DiagnosticMessage, ...args: DiagnosticArguments): DiagnosticWithLocation {
-        return createDiagnosticForNodeInSourceFile(getSourceFileOfNode(node) || file, node, message, ...args);
+    function createDiagnosticForNode(node: Node, message: DiagnosticMessage, arg0?: string | number, arg1?: string | number, arg2?: string | number): DiagnosticWithLocation {
+        return createDiagnosticForNodeInSourceFile(getSourceFileOfNode(node) || file, node, message, arg0, arg1, arg2);
     }
 
     function bindSourceFile(f: SourceFile, opts: CompilerOptions) {
@@ -680,9 +679,6 @@ function createBinder(): (file: SourceFile, options: CompilerOptions) => void {
                 }
                 const containingClassSymbol = containingClass.symbol;
                 return getSymbolNameForPrivateIdentifier(containingClassSymbol, name.escapedText);
-            }
-            if (isJsxNamespacedName(name)) {
-                return getEscapedTextOfJsxNamespacedName(name);
             }
             return isPropertyNameLiteral(name) ? getEscapedTextOfIdentifierOrLiteral(name) : undefined;
         }
@@ -843,7 +839,7 @@ function createBinder(): (file: SourceFile, options: CompilerOptions) => void {
                     const declarationName = getNameOfDeclaration(node) || node;
                     forEach(symbol.declarations, (declaration, index) => {
                         const decl = getNameOfDeclaration(declaration) || declaration;
-                        const diag = messageNeedsName ? createDiagnosticForNode(decl, message, getDisplayName(declaration)) : createDiagnosticForNode(decl, message);
+                        const diag = createDiagnosticForNode(decl, message, messageNeedsName ? getDisplayName(declaration) : undefined);
                         file.bindDiagnostics.push(
                             multipleDefaultExports ? addRelatedInfo(diag, createDiagnosticForNode(declarationName, index === 0 ? Diagnostics.Another_export_default_is_here : Diagnostics.and_here)) : diag
                         );
@@ -852,7 +848,7 @@ function createBinder(): (file: SourceFile, options: CompilerOptions) => void {
                         }
                     });
 
-                    const diag = messageNeedsName ? createDiagnosticForNode(declarationName, message, getDisplayName(node)) : createDiagnosticForNode(declarationName, message);
+                    const diag = createDiagnosticForNode(declarationName, message, messageNeedsName ? getDisplayName(node) : undefined);
                     file.bindDiagnostics.push(addRelatedInfo(diag, ...relatedInformation));
 
                     symbol = createSymbol(SymbolFlags.None, name);
@@ -2575,6 +2571,12 @@ function createBinder(): (file: SourceFile, options: CompilerOptions) => void {
         }
     }
 
+    function checkStrictModeNumericLiteral(node: NumericLiteral) {
+        if (languageVersion < ScriptTarget.ES5 && inStrictMode && node.numericLiteralFlags & TokenFlags.Octal) {
+            file.bindDiagnostics.push(createDiagnosticForNode(node, Diagnostics.Octal_literals_are_not_allowed_in_strict_mode));
+        }
+    }
+
     function checkStrictModePostfixUnaryExpression(node: PostfixUnaryExpression) {
         // Grammar checking
         // The identifier eval or arguments may not appear as the LeftHandSideExpression of an
@@ -2610,9 +2612,9 @@ function createBinder(): (file: SourceFile, options: CompilerOptions) => void {
         }
     }
 
-    function errorOnFirstToken(node: Node, message: DiagnosticMessage, ...args: DiagnosticArguments) {
+    function errorOnFirstToken(node: Node, message: DiagnosticMessage, arg0?: any, arg1?: any, arg2?: any) {
         const span = getSpanOfTokenAtPosition(file, node.pos);
-        file.bindDiagnostics.push(createFileDiagnostic(file, span.start, span.length, message, ...args));
+        file.bindDiagnostics.push(createFileDiagnostic(file, span.start, span.length, message, arg0, arg1, arg2));
     }
 
     function errorOrSuggestionOnNode(isError: boolean, node: Node, message: DiagnosticMessage): void {
@@ -2819,6 +2821,8 @@ function createBinder(): (file: SourceFile, options: CompilerOptions) => void {
                 return checkStrictModeCatchClause(node as CatchClause);
             case SyntaxKind.DeleteExpression:
                 return checkStrictModeDeleteExpression(node as DeleteExpression);
+            case SyntaxKind.NumericLiteral:
+                return checkStrictModeNumericLiteral(node as NumericLiteral);
             case SyntaxKind.PostfixUnaryExpression:
                 return checkStrictModePostfixUnaryExpression(node as PostfixUnaryExpression);
             case SyntaxKind.PrefixUnaryExpression:
@@ -3208,9 +3212,7 @@ function createBinder(): (file: SourceFile, options: CompilerOptions) => void {
                     declareSymbolAndAddToSymbolTable(node, SymbolFlags.FunctionScopedVariable, SymbolFlags.FunctionScopedVariableExcludes);
                 }
                 break;
-            // Namespaces are not allowed in javascript files, so do nothing here
-            case SyntaxKind.ModuleDeclaration:
-                break;
+
             default:
                 Debug.failBadSyntaxKind(thisContainer);
         }
@@ -3303,7 +3305,7 @@ function createBinder(): (file: SourceFile, options: CompilerOptions) => void {
         }
         else if (hasDynamicName(node)) {
             bindAnonymousDeclaration(node, SymbolFlags.Property | SymbolFlags.Assignment, InternalSymbolName.Computed);
-            const sym = bindPotentiallyMissingNamespaces(parentSymbol, node.left.expression, isTopLevelNamespaceAssignment(node.left), /*isPrototypeProperty*/ false, /*containerIsClass*/ false);
+            const sym = bindPotentiallyMissingNamespaces(parentSymbol, node.left.expression, isTopLevelNamespaceAssignment(node.left), /*isPrototype*/ false, /*containerIsClass*/ false);
             addLateBoundAssignmentDeclarationToSymbol(node, sym);
         }
         else {
@@ -3474,7 +3476,7 @@ function createBinder(): (file: SourceFile, options: CompilerOptions) => void {
     function bindCallExpression(node: CallExpression) {
         // We're only inspecting call expressions to detect CommonJS modules, so we can skip
         // this check if we've already seen the module indicator
-        if (!file.commonJsModuleIndicator && isRequireCall(node, /*requireStringLiteralLikeArgument*/ false)) {
+        if (!file.commonJsModuleIndicator && isRequireCall(node, /*checkArgumentIsStringLiteralLike*/ false)) {
             setCommonJsModuleIndicator(node);
         }
     }

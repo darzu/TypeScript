@@ -37,10 +37,15 @@ exports.x = void 0;
 var x = await 1;
 exports.x = x;
 try {
-    for (var _d = true, _e = __asyncValues([]), _f; _f = await _e.next(), _a = _f.done, !_a; _d = true) {
+    for (var _d = true, _e = __asyncValues([]), _f; _f = await _e.next(), _a = _f.done, !_a;) {
         _c = _f.value;
         _d = false;
-        var y = _c;
+        try {
+            var y = _c;
+        }
+        finally {
+            _d = true;
+        }
     }
 }
 catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -63,10 +68,15 @@ var _a, e_1, _b, _c;
 var x = await 1;
 export { x };
 try {
-    for (var _d = true, _e = __asyncValues([]), _f; _f = await _e.next(), _a = _f.done, !_a; _d = true) {
+    for (var _d = true, _e = __asyncValues([]), _f; _f = await _e.next(), _a = _f.done, !_a;) {
         _c = _f.value;
         _d = false;
-        var y = _c;
+        try {
+            var y = _c;
+        }
+        finally {
+            _d = true;
+        }
     }
 }
 catch (e_1_1) { e_1 = { error: e_1_1 }; }

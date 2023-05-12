@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/a.ts]
 export class C {}
@@ -50,18 +49,20 @@ Shape signatures in builder refreshed for::
 /b.ts (used version)
 /a/lib/lib.d.ts (used version)
 
+PolledWatches::
+
 FsWatches::
-/tsconfig.json: *new*
+/tsconfig.json:
   {}
-/a.ts: *new*
+/a.ts:
   {}
-/b.ts: *new*
+/b.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/: *new*
+/:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -91,9 +92,6 @@ Input::
 {"compilerOptions":{"forceConsistentCasingInFileNames":true}}
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:24 AM[0m] File change detected. Starting incremental compilation...
@@ -127,6 +125,22 @@ Program files::
 Semantic diagnostics in builder refreshed for::
 
 No shapes updated in the builder::
+
+PolledWatches::
+
+FsWatches::
+/tsconfig.json:
+  {}
+/a.ts:
+  {}
+/b.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/:
+  {}
 
 exitCode:: ExitStatus.undefined
 

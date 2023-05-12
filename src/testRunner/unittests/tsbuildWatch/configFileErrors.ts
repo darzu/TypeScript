@@ -1,11 +1,16 @@
 import { dedent } from "../../_namespaces/Utils";
-import { verifyTscWatch } from "../helpers/tscWatch";
+import { verifyTscWatch } from "../tscWatch/helpers";
 import {
     createWatchedSystem,
     libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+    TestServerHost,
+} from "../virtualFileSystemWithWatch";
 
 describe("unittests:: tsbuildWatch:: watchMode:: configFileErrors:: reports syntax errors in config file", () => {
+    function build(sys: TestServerHost) {
+        sys.checkTimeoutQueueLengthAndRun(1); // build the project
+        sys.checkTimeoutQueueLength(0);
+    }
     verifyTscWatch({
         scenario: "configFileErrors",
         subScenario: "reports syntax errors in config file",
@@ -36,17 +41,17 @@ describe("unittests:: tsbuildWatch:: watchMode:: configFileErrors:: reports synt
                 caption: "reports syntax errors after change to config file",
                 edit: sys => sys.replaceFileText(`/user/username/projects/myproject/tsconfig.json`, ",", `,
         "declaration": true,`),
-                timeouts: sys => sys.runQueuedTimeoutCallbacks(), // build the project
+                timeouts: build,
             },
             {
                 caption: "reports syntax errors after change to ts file",
                 edit: sys => sys.replaceFileText(`/user/username/projects/myproject/a.ts`, "foo", "fooBar"),
-                timeouts: sys => sys.runQueuedTimeoutCallbacks(), // build the project
+                timeouts: build,
             },
             {
                 caption: "reports error when there is no change to tsconfig file",
                 edit: sys => sys.replaceFileText(`/user/username/projects/myproject/tsconfig.json`, "", ""),
-                timeouts: sys => sys.runQueuedTimeoutCallbacks(), // build the project
+                timeouts: build,
             },
             {
                 caption: "builds after fixing config file errors",
@@ -54,7 +59,7 @@ describe("unittests:: tsbuildWatch:: watchMode:: configFileErrors:: reports synt
                     compilerOptions: { composite: true, declaration: true },
                     files: ["a.ts", "b.ts"]
                 })),
-                timeouts: sys => sys.runQueuedTimeoutCallbacks(), // build the project
+                timeouts: build,
             }
         ]
     });

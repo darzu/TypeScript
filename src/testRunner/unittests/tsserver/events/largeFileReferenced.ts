@@ -1,22 +1,20 @@
 import * as ts from "../../../_namespaces/ts";
 import {
-    baselineTsserverLogs,
-    createLoggerWithInMemoryLogs,
-    createSession,
-    openFilesForSession,
-} from "../../helpers/tsserver";
-import {
     createServerHost,
     File,
     libFile,
-} from "../../helpers/virtualFileSystemWithWatch";
+} from "../../virtualFileSystemWithWatch";
+import {
+    checkNumberOfProjects,
+    checkProjectActualFiles,
+    createSessionWithEventTracking,
+    openFilesForSession,
+} from "../helpers";
 
 describe("unittests:: tsserver:: events:: LargeFileReferencedEvent with large file", () => {
-    function getFileType(useLargeTsFile: boolean) {
-        return useLargeTsFile ? "ts" : "js";
-    }
+
     function getLargeFile(useLargeTsFile: boolean) {
-        return `src/large.${getFileType(useLargeTsFile)}`;
+        return `src/large.${useLargeTsFile ? "ts" : "js"}`;
     }
 
     function createSessionWithEventHandler(files: File[], useLargeTsFile: boolean) {
@@ -27,9 +25,23 @@ describe("unittests:: tsserver:: events:: LargeFileReferencedEvent with large fi
         };
         files.push(largeFile);
         const host = createServerHost(files);
-        const session = createSession(host, { canUseEvents: true, logger: createLoggerWithInMemoryLogs(host) });
+        const { session, events: largeFileReferencedEvents } = createSessionWithEventTracking<ts.server.LargeFileReferencedEvent>(host, ts.server.LargeFileReferencedEvent);
 
-        return session;
+        return { session, verifyLargeFile };
+
+        function verifyLargeFile(project: ts.server.Project) {
+            checkProjectActualFiles(project, files.map(f => f.path));
+
+            // large file for non ts file should be empty and for ts file should have content
+            const service = session.getProjectService();
+            const info = service.getScriptInfo(largeFile.path)!;
+            assert.equal(info.cacheSourceFile!.sourceFile.text, useLargeTsFile ? largeFile.content : "");
+
+            assert.deepEqual(largeFileReferencedEvents, useLargeTsFile ? ts.emptyArray : [{
+                eventName: ts.server.LargeFileReferencedEvent,
+                data: { file: largeFile.path, fileSize: largeFile.fileSize, maxFileSize: ts.server.maxFileSize }
+            }]);
+        }
     }
 
     function verifyLargeFile(useLargeTsFile: boolean) {
@@ -43,9 +55,11 @@ describe("unittests:: tsserver:: events:: LargeFileReferencedEvent with large fi
                 content: JSON.stringify({ files: ["src/file.ts", getLargeFile(useLargeTsFile)], compilerOptions: { target: 1, allowJs: true } })
             };
             const files = [file, libFile, tsconfig];
-            const session = createSessionWithEventHandler(files, useLargeTsFile);
+            const { session, verifyLargeFile } = createSessionWithEventHandler(files, useLargeTsFile);
+            const service = session.getProjectService();
             openFilesForSession([file], session);
-            baselineTsserverLogs("events/largeFileReferenced", `when large ${getFileType(useLargeTsFile)} file is included by tsconfig`, session);
+            checkNumberOfProjects(service, { configuredProjects: 1 });
+            verifyLargeFile(service.configuredProjects.get(tsconfig.path)!);
         });
 
         it("when large file is included by module resolution", () => {
@@ -54,9 +68,11 @@ describe("unittests:: tsserver:: events:: LargeFileReferencedEvent with large fi
                 content: `export var y = 10;import {x} from "./large"`
             };
             const files = [file, libFile];
-            const session = createSessionWithEventHandler(files, useLargeTsFile);
+            const { session, verifyLargeFile } = createSessionWithEventHandler(files, useLargeTsFile);
+            const service = session.getProjectService();
             openFilesForSession([file], session);
-            baselineTsserverLogs("events/largeFileReferenced", `when large ${getFileType(useLargeTsFile)} file is included by module resolution`, session);
+            checkNumberOfProjects(service, { inferredProjects: 1 });
+            verifyLargeFile(service.inferredProjects[0]);
         });
     }
 

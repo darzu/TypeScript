@@ -4,6 +4,7 @@ var a = false ? 1 : null;
 >false ? 1 : null : 1
 >false : false
 >1 : 1
+>null : null
 
 var b = false ? undefined : 0;
 >b : number
@@ -37,6 +38,7 @@ var f = false ? null : undefined;
 >f : any
 >false ? null : undefined : null
 >false : false
+>null : null
 >undefined : undefined
 
 var g = true ? {g:5} : null;
@@ -46,6 +48,7 @@ var g = true ? {g:5} : null;
 >{g:5} : { g: number; }
 >g : number
 >5 : 5
+>null : null
 
 var h = [{h:5}, null];
 >h : { h: number; }[]
@@ -53,6 +56,7 @@ var h = [{h:5}, null];
 >{h:5} : { h: number; }
 >h : number
 >5 : 5
+>null : null
 
 function i() { if (true) { return { x: 5 }; } else { return null; } }
 >i : () => { x: number; }
@@ -60,4 +64,5 @@ function i() { if (true) { return { x: 5 }; } else { return null; } }
 >{ x: 5 } : { x: number; }
 >x : number
 >5 : 5
+>null : null
 

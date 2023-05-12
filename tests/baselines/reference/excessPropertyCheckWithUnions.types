@@ -126,7 +126,9 @@ amb = { tag: "A", y: 12, extra: 12 }
 >extra : number
 >12 : 12
 
-// assignability errors still work
+// assignability errors still work.
+// But note that the error for `z: true` is the fallback one of reporting on
+// the last constituent since assignability error reporting can't find a single best discriminant either.
 amb = { tag: "A" }
 >amb = { tag: "A" } : { tag: "A"; }
 >amb : Ambiguous
@@ -135,12 +137,12 @@ amb = { tag: "A" }
 >"A" : "A"
 
 amb = { tag: "A", z: true }
->amb = { tag: "A", z: true } : { tag: "A"; z: boolean; }
+>amb = { tag: "A", z: true } : { tag: "A"; z: true; }
 >amb : Ambiguous
->{ tag: "A", z: true } : { tag: "A"; z: boolean; }
+>{ tag: "A", z: true } : { tag: "A"; z: true; }
 >tag : "A"
 >"A" : "A"
->z : boolean
+>z : true
 >true : true
 
 type Overlapping =
@@ -317,7 +319,7 @@ interface IValue {
 >value : string
 }
 
-interface StringKeys {
+interface StringKeys { 
     [propertyName: string]: IValue;
 >propertyName : string
 

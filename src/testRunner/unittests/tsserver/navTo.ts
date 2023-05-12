@@ -1,15 +1,15 @@
 import * as ts from "../../_namespaces/ts";
 import {
+    createServerHost,
+    File,
+    libFile,
+} from "../virtualFileSystemWithWatch";
+import {
     baselineTsserverLogs,
     createLoggerWithInMemoryLogs,
     createSession,
     openFilesForSession,
-} from "../helpers/tsserver";
-import {
-    createServerHost,
-    File,
-    libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "./helpers";
 
 describe("unittests:: tsserver:: navigate-to for javascript project", () => {
     it("should not include type symbols", () => {

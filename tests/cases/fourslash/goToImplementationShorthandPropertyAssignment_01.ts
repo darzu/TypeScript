@@ -44,4 +44,4 @@
 ////
 //// createBarUsingClassDeclaration().Fo/*reference*/o;
 
-verify.baselineGoToImplementation("reference");
+verify.allRangesAppearInImplementationList("reference");

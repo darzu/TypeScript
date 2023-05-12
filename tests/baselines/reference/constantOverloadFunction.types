@@ -39,5 +39,6 @@ function foo(tagName: any): Base {
 >tagName : any
 
     return null;
+>null : null
 }
 

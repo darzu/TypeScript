@@ -2,7 +2,6 @@ import {
     ApplicableRefactorInfo,
     arrayFrom,
     flatMapIterator,
-    InteractiveRefactorArguments,
     Refactor,
     RefactorContext,
     RefactorEditInfo,
@@ -23,15 +22,15 @@ export function registerRefactor(name: string, refactor: Refactor) {
 }
 
 /** @internal */
-export function getApplicableRefactors(context: RefactorContext, includeInteractiveActions?: boolean): ApplicableRefactorInfo[] {
+export function getApplicableRefactors(context: RefactorContext): ApplicableRefactorInfo[] {
     return arrayFrom(flatMapIterator(refactors.values(), refactor =>
         context.cancellationToken && context.cancellationToken.isCancellationRequested() ||
         !refactor.kinds?.some(kind => refactorKindBeginsWith(kind, context.kind)) ? undefined :
-        refactor.getAvailableActions(context, includeInteractiveActions)));
+        refactor.getAvailableActions(context)));
 }
 
 /** @internal */
-export function getEditsForRefactor(context: RefactorContext, refactorName: string, actionName: string, interactiveRefactorArguments?: InteractiveRefactorArguments): RefactorEditInfo | undefined {
+export function getEditsForRefactor(context: RefactorContext, refactorName: string, actionName: string): RefactorEditInfo | undefined {
     const refactor = refactors.get(refactorName);
-    return refactor && refactor.getEditsForAction(context, actionName, interactiveRefactorArguments);
+    return refactor && refactor.getEditsForAction(context, actionName);
 }

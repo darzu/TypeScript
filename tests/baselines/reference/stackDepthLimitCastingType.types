@@ -78,4 +78,5 @@ hoge.fetch(null as any);
 >hoge : Backbone.ModelWithCache
 >fetch : (options?: any) => JQueryXHR
 >null as any : any
+>null : null
 

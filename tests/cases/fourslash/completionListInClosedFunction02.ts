@@ -7,5 +7,6 @@
 
 verify.completions({
     marker: "1",
-    includes: ["foo", "x", "y", "z", "bar", "a", "b"],
+    // Note: `c: typeof c` would be a compile error
+    includes: ["foo", "x", "y", "z", "bar", "a", "b", "c"],
 });

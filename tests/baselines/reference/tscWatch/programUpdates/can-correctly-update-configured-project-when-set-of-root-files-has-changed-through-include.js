@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject/Project useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/myproject/Project/file1.ts]
 export const x = 10;
@@ -45,23 +44,21 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/project/file1.ts (used version)
 
 PolledWatches::
-/user/username/projects/myproject/project/node_modules/@types: *new*
+/user/username/projects/myproject/project/node_modules/@types:
   {"pollingInterval":500}
-/user/username/projects/myproject/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/myproject/project/tsconfig.json: *new*
+/user/username/projects/myproject/project/tsconfig.json:
   {}
-/user/username/projects/myproject/project/file1.ts: *new*
+/user/username/projects/myproject/project/file1.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject/project: *new*
+/user/username/projects/myproject/project:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -81,9 +78,6 @@ Input::
 export const y = 10;
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:29 AM[0m] File change detected. Starting incremental compilation...
@@ -111,8 +105,6 @@ PolledWatches::
   {"pollingInterval":500}
 /user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
-/user/username/projects/node_modules/@types:
-  {"pollingInterval":500}
 
 FsWatches::
 /user/username/projects/myproject/project/tsconfig.json:
@@ -121,7 +113,7 @@ FsWatches::
   {}
 /a/lib/lib.d.ts:
   {}
-/user/username/projects/myproject/project/file2.ts: *new*
+/user/username/projects/myproject/project/file2.ts:
   {}
 
 FsWatchesRecursive::

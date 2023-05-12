@@ -88,11 +88,16 @@ export { _await as await };
 // for-await-of
 const arr = [Promise.resolve()];
 try {
-    for (var _d = true, arr_1 = __asyncValues(arr), arr_1_1; arr_1_1 = await arr_1.next(), _a = arr_1_1.done, !_a; _d = true) {
+    for (var _d = true, arr_1 = __asyncValues(arr), arr_1_1; arr_1_1 = await arr_1.next(), _a = arr_1_1.done, !_a;) {
         _c = arr_1_1.value;
         _d = false;
-        const item = _c;
-        item;
+        try {
+            const item = _c;
+            item;
+        }
+        finally {
+            _d = true;
+        }
     }
 }
 catch (e_1_1) { e_1 = { error: e_1_1 }; }

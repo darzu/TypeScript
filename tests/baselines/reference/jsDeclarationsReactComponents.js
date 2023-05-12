@@ -190,10 +190,10 @@ export default TabbedShowLayout;
 declare function TabbedShowLayout({}: {}): JSX.Element;
 declare namespace TabbedShowLayout {
     namespace propTypes {
-        let version: PropTypes.Requireable<number>;
+        const version: PropTypes.Requireable<number>;
     }
     namespace defaultProps {
-        let tabs: undefined;
+        const tabs: undefined;
     }
 }
 import PropTypes from "prop-types";
@@ -224,7 +224,7 @@ declare function TabbedShowLayout(prop: {
 }): JSX.Element;
 declare namespace TabbedShowLayout {
     namespace defaultProps {
-        let tabs: string;
+        const tabs: string;
     }
 }
 //// [jsDeclarationsReactComponents5.d.ts]
@@ -235,12 +235,12 @@ declare function Tree({ allowDropOnRoot }: {
 }): JSX.Element;
 declare namespace Tree {
     namespace propTypes {
-        let classes: PropTypes.Requireable<object>;
+        const classes: PropTypes.Requireable<object>;
     }
     namespace defaultProps {
-        let classes_1: {};
+        const classes_1: {};
         export { classes_1 as classes };
-        export let parentSource: string;
+        export const parentSource: string;
     }
 }
 import PropTypes from 'prop-types';

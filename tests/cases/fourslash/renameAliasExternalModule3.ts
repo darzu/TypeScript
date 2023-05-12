@@ -8,4 +8,4 @@
 ////import M = require("./a");
 ////import C = M.[|SomeClass|];
 
-verify.baselineRenameAtRangesWithText("SomeClass");
+verify.rangesWithSameTextAreRenameLocations("SomeClass");

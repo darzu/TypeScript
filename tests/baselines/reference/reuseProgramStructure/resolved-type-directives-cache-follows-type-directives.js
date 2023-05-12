@@ -19,7 +19,6 @@ typedefs: {
     "isExternalLibraryImport": false
   },
   "failedLookupLocations": [
-    "/types/typedefs.d.ts",
     "/types/typedefs/package.json"
   ]
 }
@@ -51,7 +50,6 @@ typedefs: {
     "isExternalLibraryImport": false
   },
   "failedLookupLocations": [
-    "/types/typedefs.d.ts",
     "/types/typedefs/package.json"
   ]
 }
@@ -99,13 +97,11 @@ typedefs: {
     "isExternalLibraryImport": false
   },
   "failedLookupLocations": [
-    "/types/typedefs.d.ts",
     "/types/typedefs/package.json"
   ]
 }
 typedefs2: {
   "failedLookupLocations": [
-    "/types/typedefs2.d.ts",
     "/types/typedefs2/package.json",
     "/types/typedefs2/index.d.ts",
     "/node_modules/typedefs2/package.json",

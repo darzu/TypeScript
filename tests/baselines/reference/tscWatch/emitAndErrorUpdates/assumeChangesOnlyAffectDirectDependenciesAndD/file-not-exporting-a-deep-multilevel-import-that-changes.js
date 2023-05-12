@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/myproject/a.ts]
 export interface Point {
@@ -60,7 +59,7 @@ Output::
   Object literal may only specify known properties, and 'x' does not exist in type 'Coords'.
 
 [7m6[0m             x: 1,
-[7m [0m [91m            ~[0m
+[7m [0m [91m            ~~~~[0m
 
   [96ma.ts[0m:[93m3[0m:[93m5[0m
     [7m3[0m     c: Coords;
@@ -104,29 +103,27 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/e.ts (computed .d.ts during emit)
 
 PolledWatches::
-/user/username/projects/myproject/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/myproject/tsconfig.json: *new*
+/user/username/projects/myproject/tsconfig.json:
   {}
-/user/username/projects/myproject/a.ts: *new*
+/user/username/projects/myproject/a.ts:
   {}
-/user/username/projects/myproject/b.ts: *new*
+/user/username/projects/myproject/b.ts:
   {}
-/user/username/projects/myproject/c.ts: *new*
+/user/username/projects/myproject/c.ts:
   {}
-/user/username/projects/myproject/d.ts: *new*
+/user/username/projects/myproject/d.ts:
   {}
-/user/username/projects/myproject/e.ts: *new*
+/user/username/projects/myproject/e.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject: *new*
+/user/username/projects/myproject:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -216,9 +213,6 @@ export interface Coords {
 }
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:54 AM[0m] File change detected. Starting incremental compilation...
@@ -227,7 +221,7 @@ Output::
   Object literal may only specify known properties, and 'x' does not exist in type 'Coords'.
 
 [7m6[0m             x: 1,
-[7m [0m [91m            ~[0m
+[7m [0m [91m            ~~~~[0m
 
   [96ma.ts[0m:[93m3[0m:[93m5[0m
     [7m3[0m     c: Coords;
@@ -262,6 +256,30 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/a.ts (computed .d.ts)
 /user/username/projects/myproject/b.ts (computed .d.ts)
 
+PolledWatches::
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/a.ts:
+  {}
+/user/username/projects/myproject/b.ts:
+  {}
+/user/username/projects/myproject/c.ts:
+  {}
+/user/username/projects/myproject/d.ts:
+  {}
+/user/username/projects/myproject/e.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject:
+  {}
+
 exitCode:: ExitStatus.undefined
 
 //// [/user/username/projects/myproject/a.js] file written with same contents
@@ -293,9 +311,6 @@ export interface Coords {
 }
 
 
-Before running Timeout callback:: count: 1
-2: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:01:11 AM[0m] File change detected. Starting incremental compilation...
@@ -304,7 +319,7 @@ Output::
   Object literal may only specify known properties, and 'x' does not exist in type 'Coords'.
 
 [7m6[0m             x: 1,
-[7m [0m [91m            ~[0m
+[7m [0m [91m            ~~~~[0m
 
   [96ma.ts[0m:[93m3[0m:[93m5[0m
     [7m3[0m     c: Coords;
@@ -339,6 +354,30 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/a.ts (computed .d.ts)
 /user/username/projects/myproject/b.ts (computed .d.ts)
 
+PolledWatches::
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/a.ts:
+  {}
+/user/username/projects/myproject/b.ts:
+  {}
+/user/username/projects/myproject/c.ts:
+  {}
+/user/username/projects/myproject/d.ts:
+  {}
+/user/username/projects/myproject/e.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject:
+  {}
+
 exitCode:: ExitStatus.undefined
 
 //// [/user/username/projects/myproject/a.js] file written with same contents
@@ -370,9 +409,6 @@ export interface Coords {
 }
 
 
-Before running Timeout callback:: count: 1
-3: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:01:28 AM[0m] File change detected. Starting incremental compilation...
@@ -381,7 +417,7 @@ Output::
   Object literal may only specify known properties, and 'x' does not exist in type 'Coords'.
 
 [7m6[0m             x: 1,
-[7m [0m [91m            ~[0m
+[7m [0m [91m            ~~~~[0m
 
   [96ma.ts[0m:[93m3[0m:[93m5[0m
     [7m3[0m     c: Coords;
@@ -415,6 +451,30 @@ Semantic diagnostics in builder refreshed for::
 Shape signatures in builder refreshed for::
 /user/username/projects/myproject/a.ts (computed .d.ts)
 /user/username/projects/myproject/b.ts (computed .d.ts)
+
+PolledWatches::
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/a.ts:
+  {}
+/user/username/projects/myproject/b.ts:
+  {}
+/user/username/projects/myproject/c.ts:
+  {}
+/user/username/projects/myproject/d.ts:
+  {}
+/user/username/projects/myproject/e.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 

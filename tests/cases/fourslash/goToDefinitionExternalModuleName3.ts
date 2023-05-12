@@ -9,4 +9,4 @@
 ////    class Foo { }
 ////}
 
-verify.baselineGoToDefinition("1");
+verify.goToDefinition("1", "2");

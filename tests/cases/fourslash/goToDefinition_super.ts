@@ -20,10 +20,10 @@
 ////}
 
 
-verify.baselineGoToDefinition(
+verify.goToDefinition({
     // Super in call position goes to constructor.
-    "super",
+    super: ["ctr", "B"],
     // Super in any other position goes to the superclass.
-    "superExpression",
-    "superBroken",
-);
+    superExpression: "B",
+    superBroken: []
+});

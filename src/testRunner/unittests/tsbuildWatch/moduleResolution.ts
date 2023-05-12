@@ -1,9 +1,9 @@
 import { dedent } from "../../_namespaces/Utils";
-import { verifyTscWatch } from "../helpers/tscWatch";
+import { verifyTscWatch } from "../tscWatch/helpers";
 import {
     createWatchedSystem,
     libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
 
 describe("unittests:: tsbuildWatch:: watchMode:: moduleResolution", () => {
     verifyTscWatch({
@@ -50,7 +50,10 @@ describe("unittests:: tsbuildWatch:: watchMode:: moduleResolution", () => {
             {
                 caption: "Append text",
                 edit: sys => sys.appendFile(`/user/username/projects/myproject/project1/index.ts`, "const bar = 10;"),
-                timeouts: sys => sys.runQueuedTimeoutCallbacks(), // build project1 and solution
+                timeouts: sys => {
+                    sys.checkTimeoutQueueLengthAndRun(1); // build project1 and solution
+                    sys.checkTimeoutQueueLength(0);
+                }
             },
         ]
     });

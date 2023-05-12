@@ -13,14 +13,13 @@
 
 const [r0, r1Def, r1, r2] = test.ranges();
 const ranges = [r0, r1, r2];
+goTo.marker("use");
+verify.goToDefinitionIs("def");
+verify.goToType("use", "I");
 
 goTo.marker("use");
 verify.quickInfoIs("(parameter) foo: I", "I pity the foo");
 
-verify.baselineCommands(
-    { type: "findAllReferences", markerOrRange: ["use", "def", "use2"] },
-    { type: "findRenameLocations", markerOrRange: ranges },
-    { type: "documentHighlights", markerOrRange: ranges },
-    { type: "goToType", markerOrRange: "use" },
-    { type: "getDefinitionAtPosition", markerOrRange: "use" },
-);
+verify.baselineFindAllReferences("use", "def", "use2");
+verify.rangesAreDocumentHighlights(ranges);
+verify.rangesAreRenameLocations(ranges);

@@ -10,4 +10,4 @@
 ////     whatever() {}
 //// }
 
-verify.baselineGoToImplementation("this_call");
+verify.allRangesAppearInImplementationList("this_call");

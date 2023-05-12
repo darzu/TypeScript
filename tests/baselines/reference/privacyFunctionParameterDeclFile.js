@@ -913,7 +913,7 @@ var publicModule;
     }());
     function privateFunctionWithPrivateModuleParameterTypes(param) {
     }
-})(publicModule || (exports.publicModule = publicModule = {}));
+})(publicModule = exports.publicModule || (exports.publicModule = {}));
 var privateModule;
 (function (privateModule) {
     var privateClass = /** @class */ (function () {

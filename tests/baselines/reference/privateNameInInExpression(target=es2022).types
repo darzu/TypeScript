@@ -156,6 +156,7 @@ class Foo {
             if (u !== null) {
 >u !== null : boolean
 >u : object | null
+>null : null
 
                 if (#field in u) {
 >#field in u : boolean

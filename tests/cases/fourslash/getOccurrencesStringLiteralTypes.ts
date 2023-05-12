@@ -3,4 +3,4 @@
 ////function foo(a: "[|option 1|]") { }
 ////foo("[|option 1|]");
 
-verify.baselineDocumentHighlights();
+verify.rangesAreOccurrences(false);

@@ -8,4 +8,4 @@
 ////     }
 //// }
 
-verify.baselineGoToImplementation("this_type");
+verify.allRangesAppearInImplementationList("this_type");

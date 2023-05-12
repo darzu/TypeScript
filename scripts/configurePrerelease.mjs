@@ -1,5 +1,4 @@
 import assert from "assert";
-import { execFileSync } from "child_process";
 import { readFileSync, writeFileSync } from "fs";
 import { normalize, relative } from "path";
 import url from "url";
@@ -12,7 +11,6 @@ const __filename = url.fileURLToPath(new URL(import.meta.url));
     name: string;
     version: string;
     keywords: string[];
-    gitHead?: string;
 }} PackageJson
  */
 
@@ -53,7 +51,6 @@ function main() {
     // Finally write the changes to disk.
     // Modify the package.json structure
     packageJsonValue.version = `${majorMinor}.${prereleasePatch}`;
-    packageJsonValue.gitHead = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
     writeFileSync(packageJsonFilePath, JSON.stringify(packageJsonValue, /*replacer:*/ undefined, /*space:*/ 4));
     writeFileSync(tsFilePath, modifiedTsFileContents);
 }

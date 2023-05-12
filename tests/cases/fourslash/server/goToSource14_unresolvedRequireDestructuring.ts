@@ -5,4 +5,4 @@
 // @Filename: /index.js
 //// const { blah/**/ } = require("unresolved");
 
-verify.baselineGoToSourceDefinition("");
+verify.goToSourceDefinition("", []);

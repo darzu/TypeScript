@@ -1,8 +1,7 @@
-// === findAllReferences ===
 // === /tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts ===
 // class Foo {
 //     public _bar;
-//     /*FIND ALL REFS*/<|public [|{| isDefinition: true |}__bar|];|>
+//     /*FIND ALL REFS*/public [|__bar|];
 //     public ___bar;
 //     public ____bar;
 // }
@@ -13,75 +12,96 @@
 // x.___bar;
 // x.____bar;
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts ===
-  // class Foo {
-  //     public _bar;
-  //     /*FIND ALL REFS*/<|public [|__bar|];|>
-  //     public ___bar;
-  //     public ____bar;
-  // }
-  // --- (line: 7) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) Foo.__bar: any",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "Foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "__bar",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "any",
-      "kind": "keyword"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts",
+      "kind": "property",
+      "name": "(property) Foo.__bar: any",
+      "textSpan": {
+        "start": 40,
+        "length": 5
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "Foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "__bar",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "any",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 33,
+        "length": 13
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 40,
+          "length": 5
+        },
+        "fileName": "/tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts",
+        "contextSpan": {
+          "start": 33,
+          "length": 13
+        },
+        "isWriteAccess": false,
+        "isDefinition": true
+      },
+      {
+        "textSpan": {
+          "start": 111,
+          "length": 5
+        },
+        "fileName": "/tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts ===
 // class Foo {
 //     public _bar;
-//     <|public /*FIND ALL REFS*/[|{| isDefinition: true |}__bar|];|>
+//     public /*FIND ALL REFS*/[|__bar|];
 //     public ___bar;
 //     public ____bar;
 // }
@@ -92,75 +112,96 @@
 // x.___bar;
 // x.____bar;
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts ===
-  // class Foo {
-  //     public _bar;
-  //     <|public /*FIND ALL REFS*/[|__bar|];|>
-  //     public ___bar;
-  //     public ____bar;
-  // }
-  // --- (line: 7) skipped ---
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) Foo.__bar: any",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "Foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "__bar",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "any",
-      "kind": "keyword"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts",
+      "kind": "property",
+      "name": "(property) Foo.__bar: any",
+      "textSpan": {
+        "start": 40,
+        "length": 5
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "Foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "__bar",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "any",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 33,
+        "length": 13
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 40,
+          "length": 5
+        },
+        "fileName": "/tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts",
+        "contextSpan": {
+          "start": 33,
+          "length": 13
+        },
+        "isWriteAccess": false,
+        "isDefinition": true
+      },
+      {
+        "textSpan": {
+          "start": 111,
+          "length": 5
+        },
+        "fileName": "/tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts ===
 // class Foo {
 //     public _bar;
-//     <|public [|__bar|];|>
+//     public [|__bar|];
 //     public ___bar;
 //     public ____bar;
 // }
@@ -171,69 +212,86 @@
 // x.___bar;
 // x.____bar;
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts ===
-  // class Foo {
-  //     public _bar;
-  //     <|public [|__bar|];|>
-  //     public ___bar;
-  //     public ____bar;
-  // }
-  // 
-  // var x: Foo;
-  // x._bar;
-  // x./*FIND ALL REFS*/__bar;
-  // x.___bar;
-  // x.____bar;
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "property",
-    "name": "(property) Foo.__bar: any",
-    "displayParts": [
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": "property",
-      "kind": "text"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "Foo",
-      "kind": "className"
-     },
-     {
-      "text": ".",
-      "kind": "punctuation"
-     },
-     {
-      "text": "__bar",
-      "kind": "propertyName"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "any",
-      "kind": "keyword"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts",
+      "kind": "property",
+      "name": "(property) Foo.__bar: any",
+      "textSpan": {
+        "start": 40,
+        "length": 5
+      },
+      "displayParts": [
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": "property",
+          "kind": "text"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "Foo",
+          "kind": "className"
+        },
+        {
+          "text": ".",
+          "kind": "punctuation"
+        },
+        {
+          "text": "__bar",
+          "kind": "propertyName"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "any",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 33,
+        "length": 13
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 40,
+          "length": 5
+        },
+        "fileName": "/tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts",
+        "contextSpan": {
+          "start": 33,
+          "length": 13
+        },
+        "isWriteAccess": false
+      },
+      {
+        "textSpan": {
+          "start": 111,
+          "length": 5
+        },
+        "fileName": "/tests/cases/fourslash/findAllRefsWithLeadingUnderscoreNames6.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]

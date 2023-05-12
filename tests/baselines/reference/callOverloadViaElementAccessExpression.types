@@ -15,6 +15,7 @@ class C {
 >x : any
 
         return null;
+>null : null
     }
 }
 

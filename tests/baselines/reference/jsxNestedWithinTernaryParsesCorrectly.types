@@ -2,6 +2,7 @@
 const emptyMessage = null as any;
 >emptyMessage : any
 >null as any : any
+>null : null
 
 const a = (
 >a : error

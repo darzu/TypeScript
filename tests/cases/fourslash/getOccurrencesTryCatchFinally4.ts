@@ -15,4 +15,16 @@
 ////}
 ////finally/*7*/ {
 ////}
-verify.baselineDocumentHighlights(test.markers());
+function verifyOccurrencesAtMarker(marker: string, count: number) {
+    goTo.marker(marker);
+    verify.occurrencesAtPositionCount(count);
+}
+
+verifyOccurrencesAtMarker("1", 3);
+verifyOccurrencesAtMarker("2", 2);
+verifyOccurrencesAtMarker("3", 2);
+verifyOccurrencesAtMarker("4", 2);
+verifyOccurrencesAtMarker("5", 2);
+verifyOccurrencesAtMarker("6", 3);
+verifyOccurrencesAtMarker("7", 3);
+verifyOccurrencesAtMarker("8", 0);

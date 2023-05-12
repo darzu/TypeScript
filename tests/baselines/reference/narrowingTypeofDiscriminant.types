@@ -59,6 +59,7 @@ type WrappedStringOr<T> = { value?: string } | { value?: T };
 function numberOk(wrapped: WrappedStringOr<number> | null) {
 >numberOk : (wrapped: WrappedStringOr<number> | null) => string | null
 >wrapped : WrappedStringOr<number> | null
+>null : null
 
     if (typeof wrapped?.value !== 'string') {
 >typeof wrapped?.value !== 'string' : boolean
@@ -69,6 +70,7 @@ function numberOk(wrapped: WrappedStringOr<number> | null) {
 >'string' : "string"
 
         return null;
+>null : null
     }
     return wrapped.value;
 >wrapped.value : string
@@ -79,6 +81,7 @@ function numberOk(wrapped: WrappedStringOr<number> | null) {
 function booleanBad(wrapped: WrappedStringOr<boolean> | null) {
 >booleanBad : (wrapped: WrappedStringOr<boolean> | null) => string | null
 >wrapped : WrappedStringOr<boolean> | null
+>null : null
 
     if (typeof wrapped?.value !== 'string') {
 >typeof wrapped?.value !== 'string' : boolean
@@ -89,6 +92,7 @@ function booleanBad(wrapped: WrappedStringOr<boolean> | null) {
 >'string' : "string"
 
         return null;
+>null : null
     }
     return wrapped.value;
 >wrapped.value : string
@@ -99,6 +103,7 @@ function booleanBad(wrapped: WrappedStringOr<boolean> | null) {
 function booleanFixed(wrapped: WrappedStringOr<boolean> | null) {
 >booleanFixed : (wrapped: WrappedStringOr<boolean> | null) => string | null
 >wrapped : WrappedStringOr<boolean> | null
+>null : null
 
     if (typeof (wrapped?.value) !== 'string') {
 >typeof (wrapped?.value) !== 'string' : boolean
@@ -110,6 +115,7 @@ function booleanFixed(wrapped: WrappedStringOr<boolean> | null) {
 >'string' : "string"
 
         return null;
+>null : null
     }
     return wrapped.value;
 >wrapped.value : string

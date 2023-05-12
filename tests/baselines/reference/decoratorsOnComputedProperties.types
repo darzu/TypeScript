@@ -54,6 +54,7 @@ class A {
 >Symbol.iterator : unique symbol
 >Symbol : SymbolConstructor
 >iterator : unique symbol
+>null : null
 
     ["property3"]: any;
 >["property3"] : any
@@ -75,6 +76,7 @@ class A {
 >Symbol.match : unique symbol
 >Symbol : SymbolConstructor
 >match : unique symbol
+>null : null
 
     [foo()]: any;
 >[foo()] : any
@@ -92,6 +94,7 @@ class A {
 >[foo()] : any
 >foo() : string
 >foo : () => string
+>null : null
 
     [fieldNameA]: any;
 >[fieldNameA] : any
@@ -106,6 +109,7 @@ class A {
 >x : (o: object, k: PropertyKey) => void
 >[fieldNameC] : any
 >fieldNameC : string
+>null : null
 }
 
 void class B {
@@ -137,6 +141,7 @@ void class B {
 >Symbol.iterator : unique symbol
 >Symbol : SymbolConstructor
 >iterator : unique symbol
+>null : null
 
     ["property3"]: any;
 >["property3"] : any
@@ -158,6 +163,7 @@ void class B {
 >Symbol.match : unique symbol
 >Symbol : SymbolConstructor
 >match : unique symbol
+>null : null
 
     [foo()]: any;
 >[foo()] : any
@@ -175,6 +181,7 @@ void class B {
 >[foo()] : any
 >foo() : string
 >foo : () => string
+>null : null
 
     [fieldNameA]: any;
 >[fieldNameA] : any
@@ -189,6 +196,7 @@ void class B {
 >x : (o: object, k: PropertyKey) => void
 >[fieldNameC] : any
 >fieldNameC : string
+>null : null
 
 };
 
@@ -219,6 +227,7 @@ class C {
 >Symbol.iterator : unique symbol
 >Symbol : SymbolConstructor
 >iterator : unique symbol
+>null : null
 
     ["property3"]: any;
 >["property3"] : any
@@ -240,6 +249,7 @@ class C {
 >Symbol.match : unique symbol
 >Symbol : SymbolConstructor
 >match : unique symbol
+>null : null
 
     [foo()]: any;
 >[foo()] : any
@@ -257,6 +267,7 @@ class C {
 >[foo()] : any
 >foo() : string
 >foo : () => string
+>null : null
 
     [fieldNameA]: any;
 >[fieldNameA] : any
@@ -271,6 +282,7 @@ class C {
 >x : (o: object, k: PropertyKey) => void
 >[fieldNameC] : any
 >fieldNameC : string
+>null : null
 
     ["some" + "method"]() {}
 >["some" + "method"] : () => void
@@ -308,6 +320,7 @@ void class D {
 >Symbol.iterator : unique symbol
 >Symbol : SymbolConstructor
 >iterator : unique symbol
+>null : null
 
     ["property3"]: any;
 >["property3"] : any
@@ -329,6 +342,7 @@ void class D {
 >Symbol.match : unique symbol
 >Symbol : SymbolConstructor
 >match : unique symbol
+>null : null
 
     [foo()]: any;
 >[foo()] : any
@@ -346,6 +360,7 @@ void class D {
 >[foo()] : any
 >foo() : string
 >foo : () => string
+>null : null
 
     [fieldNameA]: any;
 >[fieldNameA] : any
@@ -360,6 +375,7 @@ void class D {
 >x : (o: object, k: PropertyKey) => void
 >[fieldNameC] : any
 >fieldNameC : string
+>null : null
 
     ["some" + "method"]() {}
 >["some" + "method"] : () => void
@@ -396,6 +412,7 @@ class E {
 >Symbol.iterator : unique symbol
 >Symbol : SymbolConstructor
 >iterator : unique symbol
+>null : null
 
     ["property3"]: any;
 >["property3"] : any
@@ -417,6 +434,7 @@ class E {
 >Symbol.match : unique symbol
 >Symbol : SymbolConstructor
 >match : unique symbol
+>null : null
 
     [foo()]: any;
 >[foo()] : any
@@ -434,6 +452,7 @@ class E {
 >[foo()] : any
 >foo() : string
 >foo : () => string
+>null : null
 
     ["some" + "method"]() {}
 >["some" + "method"] : () => void
@@ -454,6 +473,7 @@ class E {
 >x : (o: object, k: PropertyKey) => void
 >[fieldNameC] : any
 >fieldNameC : string
+>null : null
 }
 
 void class F {
@@ -485,6 +505,7 @@ void class F {
 >Symbol.iterator : unique symbol
 >Symbol : SymbolConstructor
 >iterator : unique symbol
+>null : null
 
     ["property3"]: any;
 >["property3"] : any
@@ -506,6 +527,7 @@ void class F {
 >Symbol.match : unique symbol
 >Symbol : SymbolConstructor
 >match : unique symbol
+>null : null
 
     [foo()]: any;
 >[foo()] : any
@@ -523,6 +545,7 @@ void class F {
 >[foo()] : any
 >foo() : string
 >foo : () => string
+>null : null
 
     ["some" + "method"]() {}
 >["some" + "method"] : () => void
@@ -543,6 +566,7 @@ void class F {
 >x : (o: object, k: PropertyKey) => void
 >[fieldNameC] : any
 >fieldNameC : string
+>null : null
 
 };
 
@@ -573,6 +597,7 @@ class G {
 >Symbol.iterator : unique symbol
 >Symbol : SymbolConstructor
 >iterator : unique symbol
+>null : null
 
     ["property3"]: any;
 >["property3"] : any
@@ -594,6 +619,7 @@ class G {
 >Symbol.match : unique symbol
 >Symbol : SymbolConstructor
 >match : unique symbol
+>null : null
 
     [foo()]: any;
 >[foo()] : any
@@ -611,6 +637,7 @@ class G {
 >[foo()] : any
 >foo() : string
 >foo : () => string
+>null : null
 
     ["some" + "method"]() {}
 >["some" + "method"] : () => void
@@ -637,6 +664,7 @@ class G {
 >x : (o: object, k: PropertyKey) => void
 >[fieldNameC] : any
 >fieldNameC : string
+>null : null
 }
 
 void class H {
@@ -668,6 +696,7 @@ void class H {
 >Symbol.iterator : unique symbol
 >Symbol : SymbolConstructor
 >iterator : unique symbol
+>null : null
 
     ["property3"]: any;
 >["property3"] : any
@@ -689,6 +718,7 @@ void class H {
 >Symbol.match : unique symbol
 >Symbol : SymbolConstructor
 >match : unique symbol
+>null : null
 
     [foo()]: any;
 >[foo()] : any
@@ -706,6 +736,7 @@ void class H {
 >[foo()] : any
 >foo() : string
 >foo : () => string
+>null : null
 
     ["some" + "method"]() {}
 >["some" + "method"] : () => void
@@ -732,6 +763,7 @@ void class H {
 >x : (o: object, k: PropertyKey) => void
 >[fieldNameC] : any
 >fieldNameC : string
+>null : null
 
 };
 
@@ -762,6 +794,7 @@ class I {
 >Symbol.iterator : unique symbol
 >Symbol : SymbolConstructor
 >iterator : unique symbol
+>null : null
 
     ["property3"]: any;
 >["property3"] : any
@@ -783,6 +816,7 @@ class I {
 >Symbol.match : unique symbol
 >Symbol : SymbolConstructor
 >match : unique symbol
+>null : null
 
     [foo()]: any;
 >[foo()] : any
@@ -800,6 +834,7 @@ class I {
 >[foo()] : any
 >foo() : string
 >foo : () => string
+>null : null
 
     @x ["some" + "method"]() {}
 >x : (o: object, k: PropertyKey) => void
@@ -827,6 +862,7 @@ class I {
 >x : (o: object, k: PropertyKey) => void
 >[fieldNameC] : any
 >fieldNameC : string
+>null : null
 }
 
 void class J {
@@ -858,6 +894,7 @@ void class J {
 >Symbol.iterator : unique symbol
 >Symbol : SymbolConstructor
 >iterator : unique symbol
+>null : null
 
     ["property3"]: any;
 >["property3"] : any
@@ -879,6 +916,7 @@ void class J {
 >Symbol.match : unique symbol
 >Symbol : SymbolConstructor
 >match : unique symbol
+>null : null
 
     [foo()]: any;
 >[foo()] : any
@@ -896,6 +934,7 @@ void class J {
 >[foo()] : any
 >foo() : string
 >foo : () => string
+>null : null
 
     @x ["some" + "method"]() {}
 >x : (o: object, k: PropertyKey) => void
@@ -923,5 +962,6 @@ void class J {
 >x : (o: object, k: PropertyKey) => void
 >[fieldNameC] : any
 >fieldNameC : string
+>null : null
 
 };

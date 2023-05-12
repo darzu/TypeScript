@@ -29,6 +29,7 @@ x = a;
 x = null;
 >x = null : null
 >x : any
+>null : null
 
 class C { foo: string }
 >C : C

@@ -1,5 +1,13 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
-Info seq  [hh:mm:ss:mss] Provided types map file "/a/lib/typesMap.json" doesn't exist
+Info 0    [00:00:17.000] Provided types map file "/a/lib/typesMap.json" doesn't exist
+Info 1    [00:00:18.000] request:
+    {
+      "command": "open",
+      "arguments": {
+        "file": "/a/b/moduleFile1.ts"
+      },
+      "seq": 1,
+      "type": "request"
+    }
 Before request
 //// [/a/b/moduleFile1.ts]
 export function Foo() { };
@@ -29,20 +37,17 @@ interface String { charAt: any; }
 interface Array<T> { length: number; [n: number]: T; }
 
 
-Info seq  [hh:mm:ss:mss] request:
-    {
-      "command": "open",
-      "arguments": {
-        "file": "/a/b/moduleFile1.ts"
-      },
-      "seq": 1,
-      "type": "request"
-    }
-Info seq  [hh:mm:ss:mss] Search path: /a/b
-Info seq  [hh:mm:ss:mss] For info: /a/b/moduleFile1.ts :: Config file name: /a/b/tsconfig.json
-Info seq  [hh:mm:ss:mss] Creating configuration project /a/b/tsconfig.json
-Info seq  [hh:mm:ss:mss] FileWatcher:: Added:: WatchInfo: /a/b/tsconfig.json 2000 undefined Project: /a/b/tsconfig.json WatchType: Config file
-Info seq  [hh:mm:ss:mss] Config: /a/b/tsconfig.json : {
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
+
+Info 2    [00:00:19.000] Search path: /a/b
+Info 3    [00:00:20.000] For info: /a/b/moduleFile1.ts :: Config file name: /a/b/tsconfig.json
+Info 4    [00:00:21.000] Creating configuration project /a/b/tsconfig.json
+Info 5    [00:00:22.000] FileWatcher:: Added:: WatchInfo: /a/b/tsconfig.json 2000 undefined Project: /a/b/tsconfig.json WatchType: Config file
+Info 6    [00:00:23.000] Config: /a/b/tsconfig.json : {
  "rootNames": [
   "/a/b/file1Consumer1.ts",
   "/a/b/moduleFile1.ts"
@@ -52,17 +57,19 @@ Info seq  [hh:mm:ss:mss] Config: /a/b/tsconfig.json : {
   "configFilePath": "/a/b/tsconfig.json"
  }
 }
-Info seq  [hh:mm:ss:mss] DirectoryWatcher:: Added:: WatchInfo: /a/b 1 undefined Config: /a/b/tsconfig.json WatchType: Wild card directory
-Info seq  [hh:mm:ss:mss] Elapsed:: *ms DirectoryWatcher:: Added:: WatchInfo: /a/b 1 undefined Config: /a/b/tsconfig.json WatchType: Wild card directory
-Info seq  [hh:mm:ss:mss] FileWatcher:: Added:: WatchInfo: /a/b/file1Consumer1.ts 500 undefined WatchType: Closed Script info
-Info seq  [hh:mm:ss:mss] Starting updateGraphWorker: Project: /a/b/tsconfig.json
-Info seq  [hh:mm:ss:mss] FileWatcher:: Added:: WatchInfo: /a/lib/lib.d.ts 500 undefined WatchType: Closed Script info
-Info seq  [hh:mm:ss:mss] Finishing updateGraphWorker: Project: /a/b/tsconfig.json Version: 1 structureChanged: true structureIsReused:: Not Elapsed:: *ms
-Info seq  [hh:mm:ss:mss] Project '/a/b/tsconfig.json' (Configured)
-Info seq  [hh:mm:ss:mss] 	Files (3)
-	/a/lib/lib.d.ts Text-1 "/// <reference no-default-lib=\"true\"/>\ninterface Boolean {}\ninterface Function {}\ninterface CallableFunction {}\ninterface NewableFunction {}\ninterface IArguments {}\ninterface Number { toExponential: any; }\ninterface Object {}\ninterface RegExp {}\ninterface String { charAt: any; }\ninterface Array<T> { length: number; [n: number]: T; }"
-	/a/b/moduleFile1.ts SVC-1-0 "export function Foo() { };"
-	/a/b/file1Consumer1.ts Text-1 "import {Foo} from \"./moduleFile1\"; export var y = 10;"
+Info 7    [00:00:24.000] DirectoryWatcher:: Added:: WatchInfo: /a/b 1 undefined Config: /a/b/tsconfig.json WatchType: Wild card directory
+Info 8    [00:00:25.000] Elapsed:: *ms DirectoryWatcher:: Added:: WatchInfo: /a/b 1 undefined Config: /a/b/tsconfig.json WatchType: Wild card directory
+Info 9    [00:00:26.000] FileWatcher:: Added:: WatchInfo: /a/b/file1Consumer1.ts 500 undefined WatchType: Closed Script info
+Info 10   [00:00:27.000] Starting updateGraphWorker: Project: /a/b/tsconfig.json
+Info 11   [00:00:28.000] FileWatcher:: Added:: WatchInfo: /a/lib/lib.d.ts 500 undefined WatchType: Closed Script info
+Info 12   [00:00:29.000] DirectoryWatcher:: Added:: WatchInfo: /a/b/node_modules/@types 1 undefined Project: /a/b/tsconfig.json WatchType: Type roots
+Info 13   [00:00:30.000] Elapsed:: *ms DirectoryWatcher:: Added:: WatchInfo: /a/b/node_modules/@types 1 undefined Project: /a/b/tsconfig.json WatchType: Type roots
+Info 14   [00:00:31.000] Finishing updateGraphWorker: Project: /a/b/tsconfig.json Version: 1 structureChanged: true structureIsReused:: Not Elapsed:: *ms
+Info 15   [00:00:32.000] Project '/a/b/tsconfig.json' (Configured)
+Info 16   [00:00:33.000] 	Files (3)
+	/a/lib/lib.d.ts
+	/a/b/moduleFile1.ts
+	/a/b/file1Consumer1.ts
 
 
 	../lib/lib.d.ts
@@ -73,35 +80,37 @@ Info seq  [hh:mm:ss:mss] 	Files (3)
 	file1Consumer1.ts
 	  Matched by default include pattern '**/*'
 
-Info seq  [hh:mm:ss:mss] -----------------------------------------------
-Info seq  [hh:mm:ss:mss] Project '/a/b/tsconfig.json' (Configured)
-Info seq  [hh:mm:ss:mss] 	Files (3)
+Info 17   [00:00:34.000] -----------------------------------------------
+Info 18   [00:00:35.000] Project '/a/b/tsconfig.json' (Configured)
+Info 18   [00:00:36.000] 	Files (3)
 
-Info seq  [hh:mm:ss:mss] -----------------------------------------------
-Info seq  [hh:mm:ss:mss] Open files: 
-Info seq  [hh:mm:ss:mss] 	FileName: /a/b/moduleFile1.ts ProjectRootPath: undefined
-Info seq  [hh:mm:ss:mss] 		Projects: /a/b/tsconfig.json
-Info seq  [hh:mm:ss:mss] response:
-    {
-      "responseRequired": false
-    }
+Info 18   [00:00:37.000] -----------------------------------------------
+Info 18   [00:00:38.000] Open files: 
+Info 18   [00:00:39.000] 	FileName: /a/b/moduleFile1.ts ProjectRootPath: undefined
+Info 18   [00:00:40.000] 		Projects: /a/b/tsconfig.json
 After request
 
+PolledWatches::
+/a/b/node_modules/@types:
+  {"pollingInterval":500}
+
 FsWatches::
-/a/b/tsconfig.json: *new*
+/a/b/tsconfig.json:
   {}
-/a/b/file1consumer1.ts: *new*
+/a/b/file1consumer1.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/a/b: *new*
+/a/b:
   {}
 
-Before request
-
-Info seq  [hh:mm:ss:mss] request:
+Info 18   [00:00:41.000] response:
+    {
+      "responseRequired": false
+    }
+Info 19   [00:00:42.000] request:
     {
       "command": "change",
       "arguments": {
@@ -115,15 +124,47 @@ Info seq  [hh:mm:ss:mss] request:
       "seq": 2,
       "type": "request"
     }
-Info seq  [hh:mm:ss:mss] response:
+Before request
+
+PolledWatches::
+/a/b/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/a/b/tsconfig.json:
+  {}
+/a/b/file1consumer1.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/a/b:
+  {}
+
+After request
+
+PolledWatches::
+/a/b/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/a/b/tsconfig.json:
+  {}
+/a/b/file1consumer1.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/a/b:
+  {}
+
+Info 20   [00:00:43.000] response:
     {
       "responseRequired": false
     }
-After request
-
-Before request
-
-Info seq  [hh:mm:ss:mss] request:
+Info 21   [00:00:44.000] request:
     {
       "command": "compileOnSaveAffectedFileList",
       "arguments": {
@@ -133,16 +174,46 @@ Info seq  [hh:mm:ss:mss] request:
       "seq": 3,
       "type": "request"
     }
-Info seq  [hh:mm:ss:mss] Starting updateGraphWorker: Project: /a/b/tsconfig.json
-Info seq  [hh:mm:ss:mss] Finishing updateGraphWorker: Project: /a/b/tsconfig.json Version: 2 structureChanged: false structureIsReused:: Completely Elapsed:: *ms
-Info seq  [hh:mm:ss:mss] Project '/a/b/tsconfig.json' (Configured)
-Info seq  [hh:mm:ss:mss] 	Files (3)
-	/a/lib/lib.d.ts Text-1 "/// <reference no-default-lib=\"true\"/>\ninterface Boolean {}\ninterface Function {}\ninterface CallableFunction {}\ninterface NewableFunction {}\ninterface IArguments {}\ninterface Number { toExponential: any; }\ninterface Object {}\ninterface RegExp {}\ninterface String { charAt: any; }\ninterface Array<T> { length: number; [n: number]: T; }"
-	/a/b/moduleFile1.ts SVC-1-1 "export function Foo() { };Point,"
-	/a/b/file1Consumer1.ts Text-1 "import {Foo} from \"./moduleFile1\"; export var y = 10;"
+Before request
 
-Info seq  [hh:mm:ss:mss] -----------------------------------------------
-Info seq  [hh:mm:ss:mss] response:
+PolledWatches::
+/a/b/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/a/b/tsconfig.json:
+  {}
+/a/b/file1consumer1.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/a/b:
+  {}
+
+Info 22   [00:00:45.000] Starting updateGraphWorker: Project: /a/b/tsconfig.json
+Info 23   [00:00:46.000] Finishing updateGraphWorker: Project: /a/b/tsconfig.json Version: 2 structureChanged: false structureIsReused:: Completely Elapsed:: *ms
+Info 24   [00:00:47.000] Different program with same set of files
+After request
+
+PolledWatches::
+/a/b/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/a/b/tsconfig.json:
+  {}
+/a/b/file1consumer1.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/a/b:
+  {}
+
+Info 25   [00:00:48.000] response:
     {
       "response": [
         {
@@ -155,4 +226,3 @@ Info seq  [hh:mm:ss:mss] response:
       ],
       "responseRequired": true
     }
-After request

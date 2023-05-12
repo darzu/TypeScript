@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/a/b/commonFile1.ts]
 /// <reference path="commonFile2.ts"/>
@@ -53,14 +52,16 @@ Shape signatures in builder refreshed for::
 /a/b/commonfile1.ts (used version)
 
 PolledWatches::
-/a/b/commonfile2.ts: *new*
+/a/b/commonfile2.ts:
   {"pollingInterval":500}
 
 FsWatches::
-/a/b/commonfile1.ts: *new*
+/a/b/commonfile1.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 
@@ -77,19 +78,6 @@ Input::
 let y = 1
 
 
-PolledWatches *deleted*::
-/a/b/commonfile2.ts:
-  {"pollingInterval":500}
-
-FsWatches::
-/a/b/commonfile1.ts:
-  {}
-/a/lib/lib.d.ts:
-  {}
-
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:19 AM[0m] File change detected. Starting incremental compilation...
@@ -115,13 +103,17 @@ Shape signatures in builder refreshed for::
 /a/b/commonfile2.ts (computed .d.ts)
 /a/b/commonfile1.ts (computed .d.ts)
 
+PolledWatches::
+
 FsWatches::
 /a/b/commonfile1.ts:
   {}
 /a/lib/lib.d.ts:
   {}
-/a/b/commonfile2.ts: *new*
+/a/b/commonfile2.ts:
   {}
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 

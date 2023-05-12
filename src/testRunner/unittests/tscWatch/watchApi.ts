@@ -1,22 +1,21 @@
 import * as Harness from "../../_namespaces/Harness";
 import * as ts from "../../_namespaces/ts";
 import { dedent } from "../../_namespaces/Utils";
-import { commandLineCallbacks } from "../helpers/baseline";
-import { libContent } from "../helpers/contents";
+import { commandLineCallbacks, libContent } from "../tsc/helpers";
+import {
+    createWatchedSystem,
+    File,
+    libFile,
+    TestServerHostTrackingWrittenFiles,
+} from "../virtualFileSystemWithWatch";
 import {
     applyEdit,
     createBaseline,
     createWatchCompilerHostOfConfigFileForBaseline,
     createWatchCompilerHostOfFilesAndCompilerOptionsForBaseline,
     runWatchBaseline,
-    TscWatchSystem,
     watchBaseline,
-} from "../helpers/tscWatch";
-import {
-    createWatchedSystem,
-    File,
-    libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "./helpers";
 
 describe("unittests:: tsc-watch:: watchAPI:: tsc-watch with custom module resolution", () => {
     it("verify that module resolution with json extension works when returned without extension", () => {
@@ -201,7 +200,7 @@ describe("unittests:: tsc-watch:: watchAPI:: when watchHost does not implement s
                 caption: "Write a file",
                 edit: sys => sys.writeFile(`/user/username/projects/myproject/bar.ts`, "const y =10;"),
                 timeouts: sys => {
-                    sys.logTimeoutQueueLength();
+                    sys.checkTimeoutQueueLength(0);
                     watch.getProgram();
                 }
             }],
@@ -246,7 +245,7 @@ describe("unittests:: tsc-watch:: watchAPI:: when watchHost can add extraFileExt
             edits: [{
                 caption: "Write a file",
                 edit: sys => sys.writeFile(`/user/username/projects/myproject/other2.vue`, otherFile.content),
-                timeouts: sys => sys.runQueuedTimeoutCallbacks(),
+                timeouts: sys => sys.checkTimeoutQueueLengthAndRun(1),
             }],
             watchOrSolution: watch
         });
@@ -278,7 +277,7 @@ describe("unittests:: tsc-watch:: watchAPI:: when watchHost uses createSemanticD
     function createWatch<T extends ts.BuilderProgram>(
         baseline: string[],
         config: File,
-        sys: TscWatchSystem,
+        sys: TestServerHostTrackingWrittenFiles,
         createProgram: ts.CreateProgram<T>,
         optionsToExtend?: ts.CompilerOptions,
     ) {
@@ -320,9 +319,9 @@ describe("unittests:: tsc-watch:: watchAPI:: when watchHost uses createSemanticD
     function applyChangeForBuilderTest(
         baseline: string[],
         emitBaseline: string[],
-        sys: TscWatchSystem,
-        emitSys: TscWatchSystem,
-        change: (sys: TscWatchSystem) => void,
+        sys: TestServerHostTrackingWrittenFiles,
+        emitSys: TestServerHostTrackingWrittenFiles,
+        change: (sys: TestServerHostTrackingWrittenFiles) => void,
         caption: string
     ) {
         // Change file
@@ -334,8 +333,8 @@ describe("unittests:: tsc-watch:: watchAPI:: when watchHost uses createSemanticD
         baseline: string[],
         emitBaseline: string[],
         config: File,
-        sys: TscWatchSystem,
-        emitSys: TscWatchSystem,
+        sys: TestServerHostTrackingWrittenFiles,
+        emitSys: TestServerHostTrackingWrittenFiles,
         createProgram: ts.CreateProgram<T>,
         optionsToExtend?: ts.CompilerOptions) {
         createWatch(baseline, config, sys, createProgram, optionsToExtend);
@@ -473,7 +472,7 @@ describe("unittests:: tsc-watch:: watchAPI:: when watchHost uses createSemanticD
             const diagnostics = ts.sortAndDeduplicateDiagnostics(program.getSemanticDiagnostics());
             diagnostics.forEach(reportDiagnostic);
             // Buildinfo should still have affectedFilesPendingEmit since we are only emitting dts files
-            program.emit(/*targetSourceFile*/ undefined, /*writeFile*/ undefined, /*cancellationToken*/ undefined, /*emitOnlyDtsFiles*/ true);
+            program.emit(/*targetSourceFile*/ undefined, /*writeFile*/ undefined, /*cancellationToken*/ undefined, /*emitOnlyDts*/ true);
             reportWatchStatus(
                 ts.createCompilerDiagnostic(ts.getWatchErrorSummaryDiagnosticMessage(diagnostics.length), diagnostics.length),
                 sys.newLine,
@@ -570,17 +569,17 @@ describe("unittests:: tsc-watch:: watchAPI:: when getParsedCommandLine is implem
                         calledGetParsedCommandLine.clear();
                         sys.writeFile(`/user/username/projects/myproject/projects/project1/class3.ts`, `class class3 {}`);
                     },
-                    timeouts: sys => sys.runQueuedTimeoutCallbacks(),
+                    timeouts: sys => sys.checkTimeoutQueueLengthAndRun(1),
                 },
                 {
                     caption: "Add excluded file to project1",
                     edit: sys => sys.ensureFileOrFolder({ path: `/user/username/projects/myproject/projects/project1/temp/file.d.ts`, content: `declare class file {}` }),
-                    timeouts: sys => sys.logTimeoutQueueLength(),
+                    timeouts: sys => sys.checkTimeoutQueueLength(0),
                 },
                 {
                     caption: "Add output of class3",
                     edit: sys => sys.writeFile(`/user/username/projects/myproject/projects/project1/class3.d.ts`, `declare class class3 {}`),
-                    timeouts: sys => sys.logTimeoutQueueLength(),
+                    timeouts: sys => sys.checkTimeoutQueueLength(0),
                 },
             ],
             watchOrSolution: watch
@@ -601,27 +600,27 @@ describe("unittests:: tsc-watch:: watchAPI:: when getParsedCommandLine is implem
                         calledGetParsedCommandLine.clear();
                         sys.writeFile(`/user/username/projects/myproject/projects/project1/class3.ts`, `class class3 {}`);
                     },
-                    timeouts: sys => sys.runQueuedTimeoutCallbacks(),
+                    timeouts: sys => sys.checkTimeoutQueueLengthAndRun(1),
                 },
                 {
                     caption: "Add class3 output to project1",
                     edit: sys => sys.writeFile(`/user/username/projects/myproject/projects/project1/class3.d.ts`, `declare class class3 {}`),
-                    timeouts: sys => sys.runQueuedTimeoutCallbacks(),
+                    timeouts: sys => sys.checkTimeoutQueueLengthAndRun(1),
                 },
                 {
                     caption: "Add excluded file to project1",
                     edit: sys => sys.ensureFileOrFolder({ path: `/user/username/projects/myproject/projects/project1/temp/file.d.ts`, content: `declare class file {}` }),
-                    timeouts: sys => sys.logTimeoutQueueLength(),
+                    timeouts: sys => sys.checkTimeoutQueueLength(0),
                 },
                 {
                     caption: "Delete output of class3",
                     edit: sys => sys.deleteFile(`/user/username/projects/myproject/projects/project1/class3.d.ts`),
-                    timeouts: sys => sys.runQueuedTimeoutCallbacks(),
+                    timeouts: sys => sys.checkTimeoutQueueLengthAndRun(1),
                 },
                 {
                     caption: "Add output of class3",
                     edit: sys => sys.writeFile(`/user/username/projects/myproject/projects/project1/class3.d.ts`, `declare class class3 {}`),
-                    timeouts: sys => sys.runQueuedTimeoutCallbacks(),
+                    timeouts: sys => sys.checkTimeoutQueueLengthAndRun(1),
                 },
             ],
             watchOrSolution: watch
@@ -664,7 +663,7 @@ describe("unittests:: tsc-watch:: watchAPI:: when builder emit occurs with emitO
                             sys.writeFile(`/user/username/projects/myproject/b.ts`, `export const y = 10;`);
                             callFullEmit = false;
                         },
-                        timeouts: sys => sys.runQueuedTimeoutCallbacks(),
+                        timeouts: sys => sys.checkTimeoutQueueLengthAndRun(1),
                     },
                     {
                         caption: "Emit with emitOnlyDts shouldnt emit anything",
@@ -673,7 +672,7 @@ describe("unittests:: tsc-watch:: watchAPI:: when builder emit occurs with emitO
                             program.emit(/*targetSourceFile*/ undefined, /*writeFile*/ undefined, /*cancellationToken*/ undefined, /*emitOnlyDtsFiles*/ true);
                             baseline.cb(program);
                         },
-                        timeouts: sys => sys.logTimeoutQueueLength(),
+                        timeouts: sys => sys.checkTimeoutQueueLength(0),
                     },
                     {
                         caption: "Emit all files",
@@ -682,7 +681,7 @@ describe("unittests:: tsc-watch:: watchAPI:: when builder emit occurs with emitO
                             program.emit();
                             baseline.cb(program);
                         },
-                        timeouts: sys => sys.logTimeoutQueueLength(),
+                        timeouts: sys => sys.checkTimeoutQueueLength(0),
                     },
                     {
                         caption: "Emit with emitOnlyDts shouldnt emit anything",
@@ -691,7 +690,7 @@ describe("unittests:: tsc-watch:: watchAPI:: when builder emit occurs with emitO
                             program.emit(/*targetSourceFile*/ undefined, /*writeFile*/ undefined, /*cancellationToken*/ undefined, /*emitOnlyDtsFiles*/ true);
                             baseline.cb(program);
                         },
-                        timeouts: sys => sys.logTimeoutQueueLength(),
+                        timeouts: sys => sys.checkTimeoutQueueLength(0),
                     },
                     {
                         caption: "Emit full should not emit anything",
@@ -700,7 +699,7 @@ describe("unittests:: tsc-watch:: watchAPI:: when builder emit occurs with emitO
                             program.emit();
                             baseline.cb(program);
                         },
-                        timeouts: sys => sys.logTimeoutQueueLength(),
+                        timeouts: sys => sys.checkTimeoutQueueLength(0),
                     },
                 ],
                 watchOrSolution: watch

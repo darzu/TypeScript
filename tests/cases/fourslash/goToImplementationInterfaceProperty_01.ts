@@ -12,4 +12,4 @@
 ////     foo.he/*reference*/llo;
 //// }
 
-verify.baselineGoToImplementation("reference");
+verify.allRangesAppearInImplementationList("reference");

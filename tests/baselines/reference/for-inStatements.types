@@ -136,6 +136,7 @@ class A {
 >this : this
 
         return null;
+>null : null
     }
 
     static baz() {
@@ -159,6 +160,7 @@ class A {
 >baz : () => any
 
         return null;
+>null : null
     }
 }
 
@@ -200,6 +202,7 @@ class B extends A {
 >biz : () => any
 
         return null;
+>null : null
     }
 }
 

@@ -1,25 +1,36 @@
-// === findAllReferences ===
 // === /tests/cases/fourslash/referencesForIndexProperty2.ts ===
 // var a;
-// a["/*FIND ALL REFS*/[|{| isInString: true |}blah|]"];
+// a["/*FIND ALL REFS*/[|blah|]"];
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/referencesForIndexProperty2.ts ===
-  // var a;
-  // a["/*FIND ALL REFS*/[|blah|]"];
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "var",
-    "name": "blah",
-    "displayParts": [
-     {
-      "text": "\"blah\"",
-      "kind": "stringLiteral"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/referencesForIndexProperty2.ts",
+      "kind": "var",
+      "name": "blah",
+      "textSpan": {
+        "start": 10,
+        "length": 4
+      },
+      "displayParts": [
+        {
+          "text": "\"blah\"",
+          "kind": "stringLiteral"
+        }
+      ]
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 10,
+          "length": 4
+        },
+        "fileName": "/tests/cases/fourslash/referencesForIndexProperty2.ts",
+        "isWriteAccess": false,
+        "isInString": true
+      }
     ]
-   }
-  ]
+  }
+]

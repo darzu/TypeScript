@@ -9,6 +9,7 @@ class A {
     foo<T extends Date>(x: T): string { return null; }
 >foo : <T extends Date>(x: T) => string
 >x : T
+>null : null
 }
 
 class B<T extends Date> {
@@ -17,6 +18,7 @@ class B<T extends Date> {
     foo(x: T): number { return null; }
 >foo : (x: T) => number
 >x : T
+>null : null
 }
 
 class C<T extends Date> {
@@ -25,6 +27,7 @@ class C<T extends Date> {
     foo(x: T): boolean { return null; }
 >foo : (x: T) => boolean
 >x : T
+>null : null
 }
 
 interface I<T extends Date> {
@@ -49,6 +52,7 @@ var b = { foo<T extends Date>(x: T) { return null; } };
 >{ foo<T extends Date>(x: T) { return null; } } : { foo<T extends Date>(x: T): any; }
 >foo : <T extends Date>(x: T) => any
 >x : T
+>null : null
 
 function foo1(x: A);
 >foo1 : { (x: A): any; (x: A): any; }

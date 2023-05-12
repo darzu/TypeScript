@@ -15,4 +15,4 @@
 ////obj["[|prop|]"];
 ////obj[`[|prop|]`];
 
-verify.baselineRenameAtRangesWithText('prop');
+verify.rangesWithSameTextAreRenameLocations('prop');

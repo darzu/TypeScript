@@ -10,4 +10,4 @@
 ////    }
 ////};
 
-verify.baselineRename();
+verify.rangesAreRenameLocations();

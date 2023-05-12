@@ -21,11 +21,12 @@ System.register([], function (exports_1, context_1) {
     return {
         setters: [],
         execute: function () {
-            exports_1("A", A = class A {
-            });
-            exports_1("A", A = __decorate([
+            A = class A {
+            };
+            A = __decorate([
                 dec
-            ], A));
+            ], A);
+            exports_1("A", A);
             o = { a: 1 };
             y = Object.assign({}, o);
         }

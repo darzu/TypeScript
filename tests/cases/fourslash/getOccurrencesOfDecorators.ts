@@ -10,4 +10,5 @@
 ////    return target;
 ////}
 
-verify.baselineDocumentHighlights("1");
+goTo.marker("1");
+verify.occurrencesAtPositionCount(3);

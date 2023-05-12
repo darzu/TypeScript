@@ -2,4 +2,5 @@
 009
 
 //// [scannerNumericLiteral9.js]
+00;
 9;

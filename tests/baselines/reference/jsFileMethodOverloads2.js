@@ -102,5 +102,5 @@ declare class Example<T> {
     getTypeName(this: Example<number>): 'number';
     getTypeName(this: Example<string>): 'string';
     transform<U>(fn: (y: T) => U): U;
-    transform<U>(): T;
+    transform<U_1>(): T;
 }

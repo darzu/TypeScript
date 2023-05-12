@@ -19,4 +19,4 @@
 ////    return true;
 ////}
 
-verify.baselineDocumentHighlights();
+verify.rangesAreOccurrences(false);

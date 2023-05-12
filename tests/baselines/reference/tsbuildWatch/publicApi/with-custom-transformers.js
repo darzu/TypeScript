@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -86,22 +85,24 @@ Shape signatures in builder refreshed for::
 /a/lib/lib.d.ts (used version)
 /user/username/projects/myproject/webpack/index.ts (used version)
 
+PolledWatches::
+
 FsWatches::
-/user/username/projects/myproject/shared/tsconfig.json: *new*
+/user/username/projects/myproject/shared/tsconfig.json:
   {}
-/user/username/projects/myproject/shared/index.ts: *new*
+/user/username/projects/myproject/shared/index.ts:
   {}
-/user/username/projects/myproject/webpack/tsconfig.json: *new*
+/user/username/projects/myproject/webpack/tsconfig.json:
   {}
-/user/username/projects/myproject/webpack/index.ts: *new*
+/user/username/projects/myproject/webpack/index.ts:
   {}
-/user/username/projects/myproject/tsconfig.json: *new*
+/user/username/projects/myproject/tsconfig.json:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject/shared: *new*
+/user/username/projects/myproject/shared:
   {}
-/user/username/projects/myproject/webpack: *new*
+/user/username/projects/myproject/webpack:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -123,7 +124,7 @@ exports.c = c;
 //@after/user/username/projects/myproject/shared/tsconfig.json
 var e;
 (function (e) {
-})(e || (exports.e = e = {}));
+})(e = exports.e || (exports.e = {}));
 // leading
 /*@before/user/username/projects/myproject/shared/tsconfig.json*/
 function f2() { } // trailing
@@ -208,7 +209,7 @@ exports.c2 = c2;
 //@after/user/username/projects/myproject/webpack/tsconfig.json
 var e2;
 (function (e2) {
-})(e2 || (exports.e2 = e2 = {}));
+})(e2 = exports.e2 || (exports.e2 = {}));
 // leading
 /*@before/user/username/projects/myproject/webpack/tsconfig.json*/
 function f22() { } // trailing
@@ -288,13 +289,6 @@ export enum e { }
 export function f2() { } // trailing
 
 
-Before running Timeout callback:: count: 1
-1: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 1
-2: timerToBuildInvalidatedProject
-Before running Timeout callback:: count: 1
-2: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:57 AM[0m] File change detected. Starting incremental compilation...
@@ -337,6 +331,26 @@ Semantic diagnostics in builder refreshed for::
 
 No shapes updated in the builder::
 
+PolledWatches::
+
+FsWatches::
+/user/username/projects/myproject/shared/tsconfig.json:
+  {}
+/user/username/projects/myproject/shared/index.ts:
+  {}
+/user/username/projects/myproject/webpack/tsconfig.json:
+  {}
+/user/username/projects/myproject/webpack/index.ts:
+  {}
+/user/username/projects/myproject/tsconfig.json:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject/shared:
+  {}
+/user/username/projects/myproject/webpack:
+  {}
+
 exitCode:: ExitStatus.undefined
 
 //// [/user/username/projects/myproject/shared/index.js]
@@ -359,7 +373,7 @@ exports.c = c;
 //@after/user/username/projects/myproject/shared/tsconfig.json
 var e;
 (function (e) {
-})(e || (exports.e = e = {}));
+})(e = exports.e || (exports.e = {}));
 // leading
 /*@before/user/username/projects/myproject/shared/tsconfig.json*/
 function f2() { } // trailing

@@ -38,7 +38,7 @@ var Something;
 (function (Something) {
     var MyComponent = 2; // Shadow declaration, so symbol is only usable via the self-import
     Something.create = make(me.default);
-})(Something || (exports.Something = Something = {}));
+})(Something = exports.Something || (exports.Something = {}));
 
 
 //// [this.d.ts]

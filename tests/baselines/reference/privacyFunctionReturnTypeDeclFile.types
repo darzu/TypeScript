@@ -54,21 +54,25 @@ export class publicClassWithWithPrivateParmeterTypes {
 >myPublicStaticMethod : () => privateClass
 
         return null;
+>null : null
     }
     private static myPrivateStaticMethod(): privateClass {
 >myPrivateStaticMethod : () => privateClass
 
         return null;
+>null : null
     }
     myPublicMethod(): privateClass { // Error
 >myPublicMethod : () => privateClass
 
         return null;
+>null : null
     }
     private myPrivateMethod(): privateClass {
 >myPrivateMethod : () => privateClass
 
         return null;
+>null : null
     }
     static myPublicStaticMethod1() { // Error
 >myPublicStaticMethod1 : () => privateClass
@@ -107,21 +111,25 @@ export class publicClassWithWithPublicParmeterTypes {
 >myPublicStaticMethod : () => publicClass
 
         return null;
+>null : null
     }
     private static myPrivateStaticMethod(): publicClass {
 >myPrivateStaticMethod : () => publicClass
 
         return null;
+>null : null
     }
     myPublicMethod(): publicClass { 
 >myPublicMethod : () => publicClass
 
         return null;
+>null : null
     }
     private myPrivateMethod(): publicClass {
 >myPrivateMethod : () => publicClass
 
         return null;
+>null : null
     }
     static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -160,21 +168,25 @@ class privateClassWithWithPrivateParmeterTypes {
 >myPublicStaticMethod : () => privateClass
 
         return null;
+>null : null
     }
     private static myPrivateStaticMethod(): privateClass {
 >myPrivateStaticMethod : () => privateClass
 
         return null;
+>null : null
     }
     myPublicMethod(): privateClass {
 >myPublicMethod : () => privateClass
 
         return null;
+>null : null
     }
     private myPrivateMethod(): privateClass {
 >myPrivateMethod : () => privateClass
 
         return null;
+>null : null
     }
     static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => privateClass
@@ -213,21 +225,25 @@ class privateClassWithWithPublicParmeterTypes {
 >myPublicStaticMethod : () => publicClass
 
         return null;
+>null : null
     }
     private static myPrivateStaticMethod(): publicClass {
 >myPrivateStaticMethod : () => publicClass
 
         return null;
+>null : null
     }
     myPublicMethod(): publicClass {
 >myPublicMethod : () => publicClass
 
         return null;
+>null : null
     }
     private myPrivateMethod(): publicClass {
 >myPrivateMethod : () => publicClass
 
         return null;
+>null : null
     }
     static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -263,21 +279,25 @@ export function publicFunctionWithPrivateParmeterTypes(): privateClass { // Erro
 >publicFunctionWithPrivateParmeterTypes : () => privateClass
 
     return null;
+>null : null
 }
 export function publicFunctionWithPublicParmeterTypes(): publicClass {
 >publicFunctionWithPublicParmeterTypes : () => publicClass
 
     return null;
+>null : null
 }
 function privateFunctionWithPrivateParmeterTypes(): privateClass {
 >privateFunctionWithPrivateParmeterTypes : () => privateClass
 
     return null;
+>null : null
 }
 function privateFunctionWithPublicParmeterTypes(): publicClass {
 >privateFunctionWithPublicParmeterTypes : () => publicClass
 
     return null;
+>null : null
 }
 export function publicFunctionWithPrivateParmeterTypes1() { // Error
 >publicFunctionWithPrivateParmeterTypes1 : () => privateClass
@@ -343,12 +363,14 @@ export class publicClassWithPrivateModuleParameterTypes {
 >privateModule : any
 
         return null;
+>null : null
     }
     myPublicMethod(): privateModule.publicClass { // Error
 >myPublicMethod : () => privateModule.publicClass
 >privateModule : any
 
         return null;
+>null : null
     }
     static myPublicStaticMethod1() { // Error
 >myPublicStaticMethod1 : () => privateModule.publicClass
@@ -374,6 +396,7 @@ export function publicFunctionWithPrivateModuleParameterTypes(): privateModule.p
 >privateModule : any
 
     return null;
+>null : null
 }
 export function publicFunctionWithPrivateModuleParameterTypes1() { // Error
 >publicFunctionWithPrivateModuleParameterTypes1 : () => privateModule.publicClass
@@ -411,12 +434,14 @@ class privateClassWithPrivateModuleParameterTypes {
 >privateModule : any
 
         return null;
+>null : null
     }
     myPublicMethod(): privateModule.publicClass { 
 >myPublicMethod : () => privateModule.publicClass
 >privateModule : any
 
         return null;
+>null : null
     }
     static myPublicStaticMethod1() { 
 >myPublicStaticMethod1 : () => privateModule.publicClass
@@ -442,6 +467,7 @@ function privateFunctionWithPrivateModuleParameterTypes(): privateModule.publicC
 >privateModule : any
 
     return null;
+>null : null
 }
 function privateFunctionWithPrivateModuleParameterTypes1() { 
 >privateFunctionWithPrivateModuleParameterTypes1 : () => privateModule.publicClass
@@ -514,21 +540,25 @@ export module publicModule {
 >myPublicStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): privateClass {
 >myPrivateStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         myPublicMethod(): privateClass { // Error
 >myPublicMethod : () => privateClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): privateClass {
 >myPrivateMethod : () => privateClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() { // Error
 >myPublicStaticMethod1 : () => privateClass
@@ -567,21 +597,25 @@ export module publicModule {
 >myPublicStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): publicClass {
 >myPrivateStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         myPublicMethod(): publicClass {
 >myPublicMethod : () => publicClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): publicClass {
 >myPrivateMethod : () => publicClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -620,21 +654,25 @@ export module publicModule {
 >myPublicStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): privateClass {
 >myPrivateStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         myPublicMethod(): privateClass {
 >myPublicMethod : () => privateClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): privateClass {
 >myPrivateMethod : () => privateClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => privateClass
@@ -673,21 +711,25 @@ export module publicModule {
 >myPublicStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): publicClass {
 >myPrivateStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         myPublicMethod(): publicClass {
 >myPublicMethod : () => publicClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): publicClass {
 >myPrivateMethod : () => publicClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -723,21 +765,25 @@ export module publicModule {
 >publicFunctionWithPrivateParmeterTypes : () => privateClass
 
         return null;
+>null : null
     }
     export function publicFunctionWithPublicParmeterTypes(): publicClass {
 >publicFunctionWithPublicParmeterTypes : () => publicClass
 
         return null;
+>null : null
     }
     function privateFunctionWithPrivateParmeterTypes(): privateClass {
 >privateFunctionWithPrivateParmeterTypes : () => privateClass
 
         return null;
+>null : null
     }
     function privateFunctionWithPublicParmeterTypes(): publicClass {
 >privateFunctionWithPublicParmeterTypes : () => publicClass
 
         return null;
+>null : null
     }
     export function publicFunctionWithPrivateParmeterTypes1() { // Error
 >publicFunctionWithPrivateParmeterTypes1 : () => privateClass
@@ -803,12 +849,14 @@ export module publicModule {
 >privateModule : any
 
             return null;
+>null : null
         }
         myPublicMethod(): privateModule.publicClass { // Error
 >myPublicMethod : () => privateModule.publicClass
 >privateModule : any
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() { // Error
 >myPublicStaticMethod1 : () => privateModule.publicClass
@@ -834,6 +882,7 @@ export module publicModule {
 >privateModule : any
 
         return null;
+>null : null
     }
     export function publicFunctionWithPrivateModuleParameterTypes1() { // Error
 >publicFunctionWithPrivateModuleParameterTypes1 : () => privateModule.publicClass
@@ -871,12 +920,14 @@ export module publicModule {
 >privateModule : any
 
             return null;
+>null : null
         }
         myPublicMethod(): privateModule.publicClass {
 >myPublicMethod : () => privateModule.publicClass
 >privateModule : any
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => privateModule.publicClass
@@ -902,6 +953,7 @@ export module publicModule {
 >privateModule : any
 
         return null;
+>null : null
     }
     function privateFunctionWithPrivateModuleParameterTypes1() {
 >privateFunctionWithPrivateModuleParameterTypes1 : () => privateModule.publicClass
@@ -975,21 +1027,25 @@ module privateModule {
 >myPublicStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): privateClass {
 >myPrivateStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         myPublicMethod(): privateClass { 
 >myPublicMethod : () => privateClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): privateClass {
 >myPrivateMethod : () => privateClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() { 
 >myPublicStaticMethod1 : () => privateClass
@@ -1028,21 +1084,25 @@ module privateModule {
 >myPublicStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): publicClass {
 >myPrivateStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         myPublicMethod(): publicClass {
 >myPublicMethod : () => publicClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): publicClass {
 >myPrivateMethod : () => publicClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -1081,21 +1141,25 @@ module privateModule {
 >myPublicStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): privateClass {
 >myPrivateStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         myPublicMethod(): privateClass {
 >myPublicMethod : () => privateClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): privateClass {
 >myPrivateMethod : () => privateClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => privateClass
@@ -1134,21 +1198,25 @@ module privateModule {
 >myPublicStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): publicClass {
 >myPrivateStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         myPublicMethod(): publicClass {
 >myPublicMethod : () => publicClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): publicClass {
 >myPrivateMethod : () => publicClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -1184,21 +1252,25 @@ module privateModule {
 >publicFunctionWithPrivateParmeterTypes : () => privateClass
 
         return null;
+>null : null
     }
     export function publicFunctionWithPublicParmeterTypes(): publicClass {
 >publicFunctionWithPublicParmeterTypes : () => publicClass
 
         return null;
+>null : null
     }
     function privateFunctionWithPrivateParmeterTypes(): privateClass {
 >privateFunctionWithPrivateParmeterTypes : () => privateClass
 
         return null;
+>null : null
     }
     function privateFunctionWithPublicParmeterTypes(): publicClass {
 >privateFunctionWithPublicParmeterTypes : () => publicClass
 
         return null;
+>null : null
     }
     export function publicFunctionWithPrivateParmeterTypes1() { 
 >publicFunctionWithPrivateParmeterTypes1 : () => privateClass
@@ -1264,12 +1336,14 @@ module privateModule {
 >privateModule : any
 
             return null;
+>null : null
         }
         myPublicMethod(): privateModule.publicClass { 
 >myPublicMethod : () => privateModule.publicClass
 >privateModule : any
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() { 
 >myPublicStaticMethod1 : () => publicClass
@@ -1295,6 +1369,7 @@ module privateModule {
 >privateModule : any
 
         return null;
+>null : null
     }
     export function publicFunctionWithPrivateModuleParameterTypes1() { 
 >publicFunctionWithPrivateModuleParameterTypes1 : () => publicClass
@@ -1332,12 +1407,14 @@ module privateModule {
 >privateModule : any
 
             return null;
+>null : null
         }
         myPublicMethod(): privateModule.publicClass {
 >myPublicMethod : () => privateModule.publicClass
 >privateModule : any
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -1363,6 +1440,7 @@ module privateModule {
 >privateModule : any
 
         return null;
+>null : null
     }
     function privateFunctionWithPrivateModuleParameterTypes1() {
 >privateFunctionWithPrivateModuleParameterTypes1 : () => publicClass
@@ -1398,21 +1476,25 @@ class publicClassWithWithPublicParmeterTypesInGlobal {
 >myPublicStaticMethod : () => publicClassInGlobal
 
         return null;
+>null : null
     }
     private static myPrivateStaticMethod(): publicClassInGlobal {
 >myPrivateStaticMethod : () => publicClassInGlobal
 
         return null;
+>null : null
     }
     myPublicMethod(): publicClassInGlobal {
 >myPublicMethod : () => publicClassInGlobal
 
         return null;
+>null : null
     }
     private myPrivateMethod(): publicClassInGlobal {
 >myPrivateMethod : () => publicClassInGlobal
 
         return null;
+>null : null
     }
     static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClassInGlobal
@@ -1447,6 +1529,7 @@ function publicFunctionWithPublicParmeterTypesInGlobal(): publicClassInGlobal {
 >publicFunctionWithPublicParmeterTypesInGlobal : () => publicClassInGlobal
 
     return null;
+>null : null
 }
 function publicFunctionWithPublicParmeterTypesInGlobal1() {
 >publicFunctionWithPublicParmeterTypesInGlobal1 : () => publicClassInGlobal
@@ -1527,21 +1610,25 @@ module publicModuleInGlobal {
 >myPublicStaticMethod : () => privateClass
 
                 return null;
+>null : null
             }
             private static myPrivateStaticMethod(): privateClass {
 >myPrivateStaticMethod : () => privateClass
 
                 return null;
+>null : null
             }
             myPublicMethod(): privateClass {
 >myPublicMethod : () => privateClass
 
                 return null;
+>null : null
             }
             private myPrivateMethod(): privateClass {
 >myPrivateMethod : () => privateClass
 
                 return null;
+>null : null
             }
             static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => privateClass
@@ -1580,21 +1667,25 @@ module publicModuleInGlobal {
 >myPublicStaticMethod : () => publicClass
 
                 return null;
+>null : null
             }
             private static myPrivateStaticMethod(): publicClass {
 >myPrivateStaticMethod : () => publicClass
 
                 return null;
+>null : null
             }
             myPublicMethod(): publicClass {
 >myPublicMethod : () => publicClass
 
                 return null;
+>null : null
             }
             private myPrivateMethod(): publicClass {
 >myPrivateMethod : () => publicClass
 
                 return null;
+>null : null
             }
             static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -1633,21 +1724,25 @@ module publicModuleInGlobal {
 >myPublicStaticMethod : () => privateClass
 
                 return null;
+>null : null
             }
             private static myPrivateStaticMethod(): privateClass {
 >myPrivateStaticMethod : () => privateClass
 
                 return null;
+>null : null
             }
             myPublicMethod(): privateClass {
 >myPublicMethod : () => privateClass
 
                 return null;
+>null : null
             }
             private myPrivateMethod(): privateClass {
 >myPrivateMethod : () => privateClass
 
                 return null;
+>null : null
             }
             static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => privateClass
@@ -1686,21 +1781,25 @@ module publicModuleInGlobal {
 >myPublicStaticMethod : () => publicClass
 
                 return null;
+>null : null
             }
             private static myPrivateStaticMethod(): publicClass {
 >myPrivateStaticMethod : () => publicClass
 
                 return null;
+>null : null
             }
             myPublicMethod(): publicClass {
 >myPublicMethod : () => publicClass
 
                 return null;
+>null : null
             }
             private myPrivateMethod(): publicClass {
 >myPrivateMethod : () => publicClass
 
                 return null;
+>null : null
             }
             static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -1736,21 +1835,25 @@ module publicModuleInGlobal {
 >publicFunctionWithPrivateParmeterTypes : () => privateClass
 
             return null;
+>null : null
         }
         export function publicFunctionWithPublicParmeterTypes(): publicClass {
 >publicFunctionWithPublicParmeterTypes : () => publicClass
 
             return null;
+>null : null
         }
         function privateFunctionWithPrivateParmeterTypes(): privateClass {
 >privateFunctionWithPrivateParmeterTypes : () => privateClass
 
             return null;
+>null : null
         }
         function privateFunctionWithPublicParmeterTypes(): publicClass {
 >privateFunctionWithPublicParmeterTypes : () => publicClass
 
             return null;
+>null : null
         }
         export function publicFunctionWithPrivateParmeterTypes1() {
 >publicFunctionWithPrivateParmeterTypes1 : () => privateClass
@@ -1816,12 +1919,14 @@ module publicModuleInGlobal {
 >privateModule : any
 
                 return null;
+>null : null
             }
             myPublicMethod(): privateModule.publicClass {
 >myPublicMethod : () => privateModule.publicClass
 >privateModule : any
 
                 return null;
+>null : null
             }
             static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -1847,6 +1952,7 @@ module publicModuleInGlobal {
 >privateModule : any
 
             return null;
+>null : null
         }
         export function publicFunctionWithPrivateModuleParameterTypes1() {
 >publicFunctionWithPrivateModuleParameterTypes1 : () => publicClass
@@ -1884,12 +1990,14 @@ module publicModuleInGlobal {
 >privateModule : any
 
                 return null;
+>null : null
             }
             myPublicMethod(): privateModule.publicClass {
 >myPublicMethod : () => privateModule.publicClass
 >privateModule : any
 
                 return null;
+>null : null
             }
             static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -1915,6 +2023,7 @@ module publicModuleInGlobal {
 >privateModule : any
 
             return null;
+>null : null
         }
         function privateFunctionWithPrivateModuleParameterTypes1() {
 >privateFunctionWithPrivateModuleParameterTypes1 : () => publicClass
@@ -1977,21 +2086,25 @@ module publicModuleInGlobal {
 >myPublicStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): privateClass {
 >myPrivateStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         myPublicMethod(): privateClass { // Error
 >myPublicMethod : () => privateClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): privateClass {
 >myPrivateMethod : () => privateClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() { // Error
 >myPublicStaticMethod1 : () => privateClass
@@ -2030,21 +2143,25 @@ module publicModuleInGlobal {
 >myPublicStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): publicClass {
 >myPrivateStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         myPublicMethod(): publicClass {
 >myPublicMethod : () => publicClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): publicClass {
 >myPrivateMethod : () => publicClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -2083,21 +2200,25 @@ module publicModuleInGlobal {
 >myPublicStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): privateClass {
 >myPrivateStaticMethod : () => privateClass
 
             return null;
+>null : null
         }
         myPublicMethod(): privateClass {
 >myPublicMethod : () => privateClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): privateClass {
 >myPrivateMethod : () => privateClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => privateClass
@@ -2136,21 +2257,25 @@ module publicModuleInGlobal {
 >myPublicStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         private static myPrivateStaticMethod(): publicClass {
 >myPrivateStaticMethod : () => publicClass
 
             return null;
+>null : null
         }
         myPublicMethod(): publicClass {
 >myPublicMethod : () => publicClass
 
             return null;
+>null : null
         }
         private myPrivateMethod(): publicClass {
 >myPrivateMethod : () => publicClass
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => publicClass
@@ -2186,21 +2311,25 @@ module publicModuleInGlobal {
 >publicFunctionWithPrivateParmeterTypes : () => privateClass
 
         return null;
+>null : null
     }
     export function publicFunctionWithPublicParmeterTypes(): publicClass {
 >publicFunctionWithPublicParmeterTypes : () => publicClass
 
         return null;
+>null : null
     }
     function privateFunctionWithPrivateParmeterTypes(): privateClass {
 >privateFunctionWithPrivateParmeterTypes : () => privateClass
 
         return null;
+>null : null
     }
     function privateFunctionWithPublicParmeterTypes(): publicClass {
 >privateFunctionWithPublicParmeterTypes : () => publicClass
 
         return null;
+>null : null
     }
     export function publicFunctionWithPrivateParmeterTypes1() { // Error
 >publicFunctionWithPrivateParmeterTypes1 : () => privateClass
@@ -2266,12 +2395,14 @@ module publicModuleInGlobal {
 >privateModule : any
 
             return null;
+>null : null
         }
         myPublicMethod(): privateModule.publicClass { // Error
 >myPublicMethod : () => privateModule.publicClass
 >privateModule : any
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() { // Error
 >myPublicStaticMethod1 : () => privateModule.publicClass
@@ -2297,6 +2428,7 @@ module publicModuleInGlobal {
 >privateModule : any
 
         return null;
+>null : null
     }
     export function publicFunctionWithPrivateModuleParameterTypes1() { // Error
 >publicFunctionWithPrivateModuleParameterTypes1 : () => privateModule.publicClass
@@ -2334,12 +2466,14 @@ module publicModuleInGlobal {
 >privateModule : any
 
             return null;
+>null : null
         }
         myPublicMethod(): privateModule.publicClass {
 >myPublicMethod : () => privateModule.publicClass
 >privateModule : any
 
             return null;
+>null : null
         }
         static myPublicStaticMethod1() {
 >myPublicStaticMethod1 : () => privateModule.publicClass
@@ -2365,6 +2499,7 @@ module publicModuleInGlobal {
 >privateModule : any
 
         return null;
+>null : null
     }
     function privateFunctionWithPrivateModuleParameterTypes1() {
 >privateFunctionWithPrivateModuleParameterTypes1 : () => privateModule.publicClass

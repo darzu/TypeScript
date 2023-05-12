@@ -31,6 +31,7 @@ interface PropTypeChecker<U, TRequired = false> {
 >[checkedType] : TRequired extends true ? U : U | null | undefined
 >checkedType : unique symbol
 >true : true
+>null : null
 }
 
 declare namespace PropTypes {
@@ -166,6 +167,7 @@ const e = <Component foo={12} bar={null} baz="cool" />; // bar is nullable/undef
 >foo : number
 >12 : 12
 >bar : null
+>null : null
 >baz : string
 
 const f = <Component foo={12} bar="yeah" baz={null} />; // Error, baz is _not_ nullable/undefinable since it's marked `isRequired`
@@ -176,6 +178,7 @@ const f = <Component foo={12} bar="yeah" baz={null} />; // Error, baz is _not_ n
 >12 : 12
 >bar : string
 >baz : null
+>null : null
 
 class JustPropTypes extends ReactComponent {
 >JustPropTypes : JustPropTypes
@@ -221,6 +224,7 @@ const i = <JustPropTypes foo={null} bar="ok" />;
 ><JustPropTypes foo={null} bar="ok" /> : JSX.Element
 >JustPropTypes : typeof JustPropTypes
 >foo : null
+>null : null
 >bar : string
 
 const j = <JustPropTypes foo={12} bar={null} />; // error, bar is required
@@ -230,6 +234,7 @@ const j = <JustPropTypes foo={12} bar={null} />; // error, bar is required
 >foo : number
 >12 : 12
 >bar : null
+>null : null
 
 class JustDefaultProps extends ReactComponent {
 >JustDefaultProps : JustDefaultProps
@@ -349,6 +354,7 @@ const r = <BothWithSpecifiedGeneric foo="no" bar={null} baz={0} />; // bar is nu
 >BothWithSpecifiedGeneric : typeof BothWithSpecifiedGeneric
 >foo : string
 >bar : null
+>null : null
 >baz : number
 >0 : 0
 
@@ -359,6 +365,7 @@ const s = <BothWithSpecifiedGeneric foo="eh" bar="yeah" baz={null} />; // Error,
 >foo : string
 >bar : string
 >baz : null
+>null : null
 
 class JustPropTypesWithSpecifiedGeneric extends ReactComponent<FooProps> {
 >JustPropTypesWithSpecifiedGeneric : JustPropTypesWithSpecifiedGeneric
@@ -403,6 +410,7 @@ const v = <JustPropTypesWithSpecifiedGeneric foo={null} bar="ok" />; // generic 
 ><JustPropTypesWithSpecifiedGeneric foo={null} bar="ok" /> : JSX.Element
 >JustPropTypesWithSpecifiedGeneric : typeof JustPropTypesWithSpecifiedGeneric
 >foo : null
+>null : null
 >bar : string
 
 const w = <JustPropTypesWithSpecifiedGeneric foo="cool" bar={null} />; // error, bar is required
@@ -411,6 +419,7 @@ const w = <JustPropTypesWithSpecifiedGeneric foo="cool" bar={null} />; // error,
 >JustPropTypesWithSpecifiedGeneric : typeof JustPropTypesWithSpecifiedGeneric
 >foo : string
 >bar : null
+>null : null
 
 class JustDefaultPropsWithSpecifiedGeneric extends ReactComponent<FooProps> {
 >JustDefaultPropsWithSpecifiedGeneric : JustDefaultPropsWithSpecifiedGeneric

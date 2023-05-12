@@ -20,6 +20,7 @@ import {
     normalizePath,
     normalizeSlashes,
     perfLogger,
+    resolveJSModule,
     SortedReadonlyArray,
     startTracing,
     stripQuotes,
@@ -36,7 +37,6 @@ import {
     ActionInvalidate,
     ActionPackageInstalled,
     ActionSet,
-    ActionWatchTypingLocations,
     Arguments,
     BeginInstallTypes,
     createInstallTypingsRequest,
@@ -57,6 +57,7 @@ import {
     ITypingsInstaller,
     Logger,
     LogLevel,
+    ModuleImportResult,
     Msg,
     nowString,
     nullCancellationToken,
@@ -258,13 +259,13 @@ export function initializeNodeSystem(): StartInput {
         msg(s: string, type: Msg = Msg.Err) {
             switch (type) {
                 case Msg.Info:
-                    perfLogger?.logInfoEvent(s);
+                    perfLogger.logInfoEvent(s);
                     break;
                 case Msg.Perf:
-                    perfLogger?.logPerfEvent(s);
+                    perfLogger.logPerfEvent(s);
                     break;
                 default: // Msg.Err
-                    perfLogger?.logErrEvent(s);
+                    perfLogger.logErrEvent(s);
                     break;
             }
 
@@ -379,6 +380,15 @@ export function initializeNodeSystem(): StartInput {
     if (typeof global !== "undefined" && global.gc) {
         sys.gc = () => global.gc?.();
     }
+
+    sys.require = (initialDir: string, moduleName: string): ModuleImportResult => {
+        try {
+            return { module: require(resolveJSModule(moduleName, initialDir, sys)), error: undefined };
+        }
+        catch (error) {
+            return { module: undefined, error };
+        }
+    };
 
     let cancellationToken: ServerCancellationToken;
     try {
@@ -670,7 +680,7 @@ function startNodeSession(options: StartSessionOptions, logger: Logger, cancella
             }
         }
 
-        private handleMessage(response: TypesRegistryResponse | PackageInstalledResponse | SetTypings | InvalidateCachedTypings | BeginInstallTypes | EndInstallTypes | InitializationFailedResponse | server.WatchTypingLocations) {
+        private handleMessage(response: TypesRegistryResponse | PackageInstalledResponse | SetTypings | InvalidateCachedTypings | BeginInstallTypes | EndInstallTypes | InitializationFailedResponse) {
             if (this.logger.hasLevel(LogLevel.verbose)) {
                 this.logger.info(`Received response:${stringifyIndented(response)}`);
             }
@@ -766,9 +776,6 @@ function startNodeSession(options: StartSessionOptions, logger: Logger, cancella
 
                     break;
                 }
-                case ActionWatchTypingLocations:
-                    this.projectService.watchTypingLocations(response);
-                    break;
                 default:
                     assertType<never>(response);
             }

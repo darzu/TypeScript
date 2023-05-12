@@ -21,12 +21,23 @@
 //// /** @see d@{/*use7*/[|fff|]} partial reference */
 //// const g = ""
 
-verify.baselineGoToDefinition(
-    "use1",
-    "use2",
-    "use3",
-    "use4",
-    "use5",
-    "use6",
-    "use7",
-);
+goTo.marker("use1");
+verify.goToDefinition([]);
+
+goTo.marker("use2");
+verify.goToDefinition([]);
+
+goTo.marker("use3");
+verify.goToDefinition([]);
+
+goTo.marker("use4");
+verify.goToDefinition([]);
+
+goTo.marker("use5");
+verify.goToDefinitionIs("def1");
+
+goTo.marker("use6");
+verify.goToDefinition([]);
+
+goTo.marker("use7");
+verify.goToDefinition([]);

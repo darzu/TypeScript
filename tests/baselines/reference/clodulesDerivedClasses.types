@@ -12,6 +12,7 @@ module Shape.Utils {
 
     export function convert(): Shape { return null;}
 >convert : () => Shape
+>null : null
 }
 
 class Path extends Shape {
@@ -31,6 +32,7 @@ module Path.Utils {
 >convert2 : () => Path
 
         return null;
+>null : null
     }
 }
 

@@ -19,4 +19,4 @@
 //// }
 
 
-verify.baselineGoToImplementation("function_call");
+verify.allRangesAppearInImplementationList("function_call");

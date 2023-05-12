@@ -1,109 +1,161 @@
-// === findAllReferences ===
 // === /tests/cases/fourslash/isDefinitionSingleReference.ts ===
-// <|function /*FIND ALL REFS*/[|{| isWriteAccess: true, isDefinition: true |}f|]() {}|>
+// function /*FIND ALL REFS*/[|f|]() {}
 // [|f|]();
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/isDefinitionSingleReference.ts ===
-  // <|function /*FIND ALL REFS*/[|f|]() {}|>
-  // f();
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "function",
-    "name": "function f(): void",
-    "displayParts": [
-     {
-      "text": "function",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "f",
-      "kind": "functionName"
-     },
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "void",
-      "kind": "keyword"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/isDefinitionSingleReference.ts",
+      "kind": "function",
+      "name": "function f(): void",
+      "textSpan": {
+        "start": 9,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "function",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "f",
+          "kind": "functionName"
+        },
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "void",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 15
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 9,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/isDefinitionSingleReference.ts",
+        "contextSpan": {
+          "start": 0,
+          "length": 15
+        },
+        "isWriteAccess": true,
+        "isDefinition": true
+      },
+      {
+        "textSpan": {
+          "start": 16,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/isDefinitionSingleReference.ts",
+        "isWriteAccess": false,
+        "isDefinition": false
+      }
     ]
-   }
-  ]
+  }
+]
 
-
-
-// === findAllReferences ===
 // === /tests/cases/fourslash/isDefinitionSingleReference.ts ===
-// <|function [|{| isWriteAccess: true |}f|]() {}|>
+// function [|f|]() {}
 // /*FIND ALL REFS*/[|f|]();
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/isDefinitionSingleReference.ts ===
-  // <|function [|f|]() {}|>
-  // /*FIND ALL REFS*/f();
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "function",
-    "name": "function f(): void",
-    "displayParts": [
-     {
-      "text": "function",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "f",
-      "kind": "functionName"
-     },
-     {
-      "text": "(",
-      "kind": "punctuation"
-     },
-     {
-      "text": ")",
-      "kind": "punctuation"
-     },
-     {
-      "text": ":",
-      "kind": "punctuation"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "void",
-      "kind": "keyword"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/isDefinitionSingleReference.ts",
+      "kind": "function",
+      "name": "function f(): void",
+      "textSpan": {
+        "start": 9,
+        "length": 1
+      },
+      "displayParts": [
+        {
+          "text": "function",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "f",
+          "kind": "functionName"
+        },
+        {
+          "text": "(",
+          "kind": "punctuation"
+        },
+        {
+          "text": ")",
+          "kind": "punctuation"
+        },
+        {
+          "text": ":",
+          "kind": "punctuation"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "void",
+          "kind": "keyword"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 15
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 9,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/isDefinitionSingleReference.ts",
+        "contextSpan": {
+          "start": 0,
+          "length": 15
+        },
+        "isWriteAccess": true
+      },
+      {
+        "textSpan": {
+          "start": 16,
+          "length": 1
+        },
+        "fileName": "/tests/cases/fourslash/isDefinitionSingleReference.ts",
+        "isWriteAccess": false
+      }
     ]
-   }
-  ]
+  }
+]

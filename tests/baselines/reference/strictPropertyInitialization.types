@@ -12,6 +12,7 @@ class C1 {
 
     c: number | null;  // Error
 >c : number | null
+>null : null
 
     d?: number;
 >d : number | undefined
@@ -24,6 +25,7 @@ class C1 {
 
     #h: number | null; //Error
 >#h : number | null
+>null : null
 
     #i?: number;
 >#i : number | undefined
@@ -42,6 +44,7 @@ declare class C2 {
 
     c: number | null;
 >c : number | null
+>null : null
 
     d?: number;
 >d : number | undefined
@@ -54,6 +57,7 @@ declare class C2 {
 
     #h: number | null;
 >#h : number | null
+>null : null
 
     #i?: number;
 >#i : number | undefined
@@ -72,6 +76,7 @@ class C3 {
 
     static c: number | null;
 >c : number | null
+>null : null
 
     static d?: number;
 >d : number | undefined
@@ -241,6 +246,7 @@ abstract class C9 {
 
     abstract c: number | null;
 >c : number | null
+>null : null
 
     abstract d?: number;
 >d : number | undefined

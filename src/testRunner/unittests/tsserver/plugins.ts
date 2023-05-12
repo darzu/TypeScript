@@ -1,32 +1,34 @@
 import * as Harness from "../../_namespaces/Harness";
 import * as ts from "../../_namespaces/ts";
 import {
-    baselineTsserverLogs,
-    createLoggerWithInMemoryLogs,
-    createSession,
-    openFilesForSession,
-    TestSessionOptions,
-} from "../helpers/tsserver";
-import {
     createServerHost,
     File,
     libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
+import {
+    baselineTsserverLogs,
+    createLoggerWithInMemoryLogs,
+    createProjectService,
+    createSession,
+    openFilesForSession,
+} from "./helpers";
 
-describe("unittests:: tsserver:: plugins:: loading", () => {
+describe("unittests:: tsserver:: plugins loading", () => {
     const testProtocolCommand = "testProtocolCommand";
     const testProtocolCommandRequest = "testProtocolCommandRequest";
     const testProtocolCommandResponse = "testProtocolCommandResponse";
 
-    function createHostWithPlugin(files: readonly File[], opts?: Partial<TestSessionOptions>) {
+    function createHostWithPlugin(files: readonly File[]) {
         const host = createServerHost(files);
+        const pluginsLoaded: string[] = [];
+        const protocolHandlerRequests: [string, string][] = [];
         host.require = (_initialPath, moduleName) => {
-            session.logger.log(`Loading plugin: ${moduleName}`);
+            pluginsLoaded.push(moduleName);
             return {
                 module: () => ({
                     create(info: ts.server.PluginCreateInfo) {
                         info.session?.addProtocolHandler(testProtocolCommand, request => {
-                            session.logger.log(`addProtocolHandler: ${JSON.stringify(request, undefined, " ")}`);
+                            protocolHandlerRequests.push([request.command, request.arguments]);
                             return {
                                 response: testProtocolCommandResponse
                             };
@@ -37,8 +39,7 @@ describe("unittests:: tsserver:: plugins:: loading", () => {
                 error: undefined
             };
         };
-        const session = createSession(host, { ...opts, logger: createLoggerWithInMemoryLogs(host) });
-        return { host, session };
+        return { host, pluginsLoaded, protocolHandlerRequests };
     }
 
     it("With local plugins", () => {
@@ -56,9 +57,10 @@ describe("unittests:: tsserver:: plugins:: loading", () => {
                 }
             })
         };
-        const { session } = createHostWithPlugin([aTs, tsconfig, libFile]);
-        openFilesForSession([aTs], session);
-        baselineTsserverLogs("plugins", "With local plugins", session);
+        const { host, pluginsLoaded } = createHostWithPlugin([aTs, tsconfig, libFile]);
+        const service = createProjectService(host);
+        service.openClientFile(aTs.path);
+        assert.deepEqual(pluginsLoaded, expectedToLoad);
     });
 
     it("With global plugins", () => {
@@ -69,13 +71,15 @@ describe("unittests:: tsserver:: plugins:: loading", () => {
             path: "/tsconfig.json",
             content: "{}"
         };
-        const { session } = createHostWithPlugin([aTs, tsconfig, libFile], { globalPlugins: [...expectedToLoad, ...notToLoad] });
-        openFilesForSession([aTs], session);
-        baselineTsserverLogs("plugins", "With global plugins", session);
+        const { host, pluginsLoaded } = createHostWithPlugin([aTs, tsconfig, libFile]);
+        const service = createProjectService(host, { globalPlugins: [...expectedToLoad, ...notToLoad] });
+        service.openClientFile(aTs.path);
+        assert.deepEqual(pluginsLoaded, expectedToLoad);
     });
 
     it("With session and custom protocol message", () => {
         const pluginName = "some-plugin";
+        const expectedToLoad = [pluginName];
         const aTs: File = { path: "/a.ts", content: `class c { prop = "hello"; foo() { return this.prop; } }` };
         const tsconfig: File = {
             path: "/tsconfig.json",
@@ -88,16 +92,27 @@ describe("unittests:: tsserver:: plugins:: loading", () => {
             })
         };
 
-        const { session } = createHostWithPlugin([aTs, tsconfig, libFile]);
+        const { host, pluginsLoaded, protocolHandlerRequests } = createHostWithPlugin([aTs, tsconfig, libFile]);
+        const session = createSession(host);
 
-        openFilesForSession([aTs], session);
+        const service = createProjectService(host, { session });
+        service.openClientFile(aTs.path);
+        assert.deepEqual(pluginsLoaded, expectedToLoad);
 
-        session.executeCommandSeq({
+        const resp = session.executeCommandSeq({
             command: testProtocolCommand,
             arguments: testProtocolCommandRequest
         });
 
-        baselineTsserverLogs("plugins", "With session and custom protocol message", session);
+        assert.strictEqual(protocolHandlerRequests.length, 1);
+        const [command, args] = protocolHandlerRequests[0];
+        assert.strictEqual(command, testProtocolCommand);
+        assert.strictEqual(args, testProtocolCommandRequest);
+
+        const expectedResp: ts.server.HandlerResponse = {
+            response: testProtocolCommandResponse
+        };
+        assert.deepEqual(resp, expectedResp);
     });
 
     it("gets external files with config file reload", () => {
@@ -118,10 +133,10 @@ describe("unittests:: tsserver:: plugins:: loading", () => {
 
         const host = createServerHost([aTs, tsconfig, libFile]);
         host.require = (_initialPath, moduleName) => {
-            session.logger.log(`Require:: ${moduleName}`);
+            session.logger.logs.push(`Require:: ${moduleName}`);
             return {
                 module: (): ts.server.PluginModule => {
-                    session.logger.log(`PluginFactory Invoke`);
+                    session.logger.logs.push(`PluginFactory Invoke`);
                     return {
                         create: Harness.LanguageService.makeDefaultProxy,
                         getExternalFiles: () => externalFiles[moduleName]
@@ -132,7 +147,7 @@ describe("unittests:: tsserver:: plugins:: loading", () => {
         };
         const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
         openFilesForSession([aTs], session);
-        session.logger.log(`ExternalFiles:: ${JSON.stringify(session.getProjectService().configuredProjects.get(tsconfig.path)!.getExternalFiles())}`);
+        session.logger.logs.push(`ExternalFiles:: ${JSON.stringify(session.getProjectService().configuredProjects.get(tsconfig.path)!.getExternalFiles())}`);
 
         host.writeFile(tsconfig.path, JSON.stringify({
             compilerOptions: {
@@ -140,13 +155,13 @@ describe("unittests:: tsserver:: plugins:: loading", () => {
             }
         }));
         host.runQueuedTimeoutCallbacks();
-        session.logger.log(`ExternalFiles:: ${JSON.stringify(session.getProjectService().configuredProjects.get(tsconfig.path)!.getExternalFiles())}`);
+        session.logger.logs.push(`ExternalFiles:: ${JSON.stringify(session.getProjectService().configuredProjects.get(tsconfig.path)!.getExternalFiles())}`);
 
         baselineTsserverLogs("plugins", "gets external files with config file reload", session);
     });
 });
 
-describe("unittests:: tsserver:: plugins:: overriding getSupportedCodeFixes", () => {
+describe("unittests:: tsserver:: plugins overriding getSupportedCodeFixes", () => {
     it("getSupportedCodeFixes can be proxied", () => {
         const aTs: File = {
             path: "/a.ts",
@@ -180,7 +195,7 @@ describe("unittests:: tsserver:: plugins:: overriding getSupportedCodeFixes", ()
                                     return ["b"];
                                 default:
                                     // Make this stable list of single item so we dont have to update the baseline for every additional error
-                                    return info.languageService.getSupportedCodeFixes(fileName);
+                                    return [info.languageService.getSupportedCodeFixes(fileName)[0]];
                             }
                         };
                         return proxy;

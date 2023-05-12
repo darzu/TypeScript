@@ -3,4 +3,6 @@
 ////interface Fo/*1*/o {}
 ////class /*2*/Bar implements Foo {}
 
-verify.baselineGoToImplementation('1');
+goTo.marker('1');
+goTo.implementation();
+verify.caretAtMarker('2');

@@ -52,6 +52,7 @@ class C {
 >this.inMethodNullable : any
 >this : this
 >inMethodNullable : any
+>null : null
         }
         else {
             this.inMethod = "string"

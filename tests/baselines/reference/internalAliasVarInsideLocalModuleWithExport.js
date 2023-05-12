@@ -17,12 +17,12 @@ define(["require", "exports"], function (require, exports) {
     var a;
     (function (a) {
         a.x = 10;
-    })(a || (exports.a = a = {}));
+    })(a = exports.a || (exports.a = {}));
     var c;
     (function (c) {
         c.b = a.x;
         c.bVal = c.b;
-    })(c || (exports.c = c = {}));
+    })(c = exports.c || (exports.c = {}));
 });
 
 

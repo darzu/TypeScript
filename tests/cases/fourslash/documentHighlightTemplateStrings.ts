@@ -15,4 +15,4 @@
 ////}
 
 const [r0, r1, r2] = test.ranges();
-verify.baselineDocumentHighlights(r2);
+verify.documentHighlightsOf(r2, [r0, r1, r2]);

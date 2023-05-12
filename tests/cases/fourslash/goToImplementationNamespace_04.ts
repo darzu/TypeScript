@@ -24,4 +24,4 @@
 ////
 //// }
 
-verify.baselineGoToImplementation("reference");
+verify.allRangesAppearInImplementationList("reference");

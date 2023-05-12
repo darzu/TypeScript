@@ -12,4 +12,4 @@
 //// var numberLike;
 
 const [rDef, ...ranges] = test.ranges();
-verify.baselineRename(ranges, { findInComments: true });
+verify.rangesAreRenameLocations({ findInComments: true, ranges });

@@ -16,4 +16,4 @@
 ////
 ////x.common.[|/*propertyReference*/a|];
 
-verify.baselineGoToDefinition("propertyReference");
+verify.goToDefinition("propertyReference", ["propertyDefinition2", "propertyDefinition1"]);

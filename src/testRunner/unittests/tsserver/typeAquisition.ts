@@ -1,14 +1,14 @@
 import * as ts from "../../_namespaces/ts";
+import { createServerHost } from "../virtualFileSystemWithWatch";
 import {
-    baselineTsserverLogs,
-    createLoggerWithInMemoryLogs,
+    checkProjectActualFiles,
+    configuredProjectAt,
     createProjectService,
     TestTypingsInstaller,
     toExternalFile,
-} from "../helpers/tsserver";
-import { createServerHost } from "../helpers/virtualFileSystemWithWatch";
+} from "./helpers";
 
-describe("unittests:: tsserver:: typeAquisition:: autoDiscovery", () => {
+describe("unittests:: tsserver:: autoDiscovery", () => {
     it("does not depend on extension", () => {
         const file1 = {
             path: "/a/b/app.html",
@@ -19,19 +19,19 @@ describe("unittests:: tsserver:: typeAquisition:: autoDiscovery", () => {
             content: ""
         };
         const host = createServerHost([file1, file2]);
-        const projectService = createProjectService(host, { logger: createLoggerWithInMemoryLogs(host) });
+        const projectService = createProjectService(host);
         projectService.openExternalProject({
             projectFileName: "/a/b/proj.csproj",
             rootFiles: [toExternalFile(file2.path), { fileName: file1.path, hasMixedContent: true, scriptKind: ts.ScriptKind.JS }],
             options: {}
         });
+        projectService.checkNumberOfProjects({ externalProjects: 1 });
         const typeAcquisition = projectService.externalProjects[0].getTypeAcquisition();
-        projectService.logger.log(`Typine acquisition should be enabled: ${typeAcquisition.enable}`);
-        baselineTsserverLogs("typeAquisition", "does not depend on extension", projectService);
+        assert.isTrue(typeAcquisition.enable, "Typine acquisition should be enabled");
     });
 });
 
-describe("unittests:: tsserver:: typeAquisition:: prefer typings to js", () => {
+describe("unittests:: tsserver:: prefer typings to js", () => {
     it("during second resolution pass", () => {
         const typingsCacheLocation = "/a/typings";
         const f1 = {
@@ -51,14 +51,10 @@ describe("unittests:: tsserver:: typeAquisition:: prefer typings to js", () => {
             content: JSON.stringify({ compilerOptions: { allowJs: true }, exclude: ["node_modules"] })
         };
         const host = createServerHost([f1, barjs, barTypings, config]);
-        const logger = createLoggerWithInMemoryLogs(host);
-        const projectService = createProjectService(host, {
-            typingsInstaller: new TestTypingsInstaller(typingsCacheLocation, /*throttleLimit*/ 5, host, logger),
-            logger,
-        });
+        const projectService = createProjectService(host, { typingsInstaller: new TestTypingsInstaller(typingsCacheLocation, /*throttleLimit*/ 5, host) });
 
         projectService.openClientFile(f1.path);
-
-        baselineTsserverLogs("typeAquisition", "prefer typings in second pass", projectService);
+        projectService.checkNumberOfProjects({ configuredProjects: 1 });
+        checkProjectActualFiles(configuredProjectAt(projectService, 0), [f1.path, barTypings.path, config.path]);
     });
 });

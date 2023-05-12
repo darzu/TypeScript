@@ -231,6 +231,7 @@ for (const k of keys) {
 
 type PartialNull<T> = {[K in keyof T]?: T[K] | null};
 >PartialNull : PartialNull<T>
+>null : null
 
 const obj2: PartialNull<MyAPI> = {};
 >obj2 : PartialNull<MyAPI>

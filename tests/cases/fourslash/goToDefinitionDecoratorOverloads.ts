@@ -13,7 +13,7 @@
 ////    @[|/*useDecSymbol*/dec|] [s]() {}
 ////}
 
-verify.baselineGoToDefinition(
-    "useDecString",
-    "useDecSymbol",
-);
+verify.goToDefinition({
+    useDecString: "defDecString",
+    useDecSymbol: "defDecSymbol"
+});

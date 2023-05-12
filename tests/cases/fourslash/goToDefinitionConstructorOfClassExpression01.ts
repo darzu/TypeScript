@@ -6,4 +6,4 @@
 ////    }
 ////}
 
-verify.baselineGoToDefinition("usage");
+verify.goToDefinition("usage", "definition");

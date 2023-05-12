@@ -3,10 +3,9 @@ import {
     CancellationToken,
     cast,
     CodeFixAction,
-    CodeFixContext,
     Debug,
+    DiagnosticAndArguments,
     DiagnosticMessage,
-    DiagnosticOrDiagnosticAndArguments,
     Diagnostics,
     factory,
     FileTextChanges,
@@ -15,15 +14,12 @@ import {
     forEach,
     FunctionLikeDeclaration,
     getJSDocParameterTags,
-    getNewLineOrDefaultFromHost,
-    getPrecedingNonSpaceCharacterPosition,
     getTokenAtPosition,
     Identifier,
     ImportDeclaration,
     isArrayBindingPattern,
     isBinaryExpression,
     isCallExpression,
-    isCallLikeExpression,
     isComputedPropertyName,
     isDeclarationWithTypeParameterChildren,
     isExpressionStatement,
@@ -41,14 +37,11 @@ import {
     isPrefixUnaryExpression,
     isPropertyAccessExpression,
     isSuperKeyword,
-    isVariableDeclaration,
     isVariableDeclarationList,
-    length,
     map,
     Node,
     ObjectBindingPattern,
     ParameterDeclaration,
-    probablyUsesSemicolons,
     Program,
     showModuleSpecifier,
     SourceFile,
@@ -121,7 +114,7 @@ registerCodeFix({
             }
             return [
                 createDeleteFix(textChanges.ChangeTracker.with(context, t =>
-                    deleteDestructuring(context, t, sourceFile, token.parent as ObjectBindingPattern | ArrayBindingPattern)), Diagnostics.Remove_unused_destructuring_declaration),
+                    t.delete(sourceFile, token.parent.parent)), Diagnostics.Remove_unused_destructuring_declaration)
             ];
         }
 
@@ -220,7 +213,7 @@ function changeInferToUnknown(changes: textChanges.ChangeTracker, sourceFile: So
     changes.replaceNode(sourceFile, token.parent, factory.createKeywordTypeNode(SyntaxKind.UnknownKeyword));
 }
 
-function createDeleteFix(changes: FileTextChanges[], diag: DiagnosticOrDiagnosticAndArguments): CodeFixAction {
+function createDeleteFix(changes: FileTextChanges[], diag: DiagnosticAndArguments): CodeFixAction {
     return createCodeFixAction(fixName, changes, diag, fixIdDelete, Diagnostics.Delete_all_unused_declarations);
 }
 
@@ -248,27 +241,6 @@ function deleteEntireVariableStatement(changes: textChanges.ChangeTracker, sourc
 
 function deleteDestructuringElements(changes: textChanges.ChangeTracker, sourceFile: SourceFile, node: ObjectBindingPattern | ArrayBindingPattern) {
     forEach(node.elements, n => changes.delete(sourceFile, n));
-}
-
-function deleteDestructuring(context: CodeFixContext, changes: textChanges.ChangeTracker, sourceFile: SourceFile, { parent }: ObjectBindingPattern | ArrayBindingPattern) {
-    if (isVariableDeclaration(parent) && parent.initializer && isCallLikeExpression(parent.initializer)) {
-        if (isVariableDeclarationList(parent.parent) && length(parent.parent.declarations) > 1) {
-            const varStatement = parent.parent.parent;
-            const pos = varStatement.getStart(sourceFile);
-            const end = varStatement.end;
-            changes.delete(sourceFile, parent);
-            changes.insertNodeAt(sourceFile, end, parent.initializer, {
-                prefix: getNewLineOrDefaultFromHost(context.host, context.formatContext.options) + sourceFile.text.slice(getPrecedingNonSpaceCharacterPosition(sourceFile.text, pos - 1), pos),
-                suffix: probablyUsesSemicolons(sourceFile) ? ";" : "",
-            });
-        }
-        else {
-            changes.replaceNode(sourceFile, parent.parent, parent.initializer);
-        }
-    }
-    else {
-        changes.delete(sourceFile, parent);
-    }
 }
 
 function tryPrefixDeclaration(changes: textChanges.ChangeTracker, errorCode: number, sourceFile: SourceFile, token: Node): void {

@@ -26,6 +26,7 @@ module Editor {
 >new List<T>(true, null) : List<T>
 >List : typeof List
 >true : true
+>null : null
 
             entry.prev = entry;
 >entry.prev = entry : List<T>
@@ -53,6 +54,7 @@ module Editor {
 >new List<T>(true, null) : List<T>
 >List : typeof List
 >true : true
+>null : null
 
             entry.prev = entry;
 >entry.prev = entry : List<T>
@@ -80,6 +82,7 @@ module Editor {
 >new List<U>(true, null) : List<U>
 >List : typeof List
 >true : true
+>null : null
 
             entry.prev = entry;
 >entry.prev = entry : List<U>

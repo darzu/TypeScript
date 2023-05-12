@@ -284,6 +284,7 @@ var pp = strIndex[<any>null];
 >strIndex[<any>null] : Compass
 >strIndex : { [n: string]: Compass; }
 ><any>null : any
+>null : null
 
 var pp: Compass;
 >pp : Compass
@@ -326,6 +327,7 @@ var tt = noIndex[<any>null];
 >noIndex[<any>null] : any
 >noIndex : () => void
 ><any>null : any
+>null : null
 
 var tt: any;
 >tt : any
@@ -365,6 +367,7 @@ var xx = bothIndex[<any>null];
 >bothIndex[<any>null] : B
 >bothIndex : { [n: string]: A; [m: number]: B; }
 ><any>null : any
+>null : null
 
 var xx: B;
 >xx : B

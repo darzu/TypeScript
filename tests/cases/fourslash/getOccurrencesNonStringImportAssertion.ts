@@ -4,4 +4,5 @@
 ////import * as react from "react" assert { cache: /**/0 };
 ////react.Children;
 
-verify.baselineDocumentHighlights("");
+goTo.marker();
+verify.occurrencesAtPositionCount(0);

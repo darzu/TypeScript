@@ -1,18 +1,20 @@
 import * as ts from "../../_namespaces/ts";
 import {
+    createServerHost,
+    File,
+    libFile,
+} from "../virtualFileSystemWithWatch";
+import {
     baselineTsserverLogs,
+    checkNumberOfProjects,
+    checkProjectActualFiles,
     closeFilesForSession,
     createLoggerWithInMemoryLogs,
     createSession,
     openFilesForSession,
     protocolFileLocationFromSubstring,
     verifyGetErrRequest,
-} from "../helpers/tsserver";
-import {
-    createServerHost,
-    File,
-    libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "./helpers";
 
 describe("unittests:: tsserver:: Semantic operations on partialSemanticServer", () => {
     function setup() {
@@ -51,10 +53,14 @@ import { something } from "something";
 
     it("open files are added to inferred project even if config file is present and semantic operations succeed", () => {
         const { session, file1, file2 } = setup();
+        const service = session.getProjectService();
         openFilesForSession([file1], session);
+        const project = service.inferredProjects[0];
         verifyCompletions();
 
         openFilesForSession([file2], session);
+        checkNumberOfProjects(service, { inferredProjects: 1 });
+        checkProjectActualFiles(project, [libFile.path, file1.path, file2.path]);
         verifyCompletions();
 
         baselineTsserverLogs("partialSemanticServer", "files are added to inferred project", session);
@@ -71,11 +77,14 @@ import { something } from "something";
         const { session, file1 } = setup();
         const service = session.getProjectService();
         openFilesForSession([file1], session);
+        const request: ts.server.protocol.SemanticDiagnosticsSyncRequest = {
+            type: "request",
+            seq: 1,
+            command: ts.server.protocol.CommandTypes.SemanticDiagnosticsSync,
+            arguments: { file: file1.path }
+        };
         try {
-            session.executeCommandSeq<ts.server.protocol.SemanticDiagnosticsSyncRequest>({
-                command: ts.server.protocol.CommandTypes.SemanticDiagnosticsSync,
-                arguments: { file: file1.path }
-            });
+            session.executeCommand(request);
         }
         catch (e) {
             session.logger.info(e.message);
@@ -127,7 +136,7 @@ import { something } from "something";
         assert.isTrue(diagnostics.length === 1);
         assert.equal(diagnostics[0].messageText, expectedErrorMessage);
 
-        verifyGetErrRequest({ session, files: [file1], skip: [{ semantic: true, suggestion: true }] });
+        verifyGetErrRequest({ session, host, files: [file1], skip: [{ semantic: true, suggestion: true }] });
         baselineTsserverLogs("partialSemanticServer", "syntactic diagnostics are returned with no error", session);
     });
 
@@ -212,14 +221,13 @@ function fooB() { }`
             content: ""
         };
         const host = createServerHost([angularFormsDts, angularFormsPackageJson, tsconfig, packageJson, indexTs, libFile]);
-        const session = createSession(host, { serverMode: ts.LanguageServiceMode.PartialSemantic, useSingleInferredProject: true, logger: createLoggerWithInMemoryLogs(host) });
+        const session = createSession(host, { serverMode: ts.LanguageServiceMode.PartialSemantic, useSingleInferredProject: true });
         const service = session.getProjectService();
         openFilesForSession([indexTs], session);
         const project = service.inferredProjects[0];
         assert.isFalse(project.autoImportProviderHost);
         assert.isUndefined(project.getPackageJsonAutoImportProvider());
         assert.deepEqual(project.getPackageJsonsForAutoImport(), ts.emptyArray);
-        baselineTsserverLogs("partialSemanticServer", "should not create autoImportProvider or handle package jsons", session);
     });
 
     it("should support go-to-definition on module specifiers", () => {

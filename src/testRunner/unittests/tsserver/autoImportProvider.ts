@@ -1,14 +1,14 @@
 import * as ts from "../../_namespaces/ts";
 import {
-    baselineTsserverLogs,
-    createLoggerWithInMemoryLogs,
-    createSession,
-    openFilesForSession,
-} from "../helpers/tsserver";
-import {
     createServerHost,
     File,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
+import {
+    checkNumberOfConfiguredProjects,
+    checkNumberOfInferredProjects,
+    createSession,
+    openFilesForSession,
+} from "./helpers";
 
 const angularFormsDts: File = {
     path: "/node_modules/@angular/forms/forms.d.ts",
@@ -50,7 +50,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
         ]);
         openFilesForSession([indexTs], session);
         assert.isUndefined(projectService.configuredProjects.get(tsconfig.path)!.getLanguageService().getAutoImportProvider());
-        baselineTsserverLogs("autoImportProvider", "without dependencies listed", session);
     });
 
     it("Auto import provider program is not created if dependencies are already in main program", () => {
@@ -63,7 +62,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
         ]);
         openFilesForSession([indexTs], session);
         assert.isUndefined(projectService.configuredProjects.get(tsconfig.path)!.getLanguageService().getAutoImportProvider());
-        baselineTsserverLogs("autoImportProvider", "dependencies are already in main program", session);
     });
 
     it("Auto-import program is not created for projects already inside node_modules", () => {
@@ -77,23 +75,29 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
         ]);
 
         openFilesForSession([angularFormsDts], session);
+        checkNumberOfInferredProjects(projectService, 1);
+        checkNumberOfConfiguredProjects(projectService, 0);
         assert.isUndefined(projectService
             .getDefaultProjectForFile(angularFormsDts.path as ts.server.NormalizedPath, /*ensureProject*/ true)!
             .getLanguageService()
             .getAutoImportProvider());
-        baselineTsserverLogs("autoImportProvider", "projects already inside node_modules", session);
     });
 
     it("Auto-importable file is in inferred project until imported", () => {
         const { projectService, session, updateFile } = setup([angularFormsDts, angularFormsPackageJson, tsconfig, packageJson, indexTs]);
+        checkNumberOfInferredProjects(projectService, 0);
         openFilesForSession([angularFormsDts], session);
-        session.logger.log(`Default Project for ${angularFormsDts.path}:: ${projectService.getDefaultProjectForFile(angularFormsDts.path as ts.server.NormalizedPath, /*ensureProject*/ true)?.projectName}`);
+        checkNumberOfInferredProjects(projectService, 1);
+        assert.equal(
+            projectService.getDefaultProjectForFile(angularFormsDts.path as ts.server.NormalizedPath, /*ensureProject*/ true)?.projectKind,
+            ts.server.ProjectKind.Inferred);
 
         updateFile(indexTs.path, "import '@angular/forms'");
-        session.logger.log(`Default Project for ${angularFormsDts.path}:: ${projectService.getDefaultProjectForFile(angularFormsDts.path as ts.server.NormalizedPath, /*ensureProject*/ true)?.projectName}`);
+        assert.equal(
+            projectService.getDefaultProjectForFile(angularFormsDts.path as ts.server.NormalizedPath, /*ensureProject*/ true)?.projectKind,
+            ts.server.ProjectKind.Configured);
 
         assert.isUndefined(projectService.configuredProjects.get(tsconfig.path)!.getLanguageService().getAutoImportProvider());
-        baselineTsserverLogs("autoImportProvider", "Auto-importable file is in inferred project until imported", session);
     });
 
     it("Responds to package.json changes", () => {
@@ -110,7 +114,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
 
         host.writeFile(packageJson.path, packageJson.content);
         assert.ok(projectService.configuredProjects.get(tsconfig.path)!.getLanguageService().getAutoImportProvider());
-        baselineTsserverLogs("autoImportProvider", "Responds to package_json changes", session);
     });
 
     it("Reuses autoImportProvider when program structure is unchanged", () => {
@@ -130,7 +133,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
         assert.strictEqual(
             projectService.configuredProjects.get(tsconfig.path)!.getLanguageService().getAutoImportProvider(),
             autoImportProvider);
-        baselineTsserverLogs("autoImportProvider", "Reuses autoImportProvider when program structure is unchanged", session);
     });
 
     it("Closes AutoImportProviderProject when host project closes", () => {
@@ -151,7 +153,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
         hostProject.close();
         assert.ok(autoImportProviderProject && autoImportProviderProject.isClosed());
         assert.isUndefined(hostProject.autoImportProviderHost);
-        baselineTsserverLogs("autoImportProvider", "Closes AutoImportProviderProject when host project closes", session);
     });
 
     it("Does not schedule ensureProjectForOpenFiles on AutoImportProviderProject creation", () => {
@@ -173,7 +174,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
         host.writeFile(packageJson.path, packageJson.content);
         hostProject.getPackageJsonAutoImportProvider();
         assert.isFalse(projectService.pendingEnsureProjectForOpenFiles);
-        baselineTsserverLogs("autoImportProvider", "Does not schedule ensureProjectForOpenFiles on AutoImportProviderProject creation", session);
     });
 
     it("Responds to automatic changes in node_modules", () => {
@@ -201,7 +201,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
         const completionsAfter = project.getLanguageService().getCompletionsAtPosition(indexTs.path, 0, { includeCompletionsForModuleExports: true });
         assert.equal(autoImportProvider!.getSourceFile(angularFormsDts.path)!.getText(), "");
         assert.isFalse(completionsAfter?.entries.some(c => c.name === "PatternValidator"));
-        baselineTsserverLogs("autoImportProvider", "Responds to automatic changes in node_modules", session);
     });
 
     it("Responds to manual changes in node_modules", () => {
@@ -224,7 +223,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
         const completionsAfter = project.getLanguageService().getCompletionsAtPosition(indexTs.path, 0, { includeCompletionsForModuleExports: true });
         assert.isFalse(completionsAfter?.entries.some(c => c.name === "PatternValidator"));
         assert.isTrue(completionsAfter?.entries.some(c => c.name === "ValidatorPattern"));
-        baselineTsserverLogs("autoImportProvider", "Responds to manual changes in node_modules", session);
     });
 
     it("Recovers from an unparseable package.json", () => {
@@ -241,7 +239,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
 
         host.writeFile(packageJson.path, packageJson.content);
         assert.ok(projectService.configuredProjects.get(tsconfig.path)!.getLanguageService().getAutoImportProvider());
-        baselineTsserverLogs("autoImportProvider", "Recovers from an unparseable package_json", session);
     });
 
     it("Does not create an auto import provider if there are too many dependencies", () => {
@@ -262,7 +259,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
         openFilesForSession([indexTs], session);
         const project = projectService.configuredProjects.get(tsconfig.path)!;
         assert.isUndefined(project.getPackageJsonAutoImportProvider());
-        baselineTsserverLogs("autoImportProvider", "Does not create an auto import provider if there are too many dependencies", session);
     });
 
     it("Shared source files between AutoImportProvider and main program do not cause duplicate entries in export info map", () => {
@@ -298,7 +294,6 @@ describe("unittests:: tsserver:: autoImportProvider", () => {
         assert.equal(seenSymbolNames.size, 2);
         assert.ok(seenSymbolNames.has("Stats"));
         assert.ok(seenSymbolNames.has("Volume"));
-        baselineTsserverLogs("autoImportProvider", "Shared source files between AutoImportProvider and main program", session);
     });
 });
 
@@ -327,11 +322,12 @@ describe("unittests:: tsserver:: autoImportProvider - monorepo", () => {
         const { projectService, session, findAllReferences } = setup(files);
 
         openFilesForSession([files.find(f => f.path === "/packages/b/index.ts")!], session);
+        checkNumberOfConfiguredProjects(projectService, 2); // Solution (no files), B
         findAllReferences("/packages/b/index.ts", 1, "export class B".length - 1);
+        checkNumberOfConfiguredProjects(projectService, 3); // Solution (no files), A, B
 
         // Project for A is created - ensure it doesn't have an autoImportProvider
         assert.isUndefined(projectService.configuredProjects.get("/packages/a/tsconfig.json")!.getLanguageService().getAutoImportProvider());
-        baselineTsserverLogs("autoImportProvider", "Does not create auto import providers upon opening projects for find-all-references", session);
     });
 
     it("Does not close when root files are redirects that don't actually exist", () => {
@@ -351,7 +347,6 @@ describe("unittests:: tsserver:: autoImportProvider - monorepo", () => {
         openFilesForSession([files[2]], session);
         assert.isDefined(projectService.configuredProjects.get("/packages/a/tsconfig.json")!.getPackageJsonAutoImportProvider());
         assert.isDefined(projectService.configuredProjects.get("/packages/a/tsconfig.json")!.getPackageJsonAutoImportProvider());
-        baselineTsserverLogs("autoImportProvider", "Does not close when root files are redirects that dont actually exist", session);
     });
 
     it("Can use the same document registry bucket key as main program", () => {
@@ -366,7 +361,7 @@ describe("unittests:: tsserver:: autoImportProvider - monorepo", () => {
 
 function setup(files: File[]) {
     const host = createServerHost(files);
-    const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
+    const session = createSession(host);
     const projectService = session.getProjectService();
     return {
         host,

@@ -37,4 +37,4 @@ var M;
     M.bar6 = [2][0];
     M.bar7 = { a: 1 }.a;
     M.bar8 = { a: 1 }.a;
-})(M || (exports.M = M = {}));
+})(M = exports.M || (exports.M = {}));

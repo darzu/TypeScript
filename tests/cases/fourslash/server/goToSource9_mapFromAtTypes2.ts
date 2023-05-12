@@ -75,4 +75,7 @@
 //// import [|/*defaultImport*/_|], { [|/*unresolvableNamedImport*/foo|] } from [|/*moduleSpecifier*/'lodash'|];
 //// _.[|/*propertyAccess*/add|]
 
-verify.baselineGoToSourceDefinition("defaultImport", "unresolvableNamedImport", "moduleSpecifier");
+verify.goToSourceDefinition("defaultImport", { file: "/node_modules/lodash/lodash.js", unverified: true });
+verify.goToSourceDefinition("unresolvableNamedImport", { file: "/node_modules/lodash/lodash.js", unverified: true });
+verify.goToSourceDefinition("moduleSpecifier", { file: "/node_modules/lodash/lodash.js", unverified: true });
+verify.goToSourceDefinition("propertyAccess", [{ marker: "variable", unverified: true }, { marker: "property", unverified: true }])

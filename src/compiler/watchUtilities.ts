@@ -1,3 +1,4 @@
+import * as ts from "./_namespaces/ts";
 import {
     arrayToMap,
     binarySearch,
@@ -49,7 +50,6 @@ import {
     SortedReadonlyArray,
     supportedJSExtensionsFlat,
     timestamp,
-    toPath as ts_toPath,
     WatchDirectoryFlags,
     WatchFileKind,
     WatchOptions,
@@ -133,7 +133,7 @@ export function createCachedDirectoryStructureHost(host: DirectoryStructureHost,
     };
 
     function toPath(fileName: string) {
-        return ts_toPath(fileName, currentDirectory, getCanonicalFileName);
+        return ts.toPath(fileName, currentDirectory, getCanonicalFileName);
     }
 
     function getCachedFileSystemEntries(rootDirPath: Path) {

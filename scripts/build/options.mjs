@@ -4,7 +4,7 @@ import os from "os";
 const ci = ["1", "true"].includes(process.env.CI ?? "");
 
 const parsed = minimist(process.argv.slice(2), {
-    boolean: ["dirty", "light", "colors", "lkg", "soft", "fix", "failed", "keepFailed", "force", "built", "ci", "bundle", "typecheck", "lint"],
+    boolean: ["dirty", "light", "colors", "lkg", "soft", "fix", "failed", "keepFailed", "force", "built", "ci", "bundle", "typecheck"],
     string: ["browser", "tests", "break", "host", "reporter", "stackTraceLimit", "timeout", "shards", "shardId"],
     alias: {
         /* eslint-disable quote-props */
@@ -35,21 +35,20 @@ const parsed = minimist(process.argv.slice(2), {
         workers: +(process.env.workerCount ?? 0) || ((os.cpus().length - (ci ? 0 : 1)) || 1),
         failed: false,
         keepFailed: false,
-        lkg: false,
+        lkg: true,
         dirty: false,
         built: false,
         ci,
         bundle: true,
         typecheck: true,
-        lint: true,
     }
 });
 
 /** @type {CommandLineOptions} */
 const options = /** @type {any} */ (parsed);
 
-if (options.built && options.lkg) {
-    throw new Error("--built and --lkg are mutually exclusive");
+if (options.built) {
+    options.lkg = false;
 }
 
 if (!options.bundle && !options.typecheck) {
@@ -87,6 +86,5 @@ export default options;
  * @property {string} break
  * @property {boolean} bundle
  * @property {boolean} typecheck
- * @property {boolean} lint
  */
 void 0;

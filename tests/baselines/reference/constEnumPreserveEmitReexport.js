@@ -19,7 +19,7 @@ var MyConstEnum;
 (function (MyConstEnum) {
     MyConstEnum[MyConstEnum["Foo"] = 0] = "Foo";
     MyConstEnum[MyConstEnum["Bar"] = 1] = "Bar";
-})(MyConstEnum || (exports.MyConstEnum = MyConstEnum = {}));
+})(MyConstEnum = exports.MyConstEnum || (exports.MyConstEnum = {}));
 ;
 //// [ImportExport.js]
 "use strict";

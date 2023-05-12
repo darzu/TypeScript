@@ -1,10 +1,9 @@
-import type * as ts from "./_namespaces/ts";
-import type {
+import * as ts from "./_namespaces/ts";
+import {
     CompilerOptionsValue,
     EndOfLineState,
     FileExtensionInfo,
     HighlightSpanKind,
-    InteractiveRefactorArguments,
     MapLike,
     OutliningSpanKind,
     OutputFile,
@@ -24,7 +23,6 @@ import type {
 
 export const enum CommandTypes {
     JsxClosingTag = "jsxClosingTag",
-    LinkedEditingRange = "linkedEditingRange",
     Brace = "brace",
     /** @internal */
     BraceFull = "brace-full",
@@ -79,6 +77,8 @@ export const enum CommandTypes {
     NavtoFull = "navto-full",
     NavTree = "navtree",
     NavTreeFull = "navtree-full",
+    /** @deprecated */
+    Occurrences = "occurrences",
     DocumentHighlights = "documentHighlights",
     /** @internal */
     DocumentHighlightsFull = "documentHighlights-full",
@@ -143,7 +143,6 @@ export const enum CommandTypes {
 
     GetApplicableRefactors = "getApplicableRefactors",
     GetEditsForRefactor = "getEditsForRefactor",
-    GetMoveToRefactoringFileSuggestions = "getMoveToRefactoringFileSuggestions",
     /** @internal */
     GetEditsForRefactorFull = "getEditsForRefactor-full",
 
@@ -588,14 +587,6 @@ export interface GetApplicableRefactorsRequest extends Request {
 export type GetApplicableRefactorsRequestArgs = FileLocationOrRangeRequestArgs & {
     triggerReason?: RefactorTriggerReason;
     kind?: string;
-    /**
-     * Include refactor actions that require additional arguments to be passed when
-     * calling 'GetEditsForRefactor'. When true, clients should inspect the
-     * `isInteractive` property of each returned `RefactorActionInfo`
-     * and ensure they are able to collect the appropriate arguments for any
-     * interactive refactor before offering it.
-     */
-    includeInteractiveActions?: boolean;
 };
 
 export type RefactorTriggerReason = "implicit" | "invoked";
@@ -606,27 +597,6 @@ export type RefactorTriggerReason = "implicit" | "invoked";
  */
 export interface GetApplicableRefactorsResponse extends Response {
     body?: ApplicableRefactorInfo[];
-}
-
-/**
- * Request refactorings at a given position or selection area to move to an existing file.
- */
-export interface GetMoveToRefactoringFileSuggestionsRequest extends Request {
-    command: CommandTypes.GetMoveToRefactoringFileSuggestions;
-    arguments: GetMoveToRefactoringFileSuggestionsRequestArgs;
-}
-export type GetMoveToRefactoringFileSuggestionsRequestArgs = FileLocationOrRangeRequestArgs & {
-    kind?: string;
-};
-/**
- * Response is a list of available files.
- * Each refactoring exposes one or more "Actions"; a user selects one action to invoke a refactoring
- */
-export interface GetMoveToRefactoringFileSuggestions extends Response {
-    body: {
-        newFileName: string;
-        files: string[];
-    };
 }
 
 /**
@@ -681,12 +651,6 @@ export interface RefactorActionInfo {
      * The hierarchical dotted name of the refactor action.
      */
     kind?: string;
-
-    /**
-     * Indicates that the action requires additional arguments to be passed
-     * when calling 'GetEditsForRefactor'.
-     */
-    isInteractive?: boolean;
 }
 
 export interface GetEditsForRefactorRequest extends Request {
@@ -703,8 +667,6 @@ export type GetEditsForRefactorRequestArgs = FileLocationOrRangeRequestArgs & {
     refactor: string;
     /* The 'name' property from the refactoring action */
     action: string;
-    /* Arguments for interactive action */
-    interactiveRefactorArguments?: InteractiveRefactorArguments;
 };
 
 
@@ -1141,17 +1103,32 @@ export interface JsxClosingTagResponse extends Response {
     readonly body: TextInsertion;
 }
 
-export interface LinkedEditingRangeRequest extends FileLocationRequest {
-    readonly command: CommandTypes.LinkedEditingRange;
+/**
+ * @deprecated
+ * Get occurrences request; value of command field is
+ * "occurrences". Return response giving spans that are relevant
+ * in the file at a given line and column.
+ */
+export interface OccurrencesRequest extends FileLocationRequest {
+    command: CommandTypes.Occurrences;
 }
 
-export interface LinkedEditingRangesBody {
-    ranges: TextSpan[];
-    wordPattern?: string;
+/** @deprecated */
+export interface OccurrencesResponseItem extends FileSpanWithContext {
+    /**
+     * True if the occurrence is a write location, false otherwise.
+     */
+    isWriteAccess: boolean;
+
+    /**
+     * True if the occurrence is in a string, undefined otherwise;
+     */
+    isInString?: true;
 }
 
-export interface LinkedEditingRangeResponse extends Response {
-    readonly body: LinkedEditingRangesBody;
+/** @deprecated */
+export interface OccurrencesResponse extends Response {
+    body?: OccurrencesResponseItem[];
 }
 
 /**
@@ -3457,7 +3434,6 @@ export interface FormatCodeSettings extends EditorSettings {
     placeOpenBraceOnNewLineForControlBlocks?: boolean;
     insertSpaceBeforeTypeAnnotation?: boolean;
     semicolons?: SemicolonPreference;
-    indentSwitchCase?: boolean;
 }
 
 export interface UserPreferences {

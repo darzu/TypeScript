@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -59,16 +58,18 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/a.js (used version)
 /user/username/projects/myproject/b.ts (used version)
 
+PolledWatches::
+
 FsWatches::
-/user/username/projects/myproject/tsconfig.json: *new*
+/user/username/projects/myproject/tsconfig.json:
   {}
-/user/username/projects/myproject/a.js: *new*
+/user/username/projects/myproject/a.js:
   {}
-/user/username/projects/myproject/b.ts: *new*
+/user/username/projects/myproject/b.ts:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject: *new*
+/user/username/projects/myproject:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -141,9 +142,6 @@ Change:: No change
 Input::
 //// [/user/username/projects/myproject/a.js] file written with same contents
 
-Before running Timeout callback:: count: 1
-1: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:36 AM[0m] File change detected. Starting incremental compilation...
@@ -153,6 +151,20 @@ Output::
 [[90m12:00:38 AM[0m] Found 0 errors. Watching for file changes.
 
 
+
+PolledWatches::
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/a.js:
+  {}
+/user/username/projects/myproject/b.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 
@@ -164,9 +176,6 @@ Input::
 const x = 10;
 
 
-Before running Timeout callback:: count: 1
-2: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:42 AM[0m] File change detected. Starting incremental compilation...
@@ -195,6 +204,20 @@ Semantic diagnostics in builder refreshed for::
 Shape signatures in builder refreshed for::
 /user/username/projects/myproject/a.js (computed .d.ts)
 /user/username/projects/myproject/b.ts (used version)
+
+PolledWatches::
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/a.js:
+  {}
+/user/username/projects/myproject/b.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 

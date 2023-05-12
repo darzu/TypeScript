@@ -1,60 +1,75 @@
-// === findAllReferences ===
 // === /tests/cases/fourslash/findAllRefsForDefaultExport08.ts ===
-// --- (line: 4) skipped ---
+// export default class DefaultExportedClass {
+// }
+// 
+// var x: DefaultExportedClass;
 // 
 // var y = new DefaultExportedClass;
 // 
-// <|namespace /*FIND ALL REFS*/[|{| isWriteAccess: true, isDefinition: true |}DefaultExportedClass|] {
-// }|>
+// namespace /*FIND ALL REFS*/[|DefaultExportedClass|] {
+// }
 
-  // === Definitions ===
-  // === /tests/cases/fourslash/findAllRefsForDefaultExport08.ts ===
-  // <|export default class [|DefaultExportedClass|] {
-  // }|>
-  // 
-  // var x: DefaultExportedClass;
-  // 
-  // var y = new DefaultExportedClass;
-  // 
-  // namespace /*FIND ALL REFS*/DefaultExportedClass {
-  // }
-
-  // === Details ===
-  [
-   {
-    "containerKind": "",
-    "containerName": "",
-    "kind": "class",
-    "name": "class DefaultExportedClass\nnamespace DefaultExportedClass",
-    "displayParts": [
-     {
-      "text": "class",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "DefaultExportedClass",
-      "kind": "moduleName"
-     },
-     {
-      "text": "\n",
-      "kind": "lineBreak"
-     },
-     {
-      "text": "namespace",
-      "kind": "keyword"
-     },
-     {
-      "text": " ",
-      "kind": "space"
-     },
-     {
-      "text": "DefaultExportedClass",
-      "kind": "moduleName"
-     }
+[
+  {
+    "definition": {
+      "containerKind": "",
+      "containerName": "",
+      "fileName": "/tests/cases/fourslash/findAllRefsForDefaultExport08.ts",
+      "kind": "class",
+      "name": "class DefaultExportedClass\nnamespace DefaultExportedClass",
+      "textSpan": {
+        "start": 21,
+        "length": 20
+      },
+      "displayParts": [
+        {
+          "text": "class",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "DefaultExportedClass",
+          "kind": "moduleName"
+        },
+        {
+          "text": "\n",
+          "kind": "lineBreak"
+        },
+        {
+          "text": "namespace",
+          "kind": "keyword"
+        },
+        {
+          "text": " ",
+          "kind": "space"
+        },
+        {
+          "text": "DefaultExportedClass",
+          "kind": "moduleName"
+        }
+      ],
+      "contextSpan": {
+        "start": 0,
+        "length": 45
+      }
+    },
+    "references": [
+      {
+        "textSpan": {
+          "start": 122,
+          "length": 20
+        },
+        "fileName": "/tests/cases/fourslash/findAllRefsForDefaultExport08.ts",
+        "contextSpan": {
+          "start": 112,
+          "length": 34
+        },
+        "isWriteAccess": true,
+        "isDefinition": true
+      }
     ]
-   }
-  ]
+  }
+]

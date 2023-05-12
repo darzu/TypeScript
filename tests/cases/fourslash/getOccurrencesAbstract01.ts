@@ -12,4 +12,4 @@
 ////    abstract bar(): void;
 ////}
 
-verify.baselineDocumentHighlights();
+verify.rangesAreOccurrences(false);

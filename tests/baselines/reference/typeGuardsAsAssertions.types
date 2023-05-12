@@ -274,6 +274,7 @@ function f6() {
 
     let x: string | undefined | null;
 >x : string | null | undefined
+>null : null
 
     x!.slice();
 >x!.slice() : string
@@ -309,6 +310,7 @@ function f6() {
     x = null;
 >x = null : null
 >x : string | null | undefined
+>null : null
 
     x!.slice();
 >x!.slice() : string
@@ -321,6 +323,7 @@ function f6() {
 >x = <undefined | null>undefined : null | undefined
 >x : string | null | undefined
 ><undefined | null>undefined : null | undefined
+>null : null
 >undefined : undefined
 
     x!.slice();
@@ -347,6 +350,7 @@ function f6() {
 >x = <string | null>"" : string | null
 >x : string | null | undefined
 ><string | null>"" : string | null
+>null : null
 >"" : ""
 
     x!.slice();

@@ -706,7 +706,7 @@ var publicModule;
     }());
     function privateFunctionWithPrivateMopduleTypeParameters() {
     }
-})(publicModule || (exports.publicModule = publicModule = {}));
+})(publicModule = exports.publicModule || (exports.publicModule = {}));
 var privateModule;
 (function (privateModule) {
     var privateClass = /** @class */ (function () {

@@ -11,6 +11,7 @@ interface IndexedWithThis {
 
     [propName: string]: number | string | boolean | symbol | undefined | null | {} | ((this: any, ...args:any[]) => any);
 >propName : string
+>null : null
 >this : any
 >args : any[]
 }

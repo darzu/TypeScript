@@ -5,12 +5,14 @@ function f() {
 
     const x: string | null = <any>{};
 >x : string | null
+>null : null
 ><any>{} : any
 >{} : {}
 
     if (x !== null) {
 >x !== null : boolean
 >x : string | null
+>null : null
 
         return {
 >{            bar() { return x.length; }  // ok        } : { bar(): number; }
@@ -30,12 +32,14 @@ function f2() {
 
     const x: string | null = <any>{};
 >x : string | null
+>null : null
 ><any>{} : any
 >{} : {}
 
     if (x !== null) {
 >x !== null : boolean
 >x : string | null
+>null : null
 
         return class {
 >class {            bar() { return x.length; }  // ok        } : typeof (Anonymous class)

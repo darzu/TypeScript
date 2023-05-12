@@ -19,9 +19,9 @@
 ////    }
 ////}
 
-verify.baselineGoToDefinition(
-    "interfaceReference", "interfaceReferenceInList", "interfaceReferenceInConstructor",
-    "classReference", "classReferenceInInitializer",
-    "enumReference", "enumReferenceInInitializer",
-    "selfReference",
-);
+verify.goToDefinition([
+    [["interfaceReference", "interfaceReferenceInList", "interfaceReferenceInConstructor"], "interfaceDefinition"],
+    [["classReference", "classReferenceInInitializer"], "classDefinition"],
+    [["enumReference", "enumReferenceInInitializer"], "enumDefinition"],
+    ["selfReference", "selfDefinition"]
+]);

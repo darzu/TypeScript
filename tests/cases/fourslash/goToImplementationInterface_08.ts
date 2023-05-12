@@ -18,4 +18,4 @@
 ////     d.he/*function_call*/llo();
 //// }
 
-verify.baselineGoToImplementation("function_call");
+verify.allRangesAppearInImplementationList("function_call");

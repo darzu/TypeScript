@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/myproject/packages/pkg1/index.ts]
 import type { TheNum } from 'pkg2'
@@ -125,6 +124,12 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/packages/pkg2/build/const.d.ts (used version)
 /user/username/projects/myproject/packages/pkg2/build/index.d.ts (used version)
 /user/username/projects/myproject/packages/pkg1/index.ts (used version)
+
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.Success
 

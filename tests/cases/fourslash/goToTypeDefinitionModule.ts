@@ -10,7 +10,7 @@
 /////*reference1*/M;
 /////*reference2*/m;
 
-verify.baselineGoToType(
-    "reference1",
-    "reference2",
-);
+verify.goToType({
+    reference1: "definition",
+    reference2: "definition"
+});

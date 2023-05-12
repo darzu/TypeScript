@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/myproject/a.ts]
 import {B} from './b';
@@ -62,6 +61,12 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/b.ts (computed .d.ts during emit)
 /user/username/projects/myproject/a.ts (computed .d.ts during emit)
 /user/username/projects/myproject/d.ts (computed .d.ts during emit)
+
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 
@@ -270,6 +275,12 @@ Semantic diagnostics in builder refreshed for::
 
 No shapes updated in the builder::
 
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
+
 exitCode:: ExitStatus.undefined
 
 //// [/user/username/projects/myproject/tsconfig.tsbuildinfo]
@@ -406,6 +417,12 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/c.ts (computed .d.ts)
 /user/username/projects/myproject/b.ts (computed .d.ts)
 /user/username/projects/myproject/a.ts (computed .d.ts during emit)
+
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 
@@ -570,6 +587,12 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/b.ts (computed .d.ts during emit)
 /user/username/projects/myproject/a.ts (computed .d.ts during emit)
 /user/username/projects/myproject/d.ts (computed .d.ts during emit)
+
+PolledWatches::
+
+FsWatches::
+
+FsWatchesRecursive::
 
 exitCode:: ExitStatus.undefined
 

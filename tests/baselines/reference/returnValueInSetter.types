@@ -7,6 +7,7 @@ class f {
 >value : any
 
         return null; // Should be an error
+>null : null
     }
 }
 

@@ -39,7 +39,7 @@ exports.default = Decl;
 (function (Decl) {
     Decl.x = 10;
     Decl.y = 20;
-})(Decl || (Decl = {}));
+})(Decl = exports.Decl || (exports.Decl = {}));
 //// [m2.js]
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });

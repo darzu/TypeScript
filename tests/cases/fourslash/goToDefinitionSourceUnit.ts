@@ -16,7 +16,7 @@
 // @Filename: b.ts
 /////*fileB*/
 
-verify.baselineGoToDefinition(
-    "unknownFile",
-    "knownFile",
-);
+verify.goToDefinition({
+    unknownFile: [],
+    knownFile: "fileB"
+});

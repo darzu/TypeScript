@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/project/tsconfig.json]
 {"compilerOptions":{"types":[]},"files":["app.ts"],"references":[{"path":"./lib"}]}
@@ -50,12 +49,12 @@ Loading config file: /user/username/projects/project/lib/tsconfig.json
 FileWatcher:: Added:: WatchInfo: /user/username/projects/project/lib/tsconfig.json 2000 undefined Config file of referened project
 FileWatcher:: Added:: WatchInfo: /user/username/projects/project/lib/tsconfig.base.json 2000 undefined Extended config file of referenced project
 FileWatcher:: Added:: WatchInfo: /user/username/projects/project/app.ts 250 undefined Source file
-DirectoryWatcher:: Added:: WatchInfo: /user/username/projects 1 undefined Failed Lookup Locations
-Elapsed:: *ms DirectoryWatcher:: Added:: WatchInfo: /user/username/projects 1 undefined Failed Lookup Locations
+DirectoryWatcher:: Added:: WatchInfo: /user 1 undefined Failed Lookup Locations
+Elapsed:: *ms DirectoryWatcher:: Added:: WatchInfo: /user 1 undefined Failed Lookup Locations
 FileWatcher:: Added:: WatchInfo: /user/username/projects/project/lib/index.d.ts 250 undefined Source file
 FileWatcher:: Added:: WatchInfo: /a/lib/lib.d.ts 250 undefined Source file
-DirectoryWatcher:: Triggered with /user/username/projects/project/app.js :: WatchInfo: /user/username/projects 1 undefined Failed Lookup Locations
-Elapsed:: *ms DirectoryWatcher:: Triggered with /user/username/projects/project/app.js :: WatchInfo: /user/username/projects 1 undefined Failed Lookup Locations
+DirectoryWatcher:: Triggered with /user/username/projects/project/app.js :: WatchInfo: /user 1 undefined Failed Lookup Locations
+Elapsed:: *ms DirectoryWatcher:: Triggered with /user/username/projects/project/app.js :: WatchInfo: /user 1 undefined Failed Lookup Locations
 [[90m12:00:34 AM[0m] Found 0 errors. Watching for file changes.
 
 
@@ -78,20 +77,22 @@ Shape signatures in builder refreshed for::
 /user/username/projects/project/lib/index.d.ts (used version)
 /user/username/projects/project/app.ts (used version)
 
+PolledWatches::
+
 FsWatches::
-/user/username/projects/project/lib/tsconfig.json: *new*
+/user/username/projects/project/lib/tsconfig.json:
   {}
-/user/username/projects/project/lib/tsconfig.base.json: *new*
+/user/username/projects/project/lib/tsconfig.base.json:
   {}
-/user/username/projects/project/app.ts: *new*
+/user/username/projects/project/app.ts:
   {}
-/user/username/projects/project/lib/index.d.ts: *new*
+/user/username/projects/project/lib/index.d.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/user/username/projects: *new*
+/user:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -111,9 +112,6 @@ Input::
 {"extends":"./tsconfig.base.json","compilerOptions":{"typeRoots":[]},"files":["index.ts"]}
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 FileWatcher:: Triggered with /user/username/projects/project/lib/tsconfig.json 1:: WatchInfo: /user/username/projects/project/lib/tsconfig.json 2000 undefined Config file of referened project
 Scheduling update
@@ -142,6 +140,24 @@ Semantic diagnostics in builder refreshed for::
 
 No shapes updated in the builder::
 
+PolledWatches::
+
+FsWatches::
+/user/username/projects/project/lib/tsconfig.json:
+  {}
+/user/username/projects/project/lib/tsconfig.base.json:
+  {}
+/user/username/projects/project/app.ts:
+  {}
+/user/username/projects/project/lib/index.d.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/user:
+  {}
+
 exitCode:: ExitStatus.undefined
 
 
@@ -152,9 +168,6 @@ Input::
 {"compilerOptions":{"composite":true}}
 
 
-Before running Timeout callback:: count: 1
-2: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 FileWatcher:: Triggered with /user/username/projects/project/lib/tsconfig.base.json 1:: WatchInfo: /user/username/projects/project/lib/tsconfig.base.json 2000 undefined Extended config file of referenced project
 Scheduling update
@@ -182,6 +195,24 @@ Program files::
 Semantic diagnostics in builder refreshed for::
 
 No shapes updated in the builder::
+
+PolledWatches::
+
+FsWatches::
+/user/username/projects/project/lib/tsconfig.json:
+  {}
+/user/username/projects/project/lib/tsconfig.base.json:
+  {}
+/user/username/projects/project/app.ts:
+  {}
+/user/username/projects/project/lib/index.d.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/user:
+  {}
 
 exitCode:: ExitStatus.undefined
 

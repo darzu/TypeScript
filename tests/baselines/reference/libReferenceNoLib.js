@@ -25,7 +25,6 @@ export const elem: HTMLElement = { field: 'a' };
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.elem = void 0;
-/// <reference lib="dom" />
 exports.elem = { field: 'a' };
 
 

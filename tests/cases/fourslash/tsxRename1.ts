@@ -12,4 +12,4 @@
 ////     }
 //// }
 //// var x = [|<[|{| "contextRangeIndex": 2 |}div|] />|];
-verify.baselineRenameAtRangesWithText("div");
+verify.rangesWithSameTextAreRenameLocations("div");

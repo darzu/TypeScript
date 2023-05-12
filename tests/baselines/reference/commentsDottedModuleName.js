@@ -24,7 +24,7 @@ define(["require", "exports"], function (require, exports) {
             }());
             InnerModule.b = b;
         })(InnerModule = outerModule.InnerModule || (outerModule.InnerModule = {}));
-    })(outerModule || (exports.outerModule = outerModule = {}));
+    })(outerModule = exports.outerModule || (exports.outerModule = {}));
 });
 
 

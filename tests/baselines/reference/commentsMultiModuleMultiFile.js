@@ -50,7 +50,7 @@ define(["require", "exports"], function (require, exports) {
             return b;
         }());
         multiM.b = b;
-    })(multiM || (exports.multiM = multiM = {}));
+    })(multiM = exports.multiM || (exports.multiM = {}));
     /** thi is multi module 2*/
     (function (multiM) {
         /** class c comment*/
@@ -67,7 +67,7 @@ define(["require", "exports"], function (require, exports) {
             return e;
         }());
         multiM.e = e;
-    })(multiM || (exports.multiM = multiM = {}));
+    })(multiM = exports.multiM || (exports.multiM = {}));
     new multiM.b();
     new multiM.c();
 });
@@ -93,7 +93,7 @@ define(["require", "exports"], function (require, exports) {
             return f;
         }());
         multiM.f = f;
-    })(multiM || (exports.multiM = multiM = {}));
+    })(multiM = exports.multiM || (exports.multiM = {}));
     new multiM.d();
 });
 

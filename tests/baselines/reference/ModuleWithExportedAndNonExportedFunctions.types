@@ -15,6 +15,7 @@ module A {
 >s : T
 
         return null;
+>null : null
     }
 
     function fn2(s: string) {
@@ -30,6 +31,7 @@ module A {
 >s : T
 
         return null;
+>null : null
     }
 }
 

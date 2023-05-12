@@ -13,6 +13,7 @@ module TypeScript {
 
         export var diagnosticWriter = null;
 >diagnosticWriter : any
+>null : null
 
         export function Alert(output: string) {
 >Alert : (output: string) => void

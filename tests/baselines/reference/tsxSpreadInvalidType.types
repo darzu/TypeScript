@@ -11,6 +11,7 @@ const a = {} as never;
 
 const b = null;
 >b : null
+>null : null
 
 const c = undefined;
 >c : undefined

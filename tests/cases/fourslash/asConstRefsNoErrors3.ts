@@ -6,5 +6,5 @@
 ////    type = (/** @type {/**/const} */'Text');
 ////}
 
-verify.baselineGoToDefinition("");
+verify.goToDefinition("", []);
 verify.noErrors();

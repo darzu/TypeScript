@@ -40,6 +40,7 @@ if (typeof a === 'number') {
 
 var b: object | null
 >b : object
+>null : null
 
 if (typeof b === 'object') {
 >typeof b === 'object' : boolean

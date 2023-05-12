@@ -28,8 +28,6 @@ const jsxScanner = createScanner(ScriptTarget.Latest, /*skipTrivia*/ false, Lang
 /** @internal */
 export interface FormattingScanner {
     advance(): void;
-    getTokenFullStart(): number;
-    /** @deprecated use {@link getTokenFullStart} */
     getStartPos(): number;
     isOnToken(): boolean;
     isOnEOF(): boolean;
@@ -56,7 +54,7 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
     const scanner = languageVariant === LanguageVariant.JSX ? jsxScanner : standardScanner;
 
     scanner.setText(text);
-    scanner.resetTokenState(startPos);
+    scanner.setTextPos(startPos);
 
     let wasNewLine = true;
     let leadingTrivia: TextRangeWithTriviaKind[] | undefined;
@@ -76,8 +74,7 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
         lastTrailingTriviaWasNewLine: () => wasNewLine,
         skipToEndOf,
         skipToStartOf,
-        getTokenFullStart: () => lastTokenInfo?.token.pos ?? scanner.getTokenStart(),
-        getStartPos: () => lastTokenInfo?.token.pos ?? scanner.getTokenStart(),
+        getStartPos: () => lastTokenInfo?.token.pos ?? scanner.getTokenPos(),
     });
 
     lastTokenInfo = undefined;
@@ -87,7 +84,7 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
 
     function advance(): void {
         lastTokenInfo = undefined;
-        const isStarted = scanner.getTokenFullStart() !== startPos;
+        const isStarted = scanner.getStartPos() !== startPos;
 
         if (isStarted) {
             wasNewLine = !!trailingTrivia && last(trailingTrivia).kind === SyntaxKind.NewLineTrivia;
@@ -99,7 +96,7 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
         leadingTrivia = undefined;
         trailingTrivia = undefined;
 
-        let pos = scanner.getTokenFullStart();
+        let pos = scanner.getStartPos();
 
         // Read leading trivia and token
         while (pos < endPos) {
@@ -112,16 +109,16 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
             scanner.scan();
             const item: TextRangeWithTriviaKind = {
                 pos,
-                end: scanner.getTokenFullStart(),
+                end: scanner.getStartPos(),
                 kind: t
             };
 
-            pos = scanner.getTokenFullStart();
+            pos = scanner.getStartPos();
 
             leadingTrivia = append(leadingTrivia, item);
         }
 
-        savedPos = scanner.getTokenFullStart();
+        savedPos = scanner.getStartPos();
     }
 
     function shouldRescanGreaterThanToken(node: Node): boolean {
@@ -196,18 +193,18 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
             return fixTokenKind(lastTokenInfo, n);
         }
 
-        if (scanner.getTokenFullStart() !== savedPos) {
+        if (scanner.getStartPos() !== savedPos) {
             Debug.assert(lastTokenInfo !== undefined);
             // readTokenInfo was called before but scan action differs - rescan text
-            scanner.resetTokenState(savedPos);
+            scanner.setTextPos(savedPos);
             scanner.scan();
         }
 
         let currentToken = getNextToken(n, expectedScanAction);
 
         const token = createTextRangeWithKind(
-            scanner.getTokenFullStart(),
-            scanner.getTokenEnd(),
+            scanner.getStartPos(),
+            scanner.getTextPos(),
             currentToken,
         );
 
@@ -215,14 +212,14 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
         if (trailingTrivia) {
             trailingTrivia = undefined;
         }
-        while (scanner.getTokenFullStart() < endPos) {
+        while (scanner.getStartPos() < endPos) {
             currentToken = scanner.scan();
             if (!isTrivia(currentToken)) {
                 break;
             }
             const trivia = createTextRangeWithKind(
-                scanner.getTokenFullStart(),
-                scanner.getTokenEnd(),
+                scanner.getStartPos(),
+                scanner.getTextPos(),
                 currentToken,
             );
 
@@ -267,7 +264,7 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
             case ScanAction.RescanTemplateToken:
                 if (token === SyntaxKind.CloseBraceToken) {
                     lastScanAction = ScanAction.RescanTemplateToken;
-                    return scanner.reScanTemplateToken(/*isTaggedTemplate*/ false);
+                    return scanner.reScanTemplateToken(/* isTaggedTemplate */ false);
                 }
                 break;
             case ScanAction.RescanJsxIdentifier:
@@ -275,7 +272,7 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
                 return scanner.scanJsxIdentifier();
             case ScanAction.RescanJsxText:
                 lastScanAction = ScanAction.RescanJsxText;
-                return scanner.reScanJsxToken(/*allowMultilineJsxText*/ false);
+                return scanner.reScanJsxToken(/* allowMultilineJsxText */ false);
             case ScanAction.RescanJsxAttributeValue:
                 lastScanAction = ScanAction.RescanJsxAttributeValue;
                 return scanner.reScanJsxAttributeValue();
@@ -289,7 +286,7 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
 
     function readEOFTokenRange(): TextRangeWithKind<SyntaxKind.EndOfFileToken> {
         Debug.assert(isOnEOF());
-        return createTextRangeWithKind(scanner.getTokenFullStart(), scanner.getTokenEnd(), SyntaxKind.EndOfFileToken);
+        return createTextRangeWithKind(scanner.getStartPos(), scanner.getTextPos(), SyntaxKind.EndOfFileToken);
     }
 
     function isOnToken(): boolean {
@@ -314,8 +311,8 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
     }
 
     function skipToEndOf(node: Node | NodeArray<Node>): void {
-        scanner.resetTokenState(node.end);
-        savedPos = scanner.getTokenFullStart();
+        scanner.setTextPos(node.end);
+        savedPos = scanner.getStartPos();
         lastScanAction = undefined;
         lastTokenInfo = undefined;
         wasNewLine = false;
@@ -324,8 +321,8 @@ export function getFormattingScanner<T>(text: string, languageVariant: LanguageV
     }
 
     function skipToStartOf(node: Node): void {
-        scanner.resetTokenState(node.pos);
-        savedPos = scanner.getTokenFullStart();
+        scanner.setTextPos(node.pos);
+        savedPos = scanner.getStartPos();
         lastScanAction = undefined;
         lastTokenInfo = undefined;
         wasNewLine = false;

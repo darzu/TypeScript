@@ -1,15 +1,6 @@
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{
+Input:: {
  "watchOptions": {}
 }
-
-
-configFileName:: tsconfig.json
 Result: WatchOptions::
 
-Errors::
-
+Result: Errors::

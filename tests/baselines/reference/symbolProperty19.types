@@ -10,6 +10,7 @@ var i = {
 >iterator : unique symbol
 >{ p: null } : { p: null; }
 >p : null
+>null : null
 
     [Symbol.toStringTag]() { return { p: undefined }; }
 >[Symbol.toStringTag] : () => { p: any; }

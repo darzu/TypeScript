@@ -11,6 +11,6 @@ exports.Baz = void 0;
 var Baz;
 (function (Baz) {
     Baz.x = "hello";
-})(Baz || (exports.Baz = Baz = {}));
+})(Baz = exports.Baz || (exports.Baz = {}));
 Baz.x = "goodbye";
 void 0;

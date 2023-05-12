@@ -14,4 +14,5 @@
 ////     x.he/*reference*/llo();
 //// }
 
-verify.baselineGoToImplementation("reference", "declaration");
+verify.allRangesAppearInImplementationList("reference");
+verify.allRangesAppearInImplementationList("declaration");

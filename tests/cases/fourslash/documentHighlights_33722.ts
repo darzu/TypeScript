@@ -14,4 +14,4 @@
 ////y().[|foo|]();
 
 const [r] = test.ranges();
-verify.baselineDocumentHighlights(r, { filesToSearch: ["/x.ts"] });
+verify.documentHighlightsOf(r, [], { filesToSearch: ["/x.ts"] });

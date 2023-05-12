@@ -10,11 +10,3 @@ function foo2() {
     return E.A
     const enum E { A }
 }
-
-const config = {
-    a: AfterObject.A,
-};
-
-const enum AfterObject {
-    A = 2,
-}

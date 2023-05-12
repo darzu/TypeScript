@@ -7,4 +7,4 @@
 // @Filename: bar.js
 ////var x = require([|/*1*/"./foo"|]);
 
-verify.baselineGoToDefinition("1");
+verify.goToDefinition("1", "2");

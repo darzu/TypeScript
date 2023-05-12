@@ -9,4 +9,5 @@
 ////    foo: E.Foo;
 ////}
 
-verify.baselineGetDefinitionAtPosition("1");
+goTo.marker("1");
+verify.goToDefinitionIs("2");

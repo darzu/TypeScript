@@ -9,4 +9,4 @@
 ////[|var { [|{| "contextRangeIndex": 2 |}property1|]: prop1 } = foo;|]
 
 
-verify.baselineRenameAtRangesWithText("property1");
+verify.rangesWithSameTextAreRenameLocations("property1");

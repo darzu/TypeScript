@@ -10,4 +10,8 @@
 ////fo/*global*/o();
 ////var f = foo;
 
-verify.baselineDocumentHighlights(["local", "global"]);
+goTo.marker("local");
+verify.occurrencesAtPositionCount(2);
+
+goTo.marker("global");
+verify.occurrencesAtPositionCount(3);

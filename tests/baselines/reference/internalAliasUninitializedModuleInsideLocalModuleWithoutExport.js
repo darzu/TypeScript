@@ -20,7 +20,7 @@ exports.c = void 0;
 var c;
 (function (c) {
     c.x.foo();
-})(c || (exports.c = c = {}));
+})(c = exports.c || (exports.c = {}));
 
 
 //// [internalAliasUninitializedModuleInsideLocalModuleWithoutExport.d.ts]

@@ -19,6 +19,7 @@ import {
     DoStatement,
     EmitFlags,
     EmitHint,
+    EndOfDeclarationMarker,
     ExportAssignment,
     ExportDeclaration,
     Expression,
@@ -45,7 +46,6 @@ import {
     hasSyntacticModifier,
     Identifier,
     idText,
-    IfStatement,
     ImportCall,
     ImportDeclaration,
     ImportEqualsDeclaration,
@@ -74,6 +74,7 @@ import {
     isImportSpecifier,
     isLocalName,
     isModifierLike,
+    isModuleOrEnumDeclaration,
     isNamedExports,
     isObjectLiteralExpression,
     isOmittedExpression,
@@ -87,6 +88,7 @@ import {
     isVariableDeclarationList,
     LabeledStatement,
     map,
+    MergeDeclarationMarker,
     MetaProperty,
     ModifierFlags,
     moveEmitHelpers,
@@ -156,6 +158,7 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
     context.enableEmitNotification(SyntaxKind.SourceFile); // Restore state when substituting nodes in a file.
 
     const moduleInfoMap: ExternalModuleInfo[] = []; // The ExternalModuleInfo for each file.
+    const deferredExports: (Statement[] | undefined)[] = []; // Exports to defer until an EndOfDeclarationMarker is found.
     const exportFunctionsMap: Identifier[] = []; // The export function associated with a source file.
     const noSubstitutionMap: boolean[][] = []; // Set of nodes for which substitution rules should be ignored for each file.
     const contextObjectMap: Identifier[] = []; // The context object associated with a source file.
@@ -475,7 +478,7 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
                         exportedNamesStorageRef,
                         /*exclamationToken*/ undefined,
                         /*type*/ undefined,
-                        factory.createObjectLiteralExpression(exportedNames, /*multiLine*/ true)
+                        factory.createObjectLiteralExpression(exportedNames, /*multiline*/ true)
                     )
                 ])
             )
@@ -558,7 +561,7 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
                         [exports]
                     )
                 )
-            ], /*multiLine*/ true)
+            ], /*multiline*/ true)
         );
     }
 
@@ -640,7 +643,7 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
                                         factory.createCallExpression(
                                             exportFunction,
                                             /*typeArguments*/ undefined,
-                                            [factory.createObjectLiteralExpression(properties, /*multiLine*/ true)]
+                                            [factory.createObjectLiteralExpression(properties, /*multiline*/ true)]
                                         )
                                     )
                                 );
@@ -734,7 +737,17 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
         if (node.importClause) {
             hoistVariableDeclaration(getLocalNameForExternalImport(factory, node, currentSourceFile)!); // TODO: GH#18217
         }
-        return singleOrMany(appendExportsOfImportDeclaration(statements, node));
+
+        if (hasAssociatedEndOfDeclarationMarker(node)) {
+            // Defer exports until we encounter an EndOfDeclarationMarker node
+            const id = getOriginalNodeId(node);
+            deferredExports[id] = appendExportsOfImportDeclaration(deferredExports[id], node);
+        }
+        else {
+            statements = appendExportsOfImportDeclaration(statements, node);
+        }
+
+        return singleOrMany(statements);
     }
 
     function visitExportDeclaration(node: ExportDeclaration): VisitResult<Statement | undefined> {
@@ -752,7 +765,17 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
 
         let statements: Statement[] | undefined;
         hoistVariableDeclaration(getLocalNameForExternalImport(factory, node, currentSourceFile)!); // TODO: GH#18217
-        return singleOrMany(appendExportsOfImportEqualsDeclaration(statements, node));
+
+        if (hasAssociatedEndOfDeclarationMarker(node)) {
+            // Defer exports until we encounter an EndOfDeclarationMarker node
+            const id = getOriginalNodeId(node);
+            deferredExports[id] = appendExportsOfImportEqualsDeclaration(deferredExports[id], node);
+        }
+        else {
+            statements = appendExportsOfImportEqualsDeclaration(statements, node);
+        }
+
+        return singleOrMany(statements);
     }
 
     /**
@@ -767,7 +790,15 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
         }
 
         const expression = visitNode(node.expression, visitor, isExpression);
-        return createExportStatement(factory.createIdentifier("default"), expression, /*allowComments*/ true);
+        const original = node.original;
+        if (original && hasAssociatedEndOfDeclarationMarker(original)) {
+            // Defer exports until we encounter an EndOfDeclarationMarker node
+            const id = getOriginalNodeId(node);
+            deferredExports[id] = appendExportStatement(deferredExports[id], factory.createIdentifier("default"), expression, /*allowComments*/ true);
+        }
+        else {
+            return createExportStatement(factory.createIdentifier("default"), expression, /*allowComments*/ true);
+        }
     }
 
     /**
@@ -792,7 +823,15 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
             hoistedStatements = append(hoistedStatements, visitEachChild(node, visitor, context));
         }
 
-        hoistedStatements = appendExportsOfHoistedDeclaration(hoistedStatements, node);
+        if (hasAssociatedEndOfDeclarationMarker(node)) {
+            // Defer exports until we encounter an EndOfDeclarationMarker node
+            const id = getOriginalNodeId(node);
+            deferredExports[id] = appendExportsOfHoistedDeclaration(deferredExports[id], node);
+        }
+        else {
+            hoistedStatements = appendExportsOfHoistedDeclaration(hoistedStatements, node);
+        }
+
         return undefined;
     }
 
@@ -830,7 +869,15 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
             )
         );
 
-        statements = appendExportsOfHoistedDeclaration(statements, node);
+        if (hasAssociatedEndOfDeclarationMarker(node)) {
+            // Defer exports until we encounter an EndOfDeclarationMarker node
+            const id = getOriginalNodeId(node);
+            deferredExports[id] = appendExportsOfHoistedDeclaration(deferredExports[id], node);
+        }
+        else {
+            statements = appendExportsOfHoistedDeclaration(statements, node);
+        }
+
         return singleOrMany(statements);
     }
 
@@ -847,9 +894,10 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
 
         let expressions: Expression[] | undefined;
         const isExportedDeclaration = hasSyntacticModifier(node, ModifierFlags.Export);
+        const isMarkedDeclaration = hasAssociatedEndOfDeclarationMarker(node);
         for (const variable of node.declarationList.declarations) {
             if (variable.initializer) {
-                expressions = append(expressions, transformInitializedVariable(variable, isExportedDeclaration));
+                expressions = append(expressions, transformInitializedVariable(variable, isExportedDeclaration && !isMarkedDeclaration));
             }
             else {
                 hoistBindingElement(variable);
@@ -861,7 +909,15 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
             statements = append(statements, setTextRange(factory.createExpressionStatement(factory.inlineExpressions(expressions)), node));
         }
 
-        statements = appendExportsOfVariableStatement(statements, node, /*exportSelf*/ false);
+        if (isMarkedDeclaration) {
+            // Defer exports until we encounter an EndOfDeclarationMarker node
+            const id = getOriginalNodeId(node);
+            deferredExports[id] = appendExportsOfVariableStatement(deferredExports[id], node, isExportedDeclaration);
+        }
+        else {
+            statements = appendExportsOfVariableStatement(statements, node, /*exportSelf*/ false);
+        }
+
         return singleOrMany(statements);
     }
 
@@ -950,6 +1006,64 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
         return isExportedDeclaration
             ? createExportExpression(name, preventSubstitution(setTextRange(factory.createAssignment(name, value), location)))
             : preventSubstitution(setTextRange(factory.createAssignment(name, value), location));
+    }
+
+    /**
+     * Visits a MergeDeclarationMarker used as a placeholder for the beginning of a merged
+     * and transformed declaration.
+     *
+     * @param node The node to visit.
+     */
+    function visitMergeDeclarationMarker(node: MergeDeclarationMarker): VisitResult<Statement> {
+        // For an EnumDeclaration or ModuleDeclaration that merges with a preceeding
+        // declaration we do not emit a leading variable declaration. To preserve the
+        // begin/end semantics of the declararation and to properly handle exports
+        // we wrapped the leading variable declaration in a `MergeDeclarationMarker`.
+        //
+        // To balance the declaration, we defer the exports of the elided variable
+        // statement until we visit this declaration's `EndOfDeclarationMarker`.
+        if (hasAssociatedEndOfDeclarationMarker(node) && node.original!.kind === SyntaxKind.VariableStatement) {
+            const id = getOriginalNodeId(node);
+            const isExportedDeclaration = hasSyntacticModifier(node.original!, ModifierFlags.Export);
+            deferredExports[id] = appendExportsOfVariableStatement(deferredExports[id], node.original as VariableStatement, isExportedDeclaration);
+        }
+
+        return node;
+    }
+
+    /**
+     * Determines whether a node has an associated EndOfDeclarationMarker.
+     *
+     * @param node The node to test.
+     */
+    function hasAssociatedEndOfDeclarationMarker(node: Node) {
+        return (getEmitFlags(node) & EmitFlags.HasEndOfDeclarationMarker) !== 0;
+    }
+
+    /**
+     * Visits a DeclarationMarker used as a placeholder for the end of a transformed
+     * declaration.
+     *
+     * @param node The node to visit.
+     */
+    function visitEndOfDeclarationMarker(node: EndOfDeclarationMarker): VisitResult<Statement> {
+        // For some transformations we emit an `EndOfDeclarationMarker` to mark the actual
+        // end of the transformed declaration. We use this marker to emit any deferred exports
+        // of the declaration.
+        const id = getOriginalNodeId(node);
+        const statements = deferredExports[id];
+        if (statements) {
+            delete deferredExports[id];
+            return append(statements, node);
+        }
+        else {
+            const original = getOriginalNode(node);
+            if (isModuleOrEnumDeclaration(original)) {
+                return append(appendExportsOfDeclaration(statements, original), node);
+            }
+        }
+
+        return node;
     }
 
     /**
@@ -1211,9 +1325,6 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
             case SyntaxKind.WithStatement:
                 return visitWithStatement(node as WithStatement);
 
-            case SyntaxKind.IfStatement:
-                return visitIfStatement(node as IfStatement);
-
             case SyntaxKind.SwitchStatement:
                 return visitSwitchStatement(node as SwitchStatement);
 
@@ -1234,6 +1345,12 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
 
             case SyntaxKind.Block:
                 return visitBlock(node as Block);
+
+            case SyntaxKind.MergeDeclarationMarker:
+                return visitMergeDeclarationMarker(node as MergeDeclarationMarker);
+
+            case SyntaxKind.EndOfDeclarationMarker:
+                return visitEndOfDeclarationMarker(node as EndOfDeclarationMarker);
 
             default:
                 return visitor(node);
@@ -1384,20 +1501,6 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
             node,
             visitNode(node.expression, visitor, isExpression),
             Debug.checkDefined(visitNode(node.statement, topLevelNestedVisitor, isStatement, factory.liftToBlock))
-        );
-    }
-
-    /**
-     * Visits the body of a IfStatement to hoist declarations.
-     *
-     * @param node The node to visit.
-     */
-    function visitIfStatement(node: IfStatement): VisitResult<Statement> {
-        return factory.updateIfStatement(
-            node,
-            visitNode(node.expression, visitor, isExpression),
-            Debug.checkDefined(visitNode(node.thenStatement, topLevelNestedVisitor, isStatement, factory.liftToBlock)),
-            visitNode(node.elseStatement, topLevelNestedVisitor, isStatement, factory.liftToBlock)
         );
     }
 
@@ -1896,11 +1999,14 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
         //
         // - We do not substitute generated identifiers for any reason.
         // - We do not substitute identifiers tagged with the LocalName flag.
+        // - We do not substitute identifiers that were originally the name of an enum or
+        //   namespace due to how they are transformed in TypeScript.
         // - We only substitute identifiers that are exported at the top level.
         if (isAssignmentOperator(node.operatorToken.kind)
             && isIdentifier(node.left)
             && !isGeneratedIdentifier(node.left)
-            && !isLocalName(node.left)) {
+            && !isLocalName(node.left)
+            && !isDeclarationNameOfEnumOrNamespace(node.left)) {
             const exportedNames = getExports(node.left);
             if (exportedNames) {
                 // For each additional export of the declaration, apply an export assignment.
@@ -1930,37 +2036,21 @@ export function transformSystemModule(context: TransformationContext): (x: Sourc
      */
     function getExports(name: Identifier) {
         let exportedNames: Identifier[] | undefined;
-        const valueDeclaration = getReferencedDeclaration(name);
-        if (valueDeclaration) {
-            const exportContainer = resolver.getReferencedExportContainer(name, /*prefixLocals*/ false);
-            if (exportContainer && exportContainer.kind === SyntaxKind.SourceFile) {
-                exportedNames = append(exportedNames, factory.getDeclarationName(valueDeclaration));
-            }
-
-            exportedNames = addRange(exportedNames, moduleInfo?.exportedBindings[getOriginalNodeId(valueDeclaration)]);
-        }
-        return exportedNames;
-    }
-
-    function getReferencedDeclaration(name: Identifier) {
         if (!isGeneratedIdentifier(name)) {
-            const importDeclaration = resolver.getReferencedImportDeclaration(name);
-            if (importDeclaration) return importDeclaration;
+            const valueDeclaration = resolver.getReferencedImportDeclaration(name)
+                || resolver.getReferencedValueDeclaration(name);
 
-            const valueDeclaration = resolver.getReferencedValueDeclaration(name);
-            if (valueDeclaration && moduleInfo?.exportedBindings[getOriginalNodeId(valueDeclaration)]) return valueDeclaration;
-
-            // An exported namespace or enum may merge with an ambient declaration, which won't show up in
-            // .js emit. When that happens, try to find bindings associated with a non-ambient declaration.
-            const declarations = resolver.getReferencedValueDeclarations(name);
-            if (declarations) {
-                for (const declaration of declarations) {
-                    if (declaration !== valueDeclaration && moduleInfo?.exportedBindings[getOriginalNodeId(declaration)]) return declaration;
+            if (valueDeclaration) {
+                const exportContainer = resolver.getReferencedExportContainer(name, /*prefixLocals*/ false);
+                if (exportContainer && exportContainer.kind === SyntaxKind.SourceFile) {
+                    exportedNames = append(exportedNames, factory.getDeclarationName(valueDeclaration));
                 }
-            }
 
-            return valueDeclaration;
+                exportedNames = addRange(exportedNames, moduleInfo && moduleInfo.exportedBindings[getOriginalNodeId(valueDeclaration)]);
+            }
         }
+
+        return exportedNames;
     }
 
     /**

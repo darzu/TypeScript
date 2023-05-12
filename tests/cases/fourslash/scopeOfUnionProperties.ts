@@ -3,4 +3,5 @@
 ////function f(s: string | number) {
 ////    s.constr/*1*/uctor
 ////}
-verify.baselineDocumentHighlights("1");
+goTo.marker("1")
+verify.occurrencesAtPositionCount(1);

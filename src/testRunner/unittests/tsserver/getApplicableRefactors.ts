@@ -1,14 +1,14 @@
 import * as ts from "../../_namespaces/ts";
 import {
+    createServerHost,
+    File,
+} from "../virtualFileSystemWithWatch";
+import {
     baselineTsserverLogs,
     createLoggerWithInMemoryLogs,
     createSession,
     openFilesForSession,
-} from "../helpers/tsserver";
-import {
-    createServerHost,
-    File,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "./helpers";
 
 describe("unittests:: tsserver:: getApplicableRefactors", () => {
     it("works when taking position", () => {

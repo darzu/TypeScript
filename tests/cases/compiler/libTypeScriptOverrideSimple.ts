@@ -1,5 +1,3 @@
-// @traceResolution: true
-
 // @Filename: /node_modules/@typescript/lib-dom/index.d.ts
 interface ABC { abc: string }
 // @Filename: index.ts

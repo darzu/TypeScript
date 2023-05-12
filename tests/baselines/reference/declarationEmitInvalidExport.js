@@ -10,5 +10,5 @@ export type MyClass = typeof myClass;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 if (false) {
-    exports.myClass = 0;
+    export var myClass = 0;
 }

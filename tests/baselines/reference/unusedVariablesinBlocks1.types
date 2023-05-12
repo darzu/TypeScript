@@ -9,5 +9,9 @@ function f1 () {
         let x = 11;
 >x : number
 >11 : 11
+
+        x++;
+>x++ : number
+>x : number
     }
 }

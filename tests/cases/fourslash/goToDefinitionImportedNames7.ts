@@ -10,4 +10,4 @@
 ////}
 ////export default Class;
 
-verify.baselineGoToDefinition("classAliasDefinition");
+verify.goToDefinition("classAliasDefinition", "classDefinition");

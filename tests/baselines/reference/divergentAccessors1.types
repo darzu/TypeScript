@@ -14,6 +14,7 @@
     const ihgs: IHasGetSet = null as any;
 >ihgs : IHasGetSet
 >null as any : any
+>null : null
 
     ihgs.foo = "32";
 >ihgs.foo = "32" : "32"
@@ -44,6 +45,7 @@
     const t_hgs: T_HasGetSet = null as any;
 >t_hgs : { foo: number; }
 >null as any : any
+>null : null
 
     t_hgs.foo = "32";
 >t_hgs.foo = "32" : "32"

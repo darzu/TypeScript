@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/sample1 useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -80,20 +79,22 @@ Shape signatures in builder refreshed for::
 /user/username/projects/sample1/library/library.d.ts (used version)
 /user/username/projects/sample1/app/app.ts (used version)
 
+PolledWatches::
+
 FsWatches::
-/user/username/projects/sample1/library/tsconfig.json: *new*
+/user/username/projects/sample1/library/tsconfig.json:
   {}
-/user/username/projects/sample1/library/library.ts: *new*
+/user/username/projects/sample1/library/library.ts:
   {}
-/user/username/projects/sample1/app/tsconfig.json: *new*
+/user/username/projects/sample1/app/tsconfig.json:
   {}
-/user/username/projects/sample1/app/app.ts: *new*
+/user/username/projects/sample1/app/app.ts:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/sample1/library: *new*
+/user/username/projects/sample1/library:
   {}
-/user/username/projects/sample1/app: *new*
+/user/username/projects/sample1/app:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -194,13 +195,6 @@ export function createSomeObject(): SomeObject
 }
 
 
-Before running Timeout callback:: count: 1
-1: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 1
-2: timerToBuildInvalidatedProject
-Before running Timeout callback:: count: 1
-2: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:46 AM[0m] File change detected. Starting incremental compilation...
@@ -247,6 +241,24 @@ Semantic diagnostics in builder refreshed for::
 Shape signatures in builder refreshed for::
 /user/username/projects/sample1/library/library.d.ts (used version)
 /user/username/projects/sample1/app/app.ts (computed .d.ts)
+
+PolledWatches::
+
+FsWatches::
+/user/username/projects/sample1/library/tsconfig.json:
+  {}
+/user/username/projects/sample1/library/library.ts:
+  {}
+/user/username/projects/sample1/app/tsconfig.json:
+  {}
+/user/username/projects/sample1/app/app.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/sample1/library:
+  {}
+/user/username/projects/sample1/app:
+  {}
 
 exitCode:: ExitStatus.undefined
 
@@ -339,13 +351,6 @@ export function createSomeObject(): SomeObject
 }
 
 
-Before running Timeout callback:: count: 1
-3: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 1
-4: timerToBuildInvalidatedProject
-Before running Timeout callback:: count: 1
-4: timerToBuildInvalidatedProject
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:01:04 AM[0m] File change detected. Starting incremental compilation...
@@ -382,6 +387,24 @@ Semantic diagnostics in builder refreshed for::
 Shape signatures in builder refreshed for::
 /user/username/projects/sample1/library/library.d.ts (used version)
 /user/username/projects/sample1/app/app.ts (computed .d.ts)
+
+PolledWatches::
+
+FsWatches::
+/user/username/projects/sample1/library/tsconfig.json:
+  {}
+/user/username/projects/sample1/library/library.ts:
+  {}
+/user/username/projects/sample1/app/tsconfig.json:
+  {}
+/user/username/projects/sample1/app/app.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/sample1/library:
+  {}
+/user/username/projects/sample1/app:
+  {}
 
 exitCode:: ExitStatus.undefined
 

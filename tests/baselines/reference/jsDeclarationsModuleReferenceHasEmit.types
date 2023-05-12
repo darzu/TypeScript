@@ -12,6 +12,7 @@ class A {}
  */
 export let el = null;
 >el : error
+>null : null
 
 export default A;
 >A : A

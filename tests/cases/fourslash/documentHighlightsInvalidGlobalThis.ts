@@ -4,4 +4,6 @@
 ////    export { globalThis as [|global|] }
 ////}
 
-verify.baselineDocumentHighlights();
+for (const r of test.ranges()) {
+    verify.documentHighlightsOf(r, [r]);
+}

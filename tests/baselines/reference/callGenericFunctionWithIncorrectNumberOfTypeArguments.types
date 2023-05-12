@@ -6,6 +6,7 @@ function f<T, U>(x: T, y: U): T { return null; }
 >f : <T, U>(x: T, y: U) => T
 >x : T
 >y : U
+>null : null
 
 var r1 = f<number>(1, '');
 >r1 : number
@@ -26,6 +27,7 @@ var f2 = <T, U>(x: T, y: U): T => { return null; }
 ><T, U>(x: T, y: U): T => { return null; } : <T, U>(x: T, y: U) => T
 >x : T
 >y : U
+>null : null
 
 var r2 = f2<number>(1, '');
 >r2 : number
@@ -69,6 +71,7 @@ class C {
 >y : U
 
         return null;
+>null : null
     }
 }
 var r4 = (new C()).f<number>(1, '');
@@ -129,6 +132,7 @@ class C2<T, U> {
 >y : U
 
         return null;
+>null : null
     }
 }
 var r6 = (new C2()).f<number>(1, '');

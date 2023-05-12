@@ -138,7 +138,7 @@ var publicModule;
         return publicClassImplementingPrivateAndPublicInterface;
     }());
     publicModule.publicClassImplementingPrivateAndPublicInterface = publicClassImplementingPrivateAndPublicInterface;
-})(publicModule || (exports.publicModule = publicModule = {}));
+})(publicModule = exports.publicModule || (exports.publicModule = {}));
 var privateModule;
 (function (privateModule) {
     var privateClassImplementingPublicInterfaceInModule = /** @class */ (function () {

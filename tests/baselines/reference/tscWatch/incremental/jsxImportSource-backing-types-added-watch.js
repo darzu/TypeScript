@@ -1,4 +1,3 @@
-currentDirectory:: /users/username/projects/project useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -52,25 +51,21 @@ Shape signatures in builder refreshed for::
 /users/username/projects/project/index.tsx (used version)
 
 PolledWatches::
-/users/username/projects/project/node_modules: *new*
+/users/username/projects/project/node_modules:
   {"pollingInterval":500}
-/users/username/projects/node_modules: *new*
-  {"pollingInterval":500}
-/users/username/projects/project/node_modules/@types: *new*
-  {"pollingInterval":500}
-/users/username/projects/node_modules/@types: *new*
+/users/username/projects/project/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/users/username/projects/project/tsconfig.json: *new*
+/users/username/projects/project/tsconfig.json:
   {}
-/users/username/projects/project/index.tsx: *new*
+/users/username/projects/project/index.tsx:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/users/username/projects/project: *new*
+/users/username/projects/project:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -165,28 +160,6 @@ export const Fragment: unique symbol;
 {"name":"react","version":"0.0.1"}
 
 
-PolledWatches *deleted*::
-/users/username/projects/project/node_modules:
-  {"pollingInterval":500}
-/users/username/projects/node_modules:
-  {"pollingInterval":500}
-/users/username/projects/project/node_modules/@types:
-  {"pollingInterval":500}
-/users/username/projects/node_modules/@types:
-  {"pollingInterval":500}
-
-FsWatches *deleted*::
-/users/username/projects/project/tsconfig.json:
-  {}
-/users/username/projects/project/index.tsx:
-  {}
-/a/lib/lib.d.ts:
-  {}
-
-FsWatchesRecursive *deleted*::
-/users/username/projects/project:
-  {}
-
 Output::
 >> Screen clear
 [[90m12:00:39 AM[0m] Starting compilation in watch mode...
@@ -212,27 +185,25 @@ Shape signatures in builder refreshed for::
 /users/username/projects/project/index.tsx (computed .d.ts)
 
 PolledWatches::
-/users/username/projects/project/node_modules/@types: *new*
-  {"pollingInterval":500}
-/users/username/projects/node_modules/@types: *new*
+/users/username/projects/project/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/users/username/projects/project/tsconfig.json: *new*
+/users/username/projects/project/tsconfig.json:
   {}
-/users/username/projects/project/index.tsx: *new*
+/users/username/projects/project/index.tsx:
   {}
-/users/username/projects/project/node_modules/react/jsx-runtime/index.d.ts: *new*
+/users/username/projects/project/node_modules/react/jsx-runtime/index.d.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
-/users/username/projects/project/node_modules/react/package.json: *new*
+/users/username/projects/project/node_modules/react/package.json:
   {}
 
 FsWatchesRecursive::
-/users/username/projects/project/node_modules: *new*
+/users/username/projects/project/node_modules:
   {}
-/users/username/projects/project: *new*
+/users/username/projects/project:
   {}
 
 exitCode:: ExitStatus.undefined

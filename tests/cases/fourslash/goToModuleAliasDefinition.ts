@@ -8,4 +8,4 @@
 //// var x = new [|/*1*/n|].Foo();
 
 // Won't-fixed: Should go to '2' instead
-verify.baselineGoToDefinition("1");
+verify.goToDefinition("1", "3");

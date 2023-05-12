@@ -2,6 +2,7 @@
 /** @type {C | null} */
 const c = null
 >c : C
+>null : null
 
 class C {
 >C : C

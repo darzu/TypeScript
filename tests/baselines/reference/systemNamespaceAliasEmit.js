@@ -20,11 +20,15 @@ System.register([], function (exports_1, context_1) {
         execute: function () {
             (function (ns) {
                 var value = 1;
-            })(ns || (exports_1("FooBar", exports_1("ns", ns = {}))));
+            })(ns || (ns = {}));
+            exports_1("ns", ns);
+            exports_1("FooBar", ns);
             (function (AnEnum) {
                 AnEnum[AnEnum["ONE"] = 0] = "ONE";
                 AnEnum[AnEnum["TWO"] = 1] = "TWO";
-            })(AnEnum || (exports_1("BarEnum", exports_1("AnEnum", AnEnum = {}))));
+            })(AnEnum || (AnEnum = {}));
+            exports_1("AnEnum", AnEnum);
+            exports_1("BarEnum", AnEnum);
         }
     };
 });

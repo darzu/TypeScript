@@ -7,4 +7,4 @@
 ////var x;
 ////([|{ [|{| "contextRangeIndex": 2 |}x|]: x } = a|]);
 
-verify.baselineRenameAtRangesWithText("x");
+verify.rangesWithSameTextAreRenameLocations("x");

@@ -62,5 +62,6 @@ class D implements MyDoc {
 >tagName : any
 
         return null;
+>null : null
     }
 }

@@ -29,6 +29,7 @@ class B<T extends U, U extends Two> {
     constructor(x: T, y: U) { return null; }
 >x : T
 >y : U
+>null : null
 }
 
 class C<T extends U, U extends Three> {
@@ -37,6 +38,7 @@ class C<T extends U, U extends Three> {
     constructor(x: T, y: U) { return null; }
 >x : T
 >y : U
+>null : null
 }
 
 class D<T extends U, U extends Four<string>> {
@@ -45,6 +47,7 @@ class D<T extends U, U extends Four<string>> {
     constructor(x: T, y: U) { return null; }
 >x : T
 >y : U
+>null : null
 }
 
 interface I<T extends U, U extends Five<string>> {

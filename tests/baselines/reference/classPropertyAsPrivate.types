@@ -7,6 +7,7 @@ class C {
 
     private get y() { return null; }
 >y : any
+>null : null
 
     private set y(x) { }
 >y : any
@@ -20,6 +21,7 @@ class C {
 
     private static get b() { return null; }
 >b : any
+>null : null
 
     private static set b(x) { }
 >b : any

@@ -17,4 +17,4 @@
 ////import [|/*importDefTs*/BlahModule|] = require("./foo.js");
 ////new [|/*importUsageTs*/BlahModule|].Blah()
 
-verify.baselineGoToDefinition("importDef", "importUsage", "importDefTs", "importUsageTs");
+verify.goToDefinition(["importDef", "importUsage", "importDefTs", "importUsageTs"], "moduleDef");

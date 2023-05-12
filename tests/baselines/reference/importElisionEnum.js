@@ -25,7 +25,7 @@ var MyEnum;
     MyEnum[MyEnum["b"] = 1] = "b";
     MyEnum[MyEnum["c"] = 2] = "c";
     MyEnum[MyEnum["d"] = 3] = "d";
-})(MyEnum || (exports.MyEnum = MyEnum = {}));
+})(MyEnum = exports.MyEnum || (exports.MyEnum = {}));
 //// [index.js]
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });

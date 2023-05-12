@@ -42,6 +42,7 @@ class C {
 >x : number
         }
         return null
+>null : null
     }
     // modifier mistakes
     static constructor() { }
@@ -620,8 +621,8 @@ const trinaryDynamicImport = import('1', '2', '3')
 const spreadDynamicImport = import(...[])
 >spreadDynamicImport : Promise<any>
 >import(...[]) : Promise<any>
->...[] : never
->[] : readonly []
+>...[] : undefined
+>[] : undefined[]
 
 return
 

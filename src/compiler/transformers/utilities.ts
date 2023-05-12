@@ -1,5 +1,4 @@
 import {
-    __String,
     AccessorDeclaration,
     AllDecorators,
     append,
@@ -52,7 +51,6 @@ import {
     isGeneratedPrivateIdentifier,
     isIdentifier,
     isKeyword,
-    isLocalName,
     isMethodOrAccessor,
     isNamedExports,
     isNamedImports,
@@ -83,6 +81,7 @@ import {
     SuperCall,
     SyntaxKind,
     TransformationContext,
+    UnderscoreEscapedMap,
     VariableDeclaration,
     VariableStatement,
 } from "../_namespaces/ts";
@@ -161,7 +160,7 @@ export function getImportNeedsImportDefaultHelper(node: ImportDeclaration): bool
 /** @internal */
 export function collectExternalModuleInfo(context: TransformationContext, sourceFile: SourceFile, resolver: EmitResolver, compilerOptions: CompilerOptions): ExternalModuleInfo {
     const externalImports: (ImportDeclaration | ImportEqualsDeclaration | ExportDeclaration)[] = [];
-    const exportSpecifiers = createMultiMap<string, ExportSpecifier>();
+    const exportSpecifiers = createMultiMap<ExportSpecifier>();
     const exportedBindings: Identifier[][] = [];
     const uniqueExports = new Map<string, boolean>();
     let exportedNames: Identifier[] | undefined;
@@ -237,7 +236,7 @@ export function collectExternalModuleInfo(context: TransformationContext, source
             case SyntaxKind.VariableStatement:
                 if (hasSyntacticModifier(node, ModifierFlags.Export)) {
                     for (const decl of (node as VariableStatement).declarationList.declarations) {
-                        exportedNames = collectExportedVariableInfo(decl, uniqueExports, exportedNames, exportedBindings);
+                        exportedNames = collectExportedVariableInfo(decl, uniqueExports, exportedNames);
                     }
                 }
                 break;
@@ -315,11 +314,11 @@ export function collectExternalModuleInfo(context: TransformationContext, source
     }
 }
 
-function collectExportedVariableInfo(decl: VariableDeclaration | BindingElement, uniqueExports: Map<string, boolean>, exportedNames: Identifier[] | undefined, exportedBindings: Identifier[][]) {
+function collectExportedVariableInfo(decl: VariableDeclaration | BindingElement, uniqueExports: Map<string, boolean>, exportedNames: Identifier[] | undefined) {
     if (isBindingPattern(decl.name)) {
         for (const element of decl.name.elements) {
             if (!isOmittedExpression(element)) {
-                exportedNames = collectExportedVariableInfo(element, uniqueExports, exportedNames, exportedBindings);
+                exportedNames = collectExportedVariableInfo(element, uniqueExports, exportedNames);
             }
         }
     }
@@ -328,9 +327,6 @@ function collectExportedVariableInfo(decl: VariableDeclaration | BindingElement,
         if (!uniqueExports.get(text)) {
             uniqueExports.set(text, true);
             exportedNames = append(exportedNames, decl.name);
-            if (isLocalName(decl.name)) {
-                multiMapSparseArrayAdd(exportedBindings, getOriginalNodeId(decl), decl.name);
-            }
         }
     }
     return exportedNames;
@@ -656,7 +652,7 @@ export interface PrivateEnvironment<TData, TEntry> {
     /**
      * A mapping of private names to information needed for transformation.
      */
-    identifiers?: Map<__String, TEntry>;
+    identifiers?: UnderscoreEscapedMap<TEntry>;
 
     /**
      * A mapping of generated private names to information needed for transformation.

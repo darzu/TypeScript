@@ -2,4 +2,4 @@
 
 ////[|/*start*/return|];
 
-verify.baselineGoToDefinition("start");
+verify.goToDefinition("start", []);

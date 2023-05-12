@@ -1,3 +1,4 @@
+import * as ts from "./_namespaces/ts";
 import {
     __String,
     ApplicableRefactorInfo,
@@ -17,6 +18,7 @@ import {
     Classifications,
     ClassifiedSpan,
     ClassifiedSpan2020,
+    classifier,
     CodeActionCommand,
     codefix,
     CodeFixAction,
@@ -32,7 +34,6 @@ import {
     Completions,
     computePositionOfLineAndCharacter,
     computeSuggestionDiagnostics,
-    containsParseError,
     createDocumentRegistry,
     createGetCanonicalFileName,
     createMultiMap,
@@ -65,14 +66,11 @@ import {
     EntityName,
     equateValues,
     ExportDeclaration,
-    Extension,
-    extensionFromPath,
     FileReference,
     FileTextChanges,
     filter,
     find,
     FindAllReferences,
-    findAncestor,
     findChildOfKind,
     findPrecedingToken,
     first,
@@ -88,12 +86,10 @@ import {
     getAdjustedRenameLocation,
     getAllSuperTypeNodes,
     getAssignmentDeclarationKind,
-    getBaseFileName,
     GetCompletionsAtPositionOptions,
     getContainerNode,
     getDefaultLibFileName,
     getDirectoryPath,
-    getEditsForFileRename as ts_getEditsForFileRename,
     getEmitDeclarations,
     getEscapedTextOfIdentifierOrLiteral,
     getFileEmitOutput,
@@ -108,7 +104,6 @@ import {
     getNonAssignedNameOfDeclaration,
     getNormalizedAbsolutePath,
     getObjectFlags,
-    getQuotePreference,
     getScriptKind,
     getSetExternalModuleIndicator,
     getSnapshotText,
@@ -124,6 +119,7 @@ import {
     hasStaticModifier,
     hasSyntacticModifier,
     hasTabstop,
+    HighlightSpanKind,
     HostCancellationToken,
     hostGetCanonicalFileName,
     hostUsesCaseSensitiveFileNames,
@@ -138,7 +134,6 @@ import {
     InlayHints,
     InlayHintsContext,
     insertSorted,
-    InteractiveRefactorArguments,
     InterfaceType,
     IntersectionType,
     isArray,
@@ -161,7 +156,6 @@ import {
     isJsxClosingElement,
     isJsxElement,
     isJsxFragment,
-    isJsxNamespacedName,
     isJsxOpeningElement,
     isJsxOpeningFragment,
     isJsxText,
@@ -204,7 +198,6 @@ import {
     length,
     LineAndCharacter,
     lineBreakPart,
-    LinkedEditingInfo,
     LiteralType,
     map,
     mapDefined,
@@ -245,6 +238,7 @@ import {
     PrivateIdentifier,
     Program,
     PropertyName,
+    Push,
     QuickInfo,
     refactor,
     RefactorContext,
@@ -281,7 +275,6 @@ import {
     SourceFile,
     SourceFileLike,
     SourceMapSource,
-    startsWith,
     Statement,
     stringContains,
     StringLiteral,
@@ -294,7 +287,6 @@ import {
     symbolName,
     SyntaxKind,
     SyntaxList,
-    sys,
     tagNamesAreEquivalent,
     TextChange,
     TextChangeRange,
@@ -317,6 +309,7 @@ import {
     TypePredicate,
     TypeReference,
     typeToDisplayParts,
+    UnderscoreEscapedMap,
     UnionOrIntersectionType,
     UnionType,
     updateSourceFile,
@@ -325,9 +318,6 @@ import {
 } from "./_namespaces/ts";
 import * as NavigateTo from "./_namespaces/ts.NavigateTo";
 import * as NavigationBar from "./_namespaces/ts.NavigationBar";
-import { createNewFileName } from "./_namespaces/ts.refactor";
-import * as classifier from "./classifier";
-import * as classifier2020 from "./classifier2020";
 
 /** The version of the language service API */
 export const servicesVersion = "0.8";
@@ -499,11 +489,11 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): Nod
     return children;
 }
 
-function addSyntheticNodes(nodes: Node[], pos: number, end: number, parent: Node): void {
-    scanner.resetTokenState(pos);
+function addSyntheticNodes(nodes: Push<Node>, pos: number, end: number, parent: Node): void {
+    scanner.setTextPos(pos);
     while (pos < end) {
         const token = scanner.scan();
-        const textPos = scanner.getTokenEnd();
+        const textPos = scanner.getTextPos();
         if (textPos <= end) {
             if (token === SyntaxKind.Identifier) {
                 if (hasTabstop(parent)) {
@@ -1040,7 +1030,7 @@ class SourceFileObject extends NodeObject implements SourceFile {
     public languageVersion!: ScriptTarget;
     public languageVariant!: LanguageVariant;
     public identifiers!: Map<string, string>;
-    public nameTable: Map<__String, number> | undefined;
+    public nameTable: UnderscoreEscapedMap<number> | undefined;
     public resolvedModules: ModeAwareCache<ResolvedModuleWithFailedLookupLocations> | undefined;
     public resolvedTypeReferenceDirectiveNames!: ModeAwareCache<ResolvedTypeReferenceDirectiveWithFailedLookupLocations>;
     public imports!: readonly StringLiteralLike[];
@@ -1100,7 +1090,7 @@ class SourceFileObject extends NodeObject implements SourceFile {
     }
 
     private computeNamedDeclarations(): Map<string, Declaration[]> {
-        const result = createMultiMap<string, Declaration>();
+        const result = createMultiMap<Declaration>();
 
         this.forEachChild(visit);
 
@@ -1541,6 +1531,7 @@ const invalidOperationsInSyntacticMode: readonly (keyof LanguageService)[] = [
     "getTypeDefinitionAtPosition",
     "getReferencesAtPosition",
     "findReferences",
+    "getOccurrencesAtPosition",
     "getDocumentHighlights",
     "getNavigateToItems",
     "getRenameInfo",
@@ -1641,7 +1632,6 @@ export function createLanguageService(
         // Get a fresh cache of the host information
         const newSettings = host.getCompilationSettings() || getDefaultCompilerOptions();
         const hasInvalidatedResolutions: HasInvalidatedResolutions = host.hasInvalidatedResolutions || returnFalse;
-        const hasInvalidatedLibResolutions = maybeBind(host, host.hasInvalidatedLibResolutions) || returnFalse;
         const hasChangedAutomaticTypeDirectiveNames = maybeBind(host, host.hasChangedAutomaticTypeDirectiveNames);
         const projectReferences = host.getProjectReferences?.();
         let parsedCommandLines: Map<Path, ParsedCommandLine | false> | undefined;
@@ -1674,7 +1664,6 @@ export function createLanguageService(
             onReleaseOldSourceFile,
             onReleaseParsedCommandLine,
             hasInvalidatedResolutions,
-            hasInvalidatedLibResolutions,
             hasChangedAutomaticTypeDirectiveNames,
             trace: maybeBind(host, host.trace),
             resolveModuleNames: maybeBind(host, host.resolveModuleNames),
@@ -1683,7 +1672,6 @@ export function createLanguageService(
             resolveTypeReferenceDirectives: maybeBind(host, host.resolveTypeReferenceDirectives),
             resolveModuleNameLiterals: maybeBind(host, host.resolveModuleNameLiterals),
             resolveTypeReferenceDirectiveReferences: maybeBind(host, host.resolveTypeReferenceDirectiveReferences),
-            resolveLibrary: maybeBind(host, host.resolveLibrary),
             useSourceOfProjectReferenceRedirect: maybeBind(host, host.useSourceOfProjectReferenceRedirect),
             getParsedCommandLine,
         };
@@ -1715,7 +1703,7 @@ export function createLanguageService(
         const documentRegistryBucketKey = documentRegistry.getKeyForCompilationSettings(newSettings);
 
         // If the program is already up-to-date, we can reuse it
-        if (isProgramUptoDate(program, rootFileNames, newSettings, (_path, fileName) => host.getScriptVersion(fileName), fileName => compilerHost!.fileExists(fileName), hasInvalidatedResolutions, hasInvalidatedLibResolutions, hasChangedAutomaticTypeDirectiveNames, getParsedCommandLine, projectReferences)) {
+        if (isProgramUptoDate(program, rootFileNames, newSettings, (_path, fileName) => host.getScriptVersion(fileName), fileName => compilerHost!.fileExists(fileName), hasInvalidatedResolutions, hasChangedAutomaticTypeDirectiveNames, getParsedCommandLine, projectReferences)) {
             return;
         }
 
@@ -1771,7 +1759,7 @@ export function createLanguageService(
                 result,
                 parseConfigHost,
                 getNormalizedAbsolutePath(getDirectoryPath(configFileName), currentDirectory),
-                /*existingOptions*/ undefined,
+                /*optionsToExtend*/ undefined,
                 getNormalizedAbsolutePath(configFileName, currentDirectory),
             );
         }
@@ -2075,9 +2063,6 @@ export function createLanguageService(
         if (isImportMeta(node.parent) && node.parent.name === node) {
             return node.parent;
         }
-        if (isJsxNamespacedName(node.parent)) {
-            return node.parent;
-        }
         return node;
     }
 
@@ -2125,6 +2110,18 @@ export function createLanguageService(
     }
 
     /// References and Occurrences
+    function getOccurrencesAtPosition(fileName: string, position: number): readonly ReferenceEntry[] | undefined {
+        return flatMap(
+            getDocumentHighlights(fileName, position, [fileName]),
+            entry => entry.highlightSpans.map<ReferenceEntry>(highlightSpan => ({
+                fileName: entry.fileName,
+                textSpan: highlightSpan.textSpan,
+                isWriteAccess: highlightSpan.kind === HighlightSpanKind.writtenReference,
+                ...highlightSpan.isInString && { isInString: true },
+                ...highlightSpan.contextSpan && { contextSpan: highlightSpan.contextSpan }
+            }))
+        );
+    }
 
     function getDocumentHighlights(fileName: string, position: number, filesToSearch: readonly string[]): DocumentHighlights[] | undefined {
         const normalizedFileName = normalizePath(fileName);
@@ -2135,7 +2132,7 @@ export function createLanguageService(
         return DocumentHighlights.getDocumentHighlights(program, cancellationToken, sourceFile, position, sourceFilesToSearch);
     }
 
-    function findRenameLocations(fileName: string, position: number, findInStrings: boolean, findInComments: boolean, preferences?: UserPreferences | boolean): RenameLocation[] | undefined {
+    function findRenameLocations(fileName: string, position: number, findInStrings: boolean, findInComments: boolean, providePrefixAndSuffixTextForRename?: boolean): RenameLocation[] | undefined {
         synchronizeHostData();
         const sourceFile = getValidSourceFile(fileName);
         const node = getAdjustedRenameLocation(getTouchingPropertyName(sourceFile, position));
@@ -2152,10 +2149,8 @@ export function createLanguageService(
             });
         }
         else {
-            const quotePreference = getQuotePreference(sourceFile, preferences ?? emptyOptions);
-            const providePrefixAndSuffixTextForRename = typeof preferences === "boolean" ? preferences : preferences?.providePrefixAndSuffixTextForRename;
             return getReferencesWorker(node, position, { findInStrings, findInComments, providePrefixAndSuffixTextForRename, use: FindAllReferences.FindReferencesUse.Rename },
-                (entry, originalNode, checker) => FindAllReferences.toRenameLocation(entry, originalNode, checker, providePrefixAndSuffixTextForRename || false, quotePreference));
+                (entry, originalNode, checker) => FindAllReferences.toRenameLocation(entry, originalNode, checker, providePrefixAndSuffixTextForRename || false));
         }
     }
 
@@ -2294,10 +2289,10 @@ export function createLanguageService(
 
         const responseFormat = format || SemanticClassificationFormat.Original;
         if (responseFormat === SemanticClassificationFormat.TwentyTwenty) {
-            return classifier2020.getSemanticClassifications(program, cancellationToken, getValidSourceFile(fileName), span);
+            return classifier.v2020.getSemanticClassifications(program, cancellationToken, getValidSourceFile(fileName), span);
         }
         else {
-            return classifier.getSemanticClassifications(program.getTypeChecker(), cancellationToken, getValidSourceFile(fileName), program.getClassifiableNames(), span);
+            return ts.getSemanticClassifications(program.getTypeChecker(), cancellationToken, getValidSourceFile(fileName), program.getClassifiableNames(), span);
         }
     }
 
@@ -2306,21 +2301,21 @@ export function createLanguageService(
 
         const responseFormat = format || SemanticClassificationFormat.Original;
         if (responseFormat === SemanticClassificationFormat.Original) {
-            return classifier.getEncodedSemanticClassifications(program.getTypeChecker(), cancellationToken, getValidSourceFile(fileName), program.getClassifiableNames(), span);
+            return ts.getEncodedSemanticClassifications(program.getTypeChecker(), cancellationToken, getValidSourceFile(fileName), program.getClassifiableNames(), span);
         }
         else {
-            return classifier2020.getEncodedSemanticClassifications(program, cancellationToken, getValidSourceFile(fileName), span);
+            return classifier.v2020.getEncodedSemanticClassifications(program, cancellationToken, getValidSourceFile(fileName), span);
         }
     }
 
     function getSyntacticClassifications(fileName: string, span: TextSpan): ClassifiedSpan[] {
         // doesn't use compiler - no need to synchronize with host
-        return classifier.getSyntacticClassifications(cancellationToken, syntaxTreeCache.getCurrentSourceFile(fileName), span);
+        return ts.getSyntacticClassifications(cancellationToken, syntaxTreeCache.getCurrentSourceFile(fileName), span);
     }
 
     function getEncodedSyntacticClassifications(fileName: string, span: TextSpan): Classifications {
         // doesn't use compiler - no need to synchronize with host
-        return classifier.getEncodedSyntacticClassifications(cancellationToken, syntaxTreeCache.getCurrentSourceFile(fileName), span);
+        return ts.getEncodedSyntacticClassifications(cancellationToken, syntaxTreeCache.getCurrentSourceFile(fileName), span);
     }
 
     function getOutliningSpans(fileName: string): OutliningSpan[] {
@@ -2421,7 +2416,7 @@ export function createLanguageService(
     }
 
     function getEditsForFileRename(oldFilePath: string, newFilePath: string, formatOptions: FormatCodeSettings, preferences: UserPreferences = emptyOptions): readonly FileTextChanges[] {
-        return ts_getEditsForFileRename(getProgram()!, oldFilePath, newFilePath, host, formatting.getFormatContext(formatOptions, host), preferences, sourceMapper);
+        return ts.getEditsForFileRename(getProgram()!, oldFilePath, newFilePath, host, formatting.getFormatContext(formatOptions, host), preferences, sourceMapper);
     }
 
     function applyCodeActionCommand(action: CodeActionCommand, formatSettings?: FormatCodeSettings): Promise<ApplyCodeActionCommandResult>;
@@ -2496,64 +2491,6 @@ export function createLanguageService(
             : isJsxText(token) && isJsxFragment(token.parent) ? token.parent : undefined;
         if (fragment && isUnclosedFragment(fragment)) {
             return { newText: "</>" };
-        }
-    }
-
-    function getLinkedEditingRangeAtPosition(fileName: string, position: number): LinkedEditingInfo | undefined {
-        const sourceFile = syntaxTreeCache.getCurrentSourceFile(fileName);
-        const token = findPrecedingToken(position, sourceFile);
-        if (!token || token.parent.kind === SyntaxKind.SourceFile) return undefined;
-
-        // matches more than valid tag names to allow linked editing when typing is in progress or tag name is incomplete
-        const jsxTagWordPattern = "[a-zA-Z0-9:\\-\\._$]*";
-
-        if (isJsxFragment(token.parent.parent)) {
-            const openFragment = token.parent.parent.openingFragment;
-            const closeFragment = token.parent.parent.closingFragment;
-            if (containsParseError(openFragment) || containsParseError(closeFragment)) return undefined;
-
-            const openPos = openFragment.getStart(sourceFile) + 1; // "<".length
-            const closePos = closeFragment.getStart(sourceFile) + 2; // "</".length
-
-            // only allows linked editing right after opening bracket: <| ></| >
-            if ((position !== openPos) && (position !== closePos)) return undefined;
-
-            return {
-                ranges: [{ start: openPos, length: 0 }, { start: closePos, length: 0 }],
-                wordPattern: jsxTagWordPattern,
-            };
-        }
-        else {
-            // determines if the cursor is in an element tag
-            const tag = findAncestor(token.parent,
-                n => {
-                    if (isJsxOpeningElement(n) || isJsxClosingElement(n)) {
-                        return true;
-                    }
-                    return false;
-                });
-            if (!tag) return undefined;
-            Debug.assert(isJsxOpeningElement(tag) || isJsxClosingElement(tag), "tag should be opening or closing element");
-
-            const openTag = tag.parent.openingElement;
-            const closeTag = tag.parent.closingElement;
-
-            const openTagStart = openTag.tagName.getStart(sourceFile);
-            const openTagEnd = openTag.tagName.end;
-            const closeTagStart = closeTag.tagName.getStart(sourceFile);
-            const closeTagEnd = closeTag.tagName.end;
-
-            // only return linked cursors if the cursor is within a tag name
-            if (!(openTagStart <= position && position <= openTagEnd || closeTagStart <= position && position <= closeTagEnd)) return undefined;
-
-            // only return linked cursors if text in both tags is identical
-            const openingTagText = openTag.tagName.getText(sourceFile);
-            if (openingTagText !== closeTag.tagName.getText(sourceFile)) return undefined;
-
-            return {
-                ranges: [{ start: openTagStart, length: openTagEnd - openTagStart }, { start: closeTagStart, length: closeTagEnd - closeTagStart }],
-                wordPattern: jsxTagWordPattern,
-            };
         }
     }
 
@@ -2990,23 +2927,10 @@ export function createLanguageService(
         return SmartSelectionRange.getSmartSelectionRange(position, syntaxTreeCache.getCurrentSourceFile(fileName));
     }
 
-    function getApplicableRefactors(fileName: string, positionOrRange: number | TextRange, preferences: UserPreferences = emptyOptions, triggerReason: RefactorTriggerReason, kind: string, includeInteractiveActions?: boolean): ApplicableRefactorInfo[] {
+    function getApplicableRefactors(fileName: string, positionOrRange: number | TextRange, preferences: UserPreferences = emptyOptions, triggerReason: RefactorTriggerReason, kind: string): ApplicableRefactorInfo[] {
         synchronizeHostData();
         const file = getValidSourceFile(fileName);
-        return refactor.getApplicableRefactors(getRefactorContext(file, positionOrRange, preferences, emptyOptions, triggerReason, kind), includeInteractiveActions);
-    }
-
-    function getMoveToRefactoringFileSuggestions(fileName: string, positionOrRange: number | TextRange, preferences: UserPreferences = emptyOptions): { newFileName: string, files: string[] } {
-        synchronizeHostData();
-        const sourceFile = getValidSourceFile(fileName);
-        const allFiles = Debug.checkDefined(program.getSourceFiles());
-        const extension = extensionFromPath(fileName);
-        const files = mapDefined(allFiles, file => !program?.isSourceFileFromExternalLibrary(sourceFile) &&
-                !(sourceFile === getValidSourceFile(file.fileName) || extension === Extension.Ts && extensionFromPath(file.fileName) === Extension.Dts || extension === Extension.Dts && startsWith(getBaseFileName(file.fileName), "lib.") && extensionFromPath(file.fileName) === Extension.Dts)
-                && extension === extensionFromPath(file.fileName) ? file.fileName : undefined);
-
-        const newFileName = createNewFileName(sourceFile, program, getRefactorContext(sourceFile, positionOrRange, preferences, emptyOptions), host);
-        return { newFileName, files };
+        return refactor.getApplicableRefactors(getRefactorContext(file, positionOrRange, preferences, emptyOptions, triggerReason, kind));
     }
 
     function getEditsForRefactor(
@@ -3016,11 +2940,10 @@ export function createLanguageService(
         refactorName: string,
         actionName: string,
         preferences: UserPreferences = emptyOptions,
-        interactiveRefactorArguments?: InteractiveRefactorArguments,
     ): RefactorEditInfo | undefined {
         synchronizeHostData();
         const file = getValidSourceFile(fileName);
-        return refactor.getEditsForRefactor(getRefactorContext(file, positionOrRange, preferences, formatOptions), refactorName, actionName, interactiveRefactorArguments);
+        return refactor.getEditsForRefactor(getRefactorContext(file, positionOrRange, preferences, formatOptions), refactorName, actionName);
     }
 
     function toLineColumnOffset(fileName: string, position: number): LineAndCharacter {
@@ -3083,6 +3006,7 @@ export function createLanguageService(
         getReferencesAtPosition,
         findReferences,
         getFileReferences,
+        getOccurrencesAtPosition,
         getDocumentHighlights,
         getNameOrDottedNameSpan,
         getBreakpointStatementAtPosition,
@@ -3102,7 +3026,6 @@ export function createLanguageService(
         getDocCommentTemplateAtPosition,
         isValidBraceCompletionAtPosition,
         getJsxClosingTagAtPosition,
-        getLinkedEditingRangeAtPosition,
         getSpanOfEnclosingComment,
         getCodeFixesAtPosition,
         getCombinedCodeFix,
@@ -3117,7 +3040,6 @@ export function createLanguageService(
         updateIsDefinitionOfReferencedSymbols,
         getApplicableRefactors,
         getEditsForRefactor,
-        getMoveToRefactoringFileSuggestions,
         toLineColumnOffset,
         getSourceMapper: () => sourceMapper,
         clearSourceMapperCache: () => sourceMapper.clearCache(),
@@ -3160,7 +3082,7 @@ export function createLanguageService(
  *
  * @internal
  */
-export function getNameTable(sourceFile: SourceFile): Map<__String, number> {
+export function getNameTable(sourceFile: SourceFile): UnderscoreEscapedMap<number> {
     if (!sourceFile.nameTable) {
         initializeNameTable(sourceFile);
     }
@@ -3282,8 +3204,8 @@ function isArgumentOfElementAccessExpression(node: Node) {
  * The functionality is not supported if the ts module is consumed outside of a node module.
  */
 export function getDefaultLibFilePath(options: CompilerOptions): string {
-    if (sys) {
-        return combinePaths(getDirectoryPath(normalizePath(sys.getExecutingFilePath())), getDefaultLibFileName(options));
+    if (ts.sys) {
+        return combinePaths(getDirectoryPath(normalizePath(ts.sys.getExecutingFilePath())), getDefaultLibFileName(options));
     }
 
     throw new Error("getDefaultLibFilePath is only supported when consumed as a node module. ");

@@ -8,6 +8,11 @@ class A {
         let foge = used;
 >foge : any
 >used : any
+
+        foge += "";
+>foge += "" : string
+>foge : any
+>"" : ""
     }
 }
 

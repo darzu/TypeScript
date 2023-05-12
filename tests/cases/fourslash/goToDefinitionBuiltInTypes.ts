@@ -5,4 +5,6 @@
 ////var b: /*boolean*/boolean;
 ////var v: /*void*/void;
 
-verify.baselineGoToDefinition(...test.markerNames());
+for (const marker of test.markerNames()) {
+    verify.goToDefinition(marker, []);
+}

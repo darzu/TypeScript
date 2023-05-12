@@ -24,6 +24,7 @@ function fetchMsg<V extends Message>(protoCtor: MsgConstructor<V>): V {
 
   return null!;
 >null! : null
+>null : null
 }
 
 class DataProvider<T extends Message, U extends MessageList<T>> {

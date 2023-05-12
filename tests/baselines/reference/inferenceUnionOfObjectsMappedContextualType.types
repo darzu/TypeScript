@@ -4,6 +4,7 @@ type Entity = {
 
     someDate: Date | null;
 >someDate : Date | null
+>null : null
 
 } & ({ id: string; } | { id: number; })
 >id : string

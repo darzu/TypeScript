@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/myproject/tsconfig.json]
 {"compilerOptions":{"moduleResolution":"node16"}}
@@ -128,12 +127,22 @@ File '/user/username/projects/myproject/node_modules/pkg/package.json' exists ac
 File '/a/lib/package.json' does not exist.
 File '/a/package.json' does not exist.
 File '/package.json' does not exist according to earlier cached lookups.
+[96mindex.ts[0m:[93m1[0m:[93m44[0m - [91merror[0m[90m TS4125: [0m'resolution-mode' assertions are unstable. Use nightly TypeScript to silence this error. Try updating with 'npm install -D typescript@next'.
+
+[7m1[0m import type { ImportInterface } from "pkg" assert { "resolution-mode": "import" };
+[7m [0m [91m                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
 [96mindex.ts[0m:[93m2[0m:[93m39[0m - [91merror[0m[90m TS2307: [0mCannot find module 'pkg1' or its corresponding type declarations.
 
 [7m2[0m import type { RequireInterface } from "pkg1" assert { "resolution-mode": "require" };
 [7m [0m [91m                                      ~~~~~~[0m
 
-[[90m12:00:44 AM[0m] Found 1 error. Watching for file changes.
+[96mindex.ts[0m:[93m2[0m:[93m46[0m - [91merror[0m[90m TS4125: [0m'resolution-mode' assertions are unstable. Use nightly TypeScript to silence this error. Try updating with 'npm install -D typescript@next'.
+
+[7m2[0m import type { RequireInterface } from "pkg1" assert { "resolution-mode": "require" };
+[7m [0m [91m                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[[90m12:00:44 AM[0m] Found 3 errors. Watching for file changes.
 
 
 
@@ -159,41 +168,35 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/index.ts (used version)
 
 PolledWatches::
-/user/username/projects/node_modules: *new*
-  {"pollingInterval":500}
-/user/username/projects/myproject/package.json: *new*
+/user/username/projects/myproject/package.json:
   {"pollingInterval":2000}
-/user/username/projects/package.json: *new*
+/user/username/projects/package.json:
   {"pollingInterval":2000}
-/user/username/projects/myproject/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/myproject/tsconfig.json: *new*
+/user/username/projects/myproject/tsconfig.json:
   {}
-/user/username/projects/myproject/a.ts: *new*
+/user/username/projects/myproject/a.ts:
   {}
-/user/username/projects/myproject/index.ts: *new*
+/user/username/projects/myproject/index.ts:
   {}
-/user/username/projects/myproject/node_modules/pkg/import.d.ts: *new*
+/user/username/projects/myproject/node_modules/pkg/import.d.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
-/user/username/projects: *new*
+/user/username/projects/myproject:
   {}
-/user/username/projects/myproject: *new*
+/user/username/projects/myproject/node_modules/pkg/package.json:
   {}
-/user/username/projects/myproject/node_modules/pkg/package.json: *new*
-  {}
-/user/username/projects/myproject/node_modules/pkg1/package.json: *new*
+/user/username/projects/myproject/node_modules/pkg1/package.json:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject/node_modules: *new*
+/user/username/projects/myproject/node_modules:
   {}
-/user/username/projects/myproject: *new*
+/user/username/projects/myproject:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -219,9 +222,6 @@ export const x = 10;
 import type { ImportInterface } from "pkg" assert { "resolution-mode": "import" }
 
 
-Before running Timeout callback:: count: 1
-1: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:47 AM[0m] File change detected. Starting incremental compilation...
@@ -278,12 +278,27 @@ Reusing resolution of module 'pkg1' from '/user/username/projects/myproject/inde
 File '/a/lib/package.json' does not exist according to earlier cached lookups.
 File '/a/package.json' does not exist according to earlier cached lookups.
 File '/package.json' does not exist according to earlier cached lookups.
+[96ma.ts[0m:[93m2[0m:[93m44[0m - [91merror[0m[90m TS4125: [0m'resolution-mode' assertions are unstable. Use nightly TypeScript to silence this error. Try updating with 'npm install -D typescript@next'.
+
+[7m2[0m import type { ImportInterface } from "pkg" assert { "resolution-mode": "import" }
+[7m [0m [91m                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mindex.ts[0m:[93m1[0m:[93m44[0m - [91merror[0m[90m TS4125: [0m'resolution-mode' assertions are unstable. Use nightly TypeScript to silence this error. Try updating with 'npm install -D typescript@next'.
+
+[7m1[0m import type { ImportInterface } from "pkg" assert { "resolution-mode": "import" };
+[7m [0m [91m                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
 [96mindex.ts[0m:[93m2[0m:[93m39[0m - [91merror[0m[90m TS2307: [0mCannot find module 'pkg1' or its corresponding type declarations.
 
 [7m2[0m import type { RequireInterface } from "pkg1" assert { "resolution-mode": "require" };
 [7m [0m [91m                                      ~~~~~~[0m
 
-[[90m12:00:54 AM[0m] Found 1 error. Watching for file changes.
+[96mindex.ts[0m:[93m2[0m:[93m46[0m - [91merror[0m[90m TS4125: [0m'resolution-mode' assertions are unstable. Use nightly TypeScript to silence this error. Try updating with 'npm install -D typescript@next'.
+
+[7m2[0m import type { RequireInterface } from "pkg1" assert { "resolution-mode": "require" };
+[7m [0m [91m                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[[90m12:00:54 AM[0m] Found 4 errors. Watching for file changes.
 
 
 
@@ -303,6 +318,38 @@ Semantic diagnostics in builder refreshed for::
 Shape signatures in builder refreshed for::
 /user/username/projects/myproject/a.ts (computed .d.ts)
 /user/username/projects/myproject/index.ts (computed .d.ts)
+
+PolledWatches::
+/user/username/projects/myproject/package.json:
+  {"pollingInterval":2000}
+/user/username/projects/package.json:
+  {"pollingInterval":2000}
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/a.ts:
+  {}
+/user/username/projects/myproject/index.ts:
+  {}
+/user/username/projects/myproject/node_modules/pkg/import.d.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+/user/username/projects/myproject:
+  {}
+/user/username/projects/myproject/node_modules/pkg/package.json:
+  {}
+/user/username/projects/myproject/node_modules/pkg1/package.json:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject/node_modules:
+  {}
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 

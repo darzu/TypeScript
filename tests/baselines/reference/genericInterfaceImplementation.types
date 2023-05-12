@@ -14,6 +14,7 @@ class None<T> implements IOption<T>{
 >get : () => T
 
         throw null;
+>null : null
     }
 
     flatten<U>() : IOption<U> {

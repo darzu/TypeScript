@@ -21,7 +21,7 @@ var Animals;
 (function (Animals) {
     Animals[Animals["Cat"] = 0] = "Cat";
     Animals[Animals["Dog"] = 1] = "Dog";
-})(Animals || (exports.Animals = Animals = {}));
+})(Animals = exports.Animals || (exports.Animals = {}));
 ;
 //// [b.js]
 "use strict";

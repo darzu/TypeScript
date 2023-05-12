@@ -54,4 +54,4 @@
 ////    declare function foo(): string;
 ////}
 
-verify.baselineDocumentHighlights();
+verify.rangesAreOccurrences(false);

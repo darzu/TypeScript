@@ -20,4 +20,4 @@
 ////    }
 ////}
 
-verify.baselineDocumentHighlights();
+goTo.eachRange(() => verify.occurrencesAtPositionCount(0));

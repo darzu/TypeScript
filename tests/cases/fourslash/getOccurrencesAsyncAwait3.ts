@@ -7,4 +7,5 @@
 ////    await 300;
 ////}
 
-verify.baselineDocumentHighlights("");
+goTo.marker();
+verify.occurrencesAtPositionCount(0);

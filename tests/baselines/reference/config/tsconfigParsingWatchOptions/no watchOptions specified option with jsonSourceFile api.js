@@ -1,13 +1,4 @@
-Fs::
-//// [/a.ts]
-
-
-//// [/tsconfig.json]
-{}
-
-
-configFileName:: tsconfig.json
+Input:: {}
 Result: WatchOptions::
 
-Errors::
-
+Result: Errors::

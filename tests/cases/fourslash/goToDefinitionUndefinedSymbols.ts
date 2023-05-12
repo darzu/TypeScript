@@ -5,4 +5,6 @@
 ////var x = {}; x.some/*undefinedProperty*/Property;
 ////var a: any; a.some/*unkownProperty*/Property;
 
-verify.baselineGoToDefinition(...test.markerNames());
+for (const marker of test.markerNames()) {
+    verify.goToDefinition(marker, []);
+}

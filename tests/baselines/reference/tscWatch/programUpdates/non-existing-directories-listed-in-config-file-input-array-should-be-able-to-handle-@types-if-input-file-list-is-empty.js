@@ -1,4 +1,3 @@
-currentDirectory:: /a useCaseSensitiveFileNames: false
 Input::
 //// [/a/app.ts]
 let x = 1
@@ -49,8 +48,14 @@ No cached semantic diagnostics in the builder::
 
 No shapes updated in the builder::
 
+PolledWatches::
+
 FsWatches::
-/a/tsconfig.json: *new*
+/a/tsconfig.json:
+  {}
+
+FsWatchesRecursive::
+/a/node_modules/@types:
   {}
 
 exitCode:: ExitStatus.undefined

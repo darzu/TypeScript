@@ -1,4 +1,3 @@
-currentDirectory:: /user/username/projects/myproject useCaseSensitiveFileNames: false
 Input::
 //// [/user/username/projects/myproject/file1.ts]
 export const c = 30;
@@ -51,25 +50,23 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/src/file2.ts (used version)
 
 PolledWatches::
-/user/username/projects/myproject/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/myproject/tsconfig.json: *new*
+/user/username/projects/myproject/tsconfig.json:
   {}
-/user/username/projects/myproject/file1.ts: *new*
+/user/username/projects/myproject/file1.ts:
   {}
-/user/username/projects/myproject/src/file2.ts: *new*
+/user/username/projects/myproject/src/file2.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject/src: *new*
+/user/username/projects/myproject/src:
   {}
-/user/username/projects/myproject: *new*
+/user/username/projects/myproject:
   {}
 
 exitCode:: ExitStatus.undefined
@@ -97,9 +94,27 @@ Change:: No change
 
 Input::
 
-Timeout callback:: count: 0
-Immedidate callback:: count: 0
 Output::
+
+PolledWatches::
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/file1.ts:
+  {}
+/user/username/projects/myproject/src/file2.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject/src:
+  {}
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 
@@ -111,10 +126,6 @@ Input::
 export const y = 10;
 
 
-Before running Timeout callback:: count: 2
-1: timerToInvalidateFailedLookupResolutions
-2: timerToUpdateProgram
-After running Timeout callback:: count: 0
 Output::
 >> Screen clear
 [[90m12:00:33 AM[0m] File change detected. Starting incremental compilation...
@@ -141,8 +152,6 @@ Shape signatures in builder refreshed for::
 PolledWatches::
 /user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
-/user/username/projects/node_modules/@types:
-  {"pollingInterval":500}
 
 FsWatches::
 /user/username/projects/myproject/tsconfig.json:
@@ -153,7 +162,7 @@ FsWatches::
   {}
 /a/lib/lib.d.ts:
   {}
-/user/username/projects/myproject/src/file3.ts: *new*
+/user/username/projects/myproject/src/file3.ts:
   {}
 
 FsWatchesRecursive::
@@ -178,9 +187,29 @@ Change:: No change
 
 Input::
 
-Timeout callback:: count: 0
-Immedidate callback:: count: 0
 Output::
+
+PolledWatches::
+/user/username/projects/myproject/node_modules/@types:
+  {"pollingInterval":500}
+
+FsWatches::
+/user/username/projects/myproject/tsconfig.json:
+  {}
+/user/username/projects/myproject/file1.ts:
+  {}
+/user/username/projects/myproject/src/file2.ts:
+  {}
+/a/lib/lib.d.ts:
+  {}
+/user/username/projects/myproject/src/file3.ts:
+  {}
+
+FsWatchesRecursive::
+/user/username/projects/myproject/src:
+  {}
+/user/username/projects/myproject:
+  {}
 
 exitCode:: ExitStatus.undefined
 

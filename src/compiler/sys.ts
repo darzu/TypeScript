@@ -28,7 +28,6 @@ import {
     matchesExclude,
     matchFiles,
     memoize,
-    ModuleImportResult,
     noop,
     normalizePath,
     normalizeSlashes,
@@ -36,6 +35,7 @@ import {
     Path,
     perfLogger,
     PollingWatchKind,
+    RequireResult,
     resolveJSModule,
     some,
     startsWith,
@@ -286,7 +286,7 @@ function createDynamicPriorityPollingWatchFile(host: {
         return queue;
     }
 
-    function pollPollingIntervalQueue(_timeoutType: string, queue: PollingIntervalQueue) {
+    function pollPollingIntervalQueue(queue: PollingIntervalQueue) {
         queue.pollIndex = pollQueue(queue, queue.pollingInterval, queue.pollIndex, pollingChunkSize[queue.pollingInterval]);
         // Set the next polling index and timeout
         if (queue.length) {
@@ -298,12 +298,12 @@ function createDynamicPriorityPollingWatchFile(host: {
         }
     }
 
-    function pollLowPollingIntervalQueue(_timeoutType: string, queue: PollingIntervalQueue) {
+    function pollLowPollingIntervalQueue(queue: PollingIntervalQueue) {
         // Always poll complete list of changedFilesInLastPoll
         pollQueue(changedFilesInLastPoll, PollingInterval.Low, /*pollIndex*/ 0, changedFilesInLastPoll.length);
 
         // Finally do the actual polling of the queue
-        pollPollingIntervalQueue(_timeoutType, queue);
+        pollPollingIntervalQueue(queue);
         // Schedule poll if there are files in changedFilesInLastPoll but no files in the actual queue
         // as pollPollingIntervalQueue wont schedule for next poll
         if (!queue.pollScheduled && changedFilesInLastPoll.length) {
@@ -374,13 +374,13 @@ function createDynamicPriorityPollingWatchFile(host: {
     }
 
     function scheduleNextPoll(pollingInterval: PollingInterval) {
-        pollingIntervalQueue(pollingInterval).pollScheduled = host.setTimeout(pollingInterval === PollingInterval.Low ? pollLowPollingIntervalQueue : pollPollingIntervalQueue, pollingInterval, pollingInterval === PollingInterval.Low ? "pollLowPollingIntervalQueue" : "pollPollingIntervalQueue", pollingIntervalQueue(pollingInterval));
+        pollingIntervalQueue(pollingInterval).pollScheduled = host.setTimeout(pollingInterval === PollingInterval.Low ? pollLowPollingIntervalQueue : pollPollingIntervalQueue, pollingInterval, pollingIntervalQueue(pollingInterval));
     }
 }
 
 function createUseFsEventsOnParentDirectoryWatchFile(fsWatch: FsWatch, useCaseSensitiveFileNames: boolean): HostWatchFile {
     // One file can have multiple watchers
-    const fileWatcherCallbacks = createMultiMap<string, FileWatcherCallback>();
+    const fileWatcherCallbacks = createMultiMap<FileWatcherCallback>();
     const dirWatchers = new Map<string, DirectoryWatcher>();
     const toCanonicalName = createGetCanonicalFileName(useCaseSensitiveFileNames);
     return nonPollingWatchFile;
@@ -465,7 +465,7 @@ function createFixedChunkSizePollingWatchFile(host: {
 
     function scheduleNextPoll() {
         if (!watchedFiles.length || pollScheduled) return;
-        pollScheduled = host.setTimeout(pollQueue, PollingInterval.High, "pollQueue");
+        pollScheduled = host.setTimeout(pollQueue, PollingInterval.High);
     }
 }
 
@@ -537,7 +537,7 @@ export function getFileWatcherEventKind(oldTime: number, newTime: number) {
 /** @internal */
 export const ignoredPaths = ["/node_modules/.", "/.git", "/.#"];
 
-let curSysLog: (s: string) => void = noop;
+let curSysLog: (s: string) => void = noop; // eslint-disable-line prefer-const
 
 /** @internal */
 export function sysLog(s: string) {
@@ -713,7 +713,7 @@ function createDirectoryWatcherSupportingRecursive({
             clearTimeout(timerToUpdateChildWatches);
             timerToUpdateChildWatches = undefined;
         }
-        timerToUpdateChildWatches = setTimeout(onTimerToUpdateChildWatches, 1000, "timerToUpdateChildWatches");
+        timerToUpdateChildWatches = setTimeout(onTimerToUpdateChildWatches, 1000);
     }
 
     function onTimerToUpdateChildWatches() {
@@ -1428,7 +1428,7 @@ export interface System {
     base64decode?(input: string): string;
     base64encode?(input: string): string;
     /** @internal */ bufferFrom?(input: string, encoding?: string): Buffer;
-    /** @internal */ require?(baseDir: string, moduleName: string): ModuleImportResult;
+    /** @internal */ require?(baseDir: string, moduleName: string): RequireResult;
 
     // For testing
     /** @internal */ now?(): Date;
@@ -1443,7 +1443,14 @@ interface DirectoryWatcher extends FileWatcher {
     referenceCount: number;
 }
 
+declare const require: any;
+declare const process: any;
+declare const global: any;
+declare const __filename: string;
+declare const __dirname: string;
+
 // TODO: GH#18217 this is used as if it's certainly defined in many places.
+// eslint-disable-next-line prefer-const
 export let sys: System = (() => {
     // NodeJS detects "\uFEFF" at the start of the string and *replaces* it with the actual
     // byte order mark from the specified encoding. Using any other byte order mark does
@@ -1501,7 +1508,7 @@ export let sys: System = (() => {
             getAccessibleSortedChildDirectories: path => getAccessibleFileSystemEntries(path).directories,
             realpath,
             tscWatchFile: process.env.TSC_WATCHFILE,
-            useNonPollingWatchers: !!process.env.TSC_NONPOLLING_WATCHER,
+            useNonPollingWatchers: process.env.TSC_NONPOLLING_WATCHER,
             tscWatchDirectory: process.env.TSC_WATCHDIRECTORY,
             inodeWatching: isLinuxOrMacOs,
             sysLog,
@@ -1578,7 +1585,7 @@ export let sys: System = (() => {
             disableCPUProfiler,
             cpuProfilingEnabled: () => !!activeSession || contains(process.execArgv, "--cpu-prof") || contains(process.execArgv, "--prof"),
             realpath,
-            debugMode: !!process.env.NODE_INSPECTOR_IPC || !!process.env.VSCODE_INSPECTOR_OPTIONS || some(process.execArgv, arg => /^--(inspect|debug)(-brk)?(=\d+)?$/i.test(arg)),
+            debugMode: !!process.env.NODE_INSPECTOR_IPC || !!process.env.VSCODE_INSPECTOR_OPTIONS || some(process.execArgv as string[], arg => /^--(inspect|debug)(-brk)?(=\d+)?$/i.test(arg)),
             tryEnableSourceMapsForHost() {
                 try {
                     (require("source-map-support") as typeof import("source-map-support")).install();
@@ -1593,9 +1600,8 @@ export let sys: System = (() => {
                 process.stdout.write("\x1Bc");
             },
             setBlocking: () => {
-                const handle = (process.stdout as any)?._handle as { setBlocking?: (value: boolean) => void };
-                if (handle && handle.setBlocking) {
-                    handle.setBlocking(true);
+                if (process.stdout && process.stdout._handle && process.stdout._handle.setBlocking) {
+                    process.stdout._handle.setBlocking(true);
                 }
             },
             bufferFrom,
@@ -1814,14 +1820,14 @@ export let sys: System = (() => {
         }
 
         function readFile(fileName: string, _encoding?: string): string | undefined {
-            perfLogger?.logStartReadFile(fileName);
+            perfLogger.logStartReadFile(fileName);
             const file = readFileWorker(fileName, _encoding);
-            perfLogger?.logStopReadFile();
+            perfLogger.logStopReadFile();
             return file;
         }
 
         function writeFile(fileName: string, data: string, writeByteOrderMark?: boolean): void {
-            perfLogger?.logEvent("WriteFile: " + fileName);
+            perfLogger.logEvent("WriteFile: " + fileName);
             // If a BOM is required, emit one
             if (writeByteOrderMark) {
                 data = byteOrderMarkIndicator + data;
@@ -1841,7 +1847,7 @@ export let sys: System = (() => {
         }
 
         function getAccessibleFileSystemEntries(path: string): FileSystemEntries {
-            perfLogger?.logEvent("ReadDir: " + (path || "."));
+            perfLogger.logEvent("ReadDir: " + (path || "."));
             try {
                 const entries = _fs.readdirSync(path || ".", { withFileTypes: true });
                 const files: string[] = [];

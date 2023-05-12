@@ -8,6 +8,7 @@ const a = () => b()
 const b = () => null
 >b : () => any
 >() => null : () => any
+>null : null
 
 a()
 >a() : any

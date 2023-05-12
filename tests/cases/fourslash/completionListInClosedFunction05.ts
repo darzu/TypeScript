@@ -8,6 +8,7 @@
 
 verify.completions({
     marker: "1",
-    includes: ["foo", "x", "y", "z", "bar", "a", "b", "c"],
+    // Note: `v = v` would be a compile error
+    includes: ["foo", "x", "y", "z", "bar", "a", "b", "c", "v"],
     isNewIdentifierLocation: true,
 });

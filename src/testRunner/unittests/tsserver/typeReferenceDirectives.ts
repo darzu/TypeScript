@@ -1,14 +1,13 @@
 import {
-    baselineTsserverLogs,
-    createLoggerWithInMemoryLogs,
-    createSession,
-    openFilesForSession,
-} from "../helpers/tsserver";
-import {
     createServerHost,
     File,
     libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
+import {
+    checkNumberOfProjects,
+    checkProjectActualFiles,
+    createProjectService,
+} from "./helpers";
 
 describe("unittests:: tsserver:: typeReferenceDirectives", () => {
     it("when typeReferenceDirective contains UpperCasePackage", () => {
@@ -58,11 +57,13 @@ declare class TestLib {
 
         const files = [typeLib, appLib, testFile, testConfig, libFile];
         const host = createServerHost(files);
-        const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
-        openFilesForSession([testFile], session);
+        const service = createProjectService(host);
+        service.openClientFile(testFile.path);
+        checkNumberOfProjects(service, { configuredProjects: 1 });
+        const project = service.configuredProjects.get(testConfig.path)!;
+        checkProjectActualFiles(project, files.map(f => f.path));
         host.writeFile(appLib.path, appLib.content.replace("test()", "test2()"));
-        host.runQueuedTimeoutCallbacks();
-        baselineTsserverLogs("typeReferenceDirectives", "when typeReferenceDirective contains UpperCasePackage", session);
+        host.checkTimeoutQueueLengthAndRun(2);
     });
 
     it("when typeReferenceDirective is relative path and in a sibling folder", () => {
@@ -87,8 +88,7 @@ declare class TestLib {
         };
         const files = [file, tsconfig, filesystem, libFile];
         const host = createServerHost(files);
-        const session = createSession(host, { logger: createLoggerWithInMemoryLogs(host) });
-        openFilesForSession([file], session);
-        baselineTsserverLogs("typeReferenceDirectives", "when typeReferenceDirective is relative path and in a sibling folder", session);
+        const service = createProjectService(host);
+        service.openClientFile(file.path);
     });
 });

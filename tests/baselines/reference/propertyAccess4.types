@@ -2,5 +2,6 @@
 null.toBAZ();
 >null.toBAZ() : any
 >null.toBAZ : any
+>null : null
 >toBAZ : any
 

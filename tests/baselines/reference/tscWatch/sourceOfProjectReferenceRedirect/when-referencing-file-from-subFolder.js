@@ -1,4 +1,3 @@
-currentDirectory:: / useCaseSensitiveFileNames: false
 Input::
 //// [/a/lib/lib.d.ts]
 /// <reference no-default-lib="true"/>
@@ -68,41 +67,39 @@ Shape signatures in builder refreshed for::
 /user/username/projects/myproject/packages/a/src/test.ts (computed .d.ts during emit)
 
 PolledWatches::
-/user/username/projects/myproject/packages/a/node_modules: *new*
+/user/username/projects/myproject/packages/a/node_modules:
   {"pollingInterval":500}
-/user/username/projects/myproject/packages/node_modules: *new*
+/user/username/projects/myproject/packages/node_modules:
   {"pollingInterval":500}
-/user/username/projects/myproject/packages/a/node_modules/@types: *new*
+/user/username/projects/myproject/packages/a/node_modules/@types:
   {"pollingInterval":500}
-/user/username/projects/myproject/packages/node_modules/@types: *new*
+/user/username/projects/myproject/packages/node_modules/@types:
   {"pollingInterval":500}
-/user/username/projects/myproject/node_modules/@types: *new*
-  {"pollingInterval":500}
-/user/username/projects/node_modules/@types: *new*
+/user/username/projects/myproject/node_modules/@types:
   {"pollingInterval":500}
 
 FsWatches::
-/user/username/projects/myproject/packages/a/tsconfig.json: *new*
+/user/username/projects/myproject/packages/a/tsconfig.json:
   {}
-/user/username/projects/myproject/packages/b/tsconfig.json: *new*
+/user/username/projects/myproject/packages/b/tsconfig.json:
   {}
-/user/username/projects/myproject/packages/a/src/test.ts: *new*
+/user/username/projects/myproject/packages/a/src/test.ts:
   {}
-/user/username/projects/myproject/packages/b/src/foo.ts: *new*
+/user/username/projects/myproject/packages/b/src/foo.ts:
   {}
-/user/username/projects/myproject/packages/b/src/bar/foo.ts: *new*
+/user/username/projects/myproject/packages/b/src/bar/foo.ts:
   {}
-/a/lib/lib.d.ts: *new*
+/a/lib/lib.d.ts:
   {}
-/user/username/projects/myproject/packages/b/package.json: *new*
+/user/username/projects/myproject/packages/b/package.json:
   {}
 
 FsWatchesRecursive::
-/user/username/projects/myproject/packages/b/src: *new*
+/user/username/projects/myproject/packages/b/src:
   {}
-/user/username/projects/myproject/packages/a/src: *new*
+/user/username/projects/myproject/packages/a/src:
   {}
-/user/username/projects/myproject/node_modules: *new*
+/user/username/projects/myproject/node_modules:
   {}
 
 exitCode:: ExitStatus.undefined

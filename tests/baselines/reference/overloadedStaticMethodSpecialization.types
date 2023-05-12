@@ -15,6 +15,7 @@ class A<T> {
 >v : any
 
         return null;
+>null : null
     }
 }
 

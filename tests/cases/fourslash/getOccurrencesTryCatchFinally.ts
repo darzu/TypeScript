@@ -16,4 +16,11 @@
 ////[|fina/*3*/lly|] {
 ////}
 
-verify.baselineDocumentHighlights(test.markers());
+for (var i = 1; i <= test.markers().length; i++) {
+    goTo.marker("" + i);
+    verify.occurrencesAtPositionCount(3);
+
+    test.ranges().forEach(range => {
+        verify.occurrencesAtPositionContains(range, false);
+    });
+}

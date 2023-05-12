@@ -1,15 +1,18 @@
 import {
-    baselineTsserverLogs,
-    createLoggerWithInMemoryLogs,
-    createProjectService,
-} from "../helpers/tsserver";
-import {
     createServerHost,
     File,
     libFile,
-} from "../helpers/virtualFileSystemWithWatch";
+} from "../virtualFileSystemWithWatch";
+import {
+    baselineTsserverLogs,
+    checkNumberOfConfiguredProjects,
+    checkNumberOfInferredProjects,
+    checkNumberOfProjects,
+    createLoggerWithInMemoryLogs,
+    createProjectService,
+} from "./helpers";
 
-describe("unittests:: tsserver:: configFileSearch:: searching for config file", () => {
+describe("unittests:: tsserver:: searching for config file", () => {
     it("should stop at projectRootPath if given", () => {
         const f1 = {
             path: "/a/file1.ts",
@@ -20,12 +23,16 @@ describe("unittests:: tsserver:: configFileSearch:: searching for config file", 
             content: "{}"
         };
         const host = createServerHost([f1, configFile]);
-        const service = createProjectService(host, { logger: createLoggerWithInMemoryLogs(host) });
+        const service = createProjectService(host);
         service.openClientFile(f1.path, /*fileContent*/ undefined, /*scriptKind*/ undefined, "/a");
+
+        checkNumberOfConfiguredProjects(service, 0);
+        checkNumberOfInferredProjects(service, 1);
 
         service.closeClientFile(f1.path);
         service.openClientFile(f1.path);
-        baselineTsserverLogs("configFileSerach", "should stop at projectRootPath if given", service);
+        checkNumberOfConfiguredProjects(service, 1);
+        checkNumberOfInferredProjects(service, 0);
     });
 
     it("should use projectRootPath when searching for inferred project again", () => {
@@ -50,6 +57,7 @@ describe("unittests:: tsserver:: configFileSearch:: searching for config file", 
         // Delete config file - should create inferred project and not configured project
         host.deleteFile(configFile.path);
         host.runQueuedTimeoutCallbacks();
+        checkNumberOfProjects(service, { inferredProjects: 1 });
         baselineTsserverLogs("configFileSearch", "should use projectRootPath when searching for inferred project again", service);
     });
 

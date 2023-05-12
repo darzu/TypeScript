@@ -14,4 +14,4 @@
 // @Filename: index.ts
 //// import styles from [|/*1*/"./index.css"|];
 
-verify.baselineGoToDefinition("1");
+verify.goToDefinition("1", [{ marker: "2a", unverified: true }, "2b"]);

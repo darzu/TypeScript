@@ -1,7 +1,6 @@
 {
     "extends": "../tsconfig-base",
     "compilerOptions": {
-        // "outFile": "../../built/local3/typescript.js"
     },
     "references": [
         { "path": "../compiler" },
